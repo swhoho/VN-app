@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "lucide-react";
+import { useLanguage } from "@/hooks/use-language";
+import { getTranslation } from "@/lib/i18n";
 import type { Novel } from "@shared/schema";
 
 const genres = ["All", "Romance", "Horror", "Sci-Fi", "Fantasy", "Drama", "Mystery"];
 
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("All");
+  const { language } = useLanguage();
 
   const { data: novels, isLoading } = useQuery<Novel[]>({
     queryKey: ["/api/novels"],
