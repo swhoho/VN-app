@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,10 @@ const genres = ["All", "Romance", "Horror", "Sci-Fi", "Fantasy", "Drama", "Myste
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("All");
   const { language } = useLanguage();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   const { data: novels, isLoading } = useQuery<Novel[]>({
     queryKey: ["/api/novels"],
@@ -29,6 +33,47 @@ export default function Home() {
   ) || [];
 
   const featuredNovel = featuredNovels?.[0];
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
 
   if (isLoading) {
     return (
@@ -79,10 +124,19 @@ export default function Home() {
 
       {/* Genre Filter */}
       <div 
-        className="flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide scroll-smooth"
+        ref={scrollRef}
+        className={`flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide scroll-smooth ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         style={{
           scrollSnapType: 'x mandatory',
+          userSelect: 'none',
         }}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {genres.map((genre) => (
           <Button
@@ -91,7 +145,11 @@ export default function Home() {
             size="sm"
             className="whitespace-nowrap rounded-full flex-shrink-0"
             style={{ scrollSnapAlign: 'start' }}
-            onClick={() => setSelectedGenre(genre)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedGenre(genre);
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
           >
             {genre}
           </Button>
