@@ -20,19 +20,19 @@ export default function Home() {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  const { data: novels, isLoading } = useQuery<Novel[]>({
-    queryKey: ["/api/novels"],
+  const { data: items, isLoading } = useQuery<Item[]>({
+    queryKey: ["/api/items"],
   });
 
-  const { data: featuredNovels } = useQuery<Novel[]>({
-    queryKey: ["/api/novels/featured"],
+  const { data: featuredItems } = useQuery<Item[]>({
+    queryKey: ["/api/items/featured"],
   });
 
-  const filteredNovels = novels?.filter(novel => 
-    selectedGenre === "All" || novel.genre === selectedGenre
+  const filteredItems = items?.filter(item => 
+    selectedGenre === "All" || item.tags.includes(selectedGenre)
   ) || [];
 
-  const featuredNovel = featuredNovels?.[0];
+  const featuredItem = featuredItems?.[0];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -96,17 +96,17 @@ export default function Home() {
   return (
     <div className="max-w-md mx-auto px-4 py-6">
       {/* Featured Banner */}
-      {featuredNovel && (
+      {featuredItem && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative mb-6 rounded-2xl overflow-hidden h-48 cursor-pointer"
-          onClick={() => window.location.href = `/novel/${featuredNovel.id}`}
+          onClick={() => window.location.href = `/novel/${featuredItem.id}`}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600" />
           <img 
-            src={featuredNovel.coverImage} 
-            alt={featuredNovel.title}
+            src={featuredItem.image} 
+            alt={featuredItem.title}
             className="w-full h-full object-cover opacity-80"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -114,9 +114,9 @@ export default function Home() {
             <Badge className="mb-2 bg-pink-500/80 hover:bg-pink-500/90">
               {getTranslation('featured', language)}
             </Badge>
-            <h2 className="text-xl font-bold mb-1">{featuredNovel.title}</h2>
+            <h2 className="text-xl font-bold mb-1">{featuredItem.title}</h2>
             <p className="text-sm opacity-90">
-              {featuredNovel.description.slice(0, 50)}...
+              {featuredItem.description.slice(0, 50)}...
             </p>
           </div>
         </motion.div>
@@ -163,50 +163,50 @@ export default function Home() {
         transition={{ delay: 0.2 }}
       >
         <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">
-          {selectedGenre === "All" ? "Popular Novels" : `${selectedGenre} Novels`}
+          {selectedGenre === "All" ? "Popular Items" : `${selectedGenre} Items`}
         </h3>
         
-        {filteredNovels.length === 0 ? (
+        {filteredItems.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-slate-600 dark:text-slate-400">No novels found in this genre.</p>
+              <p className="text-slate-600 dark:text-slate-400">No items found in this genre.</p>
             </CardContent>
           </Card>
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            {filteredNovels.map((novel, index) => (
+            {filteredItems.map((item, index) => (
               <motion.div
-                key={novel.id}
+                key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className="cursor-pointer hover:scale-105 transition-transform duration-200"
-                onClick={() => window.location.href = `/novel/${novel.id}`}
+                onClick={() => window.location.href = `/novel/${item.id}`}
               >
                 <Card className="overflow-hidden bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                   <div className="aspect-[3/4] relative">
                     <img 
-                      src={novel.coverImage} 
-                      alt={novel.title}
+                      src={item.image} 
+                      alt={item.title}
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                     <div className="absolute top-2 left-2">
                       <Badge variant="secondary" className="text-xs bg-black/30 text-white border-0">
-                        {novel.genre}
+                        {item.tags[0]}
                       </Badge>
                     </div>
                     <div className="absolute bottom-2 left-2 right-2 text-white">
                       <h4 className="font-semibold text-sm line-clamp-1 mb-1">
-                        {novel.title}
+                        {item.title}
                       </h4>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-1">
                           <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                          <span className="text-xs">{novel.rating}</span>
+                          <span className="text-xs">{item.rating}</span>
                         </div>
                         <span className="text-xs opacity-80">
-                          Ch.{novel.availableChapters}
+                          {item.viewCount} views
                         </span>
                       </div>
                     </div>
