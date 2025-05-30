@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Star, TrendingUp, TrendingDown, Minus } from "lucide-react";
-import type { Ranking, Novel } from "@shared/schema";
+import type { Ranking, Item } from "@shared/schema";
 
-interface RankingWithNovel extends Ranking {
-  novel: Novel;
+interface RankingWithItem extends Ranking {
+  item: Item;
 }
 
 export default function Ranking() {
-  const { data: rankings, isLoading } = useQuery<RankingWithNovel[]>({
+  const { data: rankings, isLoading } = useQuery<RankingWithItem[]>({
     queryKey: ["/api/rankings"],
   });
 
@@ -70,12 +70,12 @@ export default function Ranking() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative mb-6 rounded-2xl overflow-hidden h-48 cursor-pointer"
-          onClick={() => window.location.href = `/novel/${topRanked.novel.id}`}
+          onClick={() => window.location.href = `/novel/${topRanked.item.id}`}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600" />
           <img 
-            src={topRanked.novel.coverImage} 
-            alt={topRanked.novel.title}
+            src={topRanked.item.image} 
+            alt={topRanked.item.title}
             className="w-full h-full object-cover opacity-90"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
@@ -88,18 +88,18 @@ export default function Ranking() {
             <Badge className="mb-2 bg-white/20 hover:bg-white/30">
               Most Popular
             </Badge>
-            <h2 className="text-xl font-bold mb-1">{topRanked.novel.title}</h2>
+            <h2 className="text-xl font-bold mb-1">{topRanked.item.title}</h2>
             <p className="text-sm opacity-90 mb-2">
-              {topRanked.novel.description.slice(0, 80)}...
+              {topRanked.item.description.slice(0, 80)}...
             </p>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-1">
                 <Heart className="w-4 h-4 text-red-400 fill-current" />
-                <span className="text-sm">{(topRanked.novel.likeCount / 1000).toFixed(1)}K</span>
+                <span className="text-sm">{(topRanked.item.likeCount / 1000).toFixed(1)}K</span>
               </div>
               <div className="flex items-center space-x-1">
                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="text-sm">{topRanked.novel.rating}</span>
+                <span className="text-sm">{topRanked.item.rating}</span>
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function Ranking() {
           >
             <Card 
               className="cursor-pointer hover:shadow-md transition-shadow"
-              onClick={() => window.location.href = `/novel/${ranking.novel.id}`}
+              onClick={() => window.location.href = `/novel/${ranking.item.id}`}
             >
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
@@ -133,29 +133,29 @@ export default function Ranking() {
                   </div>
                   <div className="w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden">
                     <img 
-                      src={ranking.novel.coverImage} 
-                      alt={ranking.novel.title}
+                      src={ranking.item.image} 
+                      alt={ranking.item.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-slate-800 text-sm truncate">
-                      {ranking.novel.title}
+                      {ranking.item.title}
                     </h4>
                     <p className="text-xs text-slate-500 mt-1">
-                      {ranking.novel.genre} • {ranking.novel.totalChapters} Chapters
+                      {ranking.item.tags[0]} • {ranking.item.viewCount} Views
                     </p>
                     <div className="flex items-center space-x-3 mt-2">
                       <div className="flex items-center space-x-1">
                         <Heart className="w-3 h-3 text-red-400 fill-current" />
                         <span className="text-xs text-slate-500">
-                          {(ranking.novel.likeCount / 1000).toFixed(0)}K
+                          {(ranking.item.likeCount / 1000).toFixed(0)}K
                         </span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <Star className="w-3 h-3 text-yellow-400 fill-current" />
                         <span className="text-xs text-slate-500">
-                          {ranking.novel.rating}
+                          {ranking.item.rating}
                         </span>
                       </div>
                     </div>
