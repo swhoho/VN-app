@@ -15,26 +15,22 @@ export const users = pgTable("users", {
   currentStreak: integer("current_streak").notNull().default(0),
 });
 
-export const novels = pgTable("novels", {
+export const items = pgTable("items", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  author: text("author").notNull(),
   description: text("description").notNull(),
-  genre: text("genre").notNull(),
-  coverImage: text("cover_image").notNull(),
+  image: text("image").notNull(),
+  tags: text("tags").array().notNull().default([]),
   rating: decimal("rating").notNull().default("0"),
-  totalChapters: integer("total_chapters").notNull(),
-  availableChapters: integer("available_chapters").notNull(),
-  status: text("status").notNull().default("ongoing"),
   viewCount: integer("view_count").notNull().default(0),
   likeCount: integer("like_count").notNull().default(0),
-  isPremium: boolean("is_premium").notNull().default(false),
   featured: boolean("featured").notNull().default(false),
+  createdAt: text("created_at").notNull().default("2024-01-01"),
 });
 
 export const rankings = pgTable("rankings", {
   id: serial("id").primaryKey(),
-  novelId: integer("novel_id").notNull(),
+  itemId: integer("item_id").notNull(),
   rank: integer("rank").notNull(),
   previousRank: integer("previous_rank"),
   weeklyViews: integer("weekly_views").notNull().default(0),
@@ -44,7 +40,7 @@ export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
 });
 
-export const insertNovelSchema = createInsertSchema(novels).omit({
+export const insertItemSchema = createInsertSchema(items).omit({
   id: true,
 });
 
@@ -54,7 +50,7 @@ export const insertRankingSchema = createInsertSchema(rankings).omit({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
-export type InsertNovel = z.infer<typeof insertNovelSchema>;
-export type Novel = typeof novels.$inferSelect;
+export type InsertItem = z.infer<typeof insertItemSchema>;
+export type Item = typeof items.$inferSelect;
 export type InsertRanking = z.infer<typeof insertRankingSchema>;
 export type Ranking = typeof rankings.$inferSelect;

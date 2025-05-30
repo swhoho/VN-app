@@ -1,4 +1,4 @@
-import { users, novels, rankings, type User, type InsertUser, type Novel, type InsertNovel, type Ranking, type InsertRanking } from "@shared/schema";
+import { users, items, rankings, type User, type InsertUser, type Item, type InsertItem, type Ranking, type InsertRanking } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
@@ -9,16 +9,16 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, updates: Partial<User>): Promise<User | undefined>;
 
-  // Novel methods
-  getAllNovels(): Promise<Novel[]>;
-  getNovel(id: number): Promise<Novel | undefined>;
-  getNovelsByGenre(genre: string): Promise<Novel[]>;
-  getFeaturedNovels(): Promise<Novel[]>;
-  createNovel(novel: InsertNovel): Promise<Novel>;
+  // Item methods
+  getAllItems(): Promise<Item[]>;
+  getItem(id: number): Promise<Item | undefined>;
+  getItemsByTag(tag: string): Promise<Item[]>;
+  getFeaturedItems(): Promise<Item[]>;
+  createItem(item: InsertItem): Promise<Item>;
 
   // Ranking methods
-  getRankings(): Promise<(Ranking & { novel: Novel })[]>;
-  updateRanking(novelId: number, rank: number, weeklyViews: number): Promise<void>;
+  getRankings(): Promise<(Ranking & { item: Item })[]>;
+  updateRanking(itemId: number, rank: number, weeklyViews: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -49,49 +49,49 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
-  async getAllNovels(): Promise<Novel[]> {
-    return await db.select().from(novels);
+  async getAllItems(): Promise<Item[]> {
+    return await db.select().from(items);
   }
 
-  async getNovel(id: number): Promise<Novel | undefined> {
-    const [novel] = await db.select().from(novels).where(eq(novels.id, id));
-    return novel || undefined;
+  async getItem(id: number): Promise<Item | undefined> {
+    const [item] = await db.select().from(items).where(eq(items.id, id));
+    return item || undefined;
   }
 
-  async getNovelsByGenre(genre: string): Promise<Novel[]> {
-    return await db.select().from(novels).where(eq(novels.genre, genre));
+  async getItemsByTag(tag: string): Promise<Item[]> {
+    return await db.select().from(items).where(eq(items.tags, [tag]));
   }
 
-  async getFeaturedNovels(): Promise<Novel[]> {
-    return await db.select().from(novels).where(eq(novels.featured, true));
+  async getFeaturedItems(): Promise<Item[]> {
+    return await db.select().from(items).where(eq(items.featured, true));
   }
 
-  async createNovel(insertNovel: InsertNovel): Promise<Novel> {
-    const [novel] = await db
-      .insert(novels)
-      .values(insertNovel)
+  async createItem(insertItem: InsertItem): Promise<Item> {
+    const [item] = await db
+      .insert(items)
+      .values(insertItem)
       .returning();
-    return novel;
+    return item;
   }
 
-  async getRankings(): Promise<(Ranking & { novel: Novel })[]> {
+  async getRankings(): Promise<(Ranking & { item: Item })[]> {
     const result = await db
       .select()
       .from(rankings)
-      .innerJoin(novels, eq(rankings.novelId, novels.id))
+      .innerJoin(items, eq(rankings.itemId, items.id))
       .orderBy(rankings.rank);
 
     return result.map(row => ({
       ...row.rankings,
-      novel: row.novels
+      item: row.items
     }));
   }
 
-  async updateRanking(novelId: number, rank: number, weeklyViews: number): Promise<void> {
+  async updateRanking(itemId: number, rank: number, weeklyViews: number): Promise<void> {
     const [existingRanking] = await db
       .select()
       .from(rankings)
-      .where(eq(rankings.novelId, novelId));
+      .where(eq(rankings.itemId, itemId));
 
     if (existingRanking) {
       await db
@@ -101,7 +101,7 @@ export class DatabaseStorage implements IStorage {
           rank,
           weeklyViews
         })
-        .where(eq(rankings.novelId, novelId));
+        .where(eq(rankings.itemId, itemId));
     }
   }
 }

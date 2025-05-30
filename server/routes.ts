@@ -3,48 +3,48 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Get all novels
-  app.get("/api/novels", async (req, res) => {
+  // Get all items
+  app.get("/api/items", async (req, res) => {
     try {
-      const novels = await storage.getAllNovels();
-      res.json(novels);
+      const items = await storage.getAllItems();
+      res.json(items);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch novels" });
+      res.status(500).json({ message: "Failed to fetch items" });
     }
   });
 
-  // Get novel by ID
-  app.get("/api/novels/:id", async (req, res) => {
+  // Get item by ID
+  app.get("/api/items/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const novel = await storage.getNovel(id);
-      if (!novel) {
-        return res.status(404).json({ message: "Novel not found" });
+      const item = await storage.getItem(id);
+      if (!item) {
+        return res.status(404).json({ message: "Item not found" });
       }
-      res.json(novel);
+      res.json(item);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch novel" });
+      res.status(500).json({ message: "Failed to fetch item" });
     }
   });
 
-  // Get novels by genre
-  app.get("/api/novels/genre/:genre", async (req, res) => {
+  // Get items by tag
+  app.get("/api/items/tag/:tag", async (req, res) => {
     try {
-      const genre = req.params.genre;
-      const novels = await storage.getNovelsByGenre(genre);
-      res.json(novels);
+      const tag = req.params.tag;
+      const items = await storage.getItemsByTag(tag);
+      res.json(items);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch novels by genre" });
+      res.status(500).json({ message: "Failed to fetch items by tag" });
     }
   });
 
-  // Get featured novels
-  app.get("/api/novels/featured", async (req, res) => {
+  // Get featured items
+  app.get("/api/items/featured", async (req, res) => {
     try {
-      const novels = await storage.getFeaturedNovels();
-      res.json(novels);
+      const items = await storage.getFeaturedItems();
+      res.json(items);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch featured novels" });
+      res.status(500).json({ message: "Failed to fetch featured items" });
     }
   });
 
