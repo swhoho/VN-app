@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star } from "lucide-react";
+import { Star, Heart } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation } from "@/lib/i18n";
 import type { Item } from "@shared/schema";
@@ -193,30 +193,59 @@ export default function Home() {
                 onClick={() => window.location.href = `/novel/${item.id}`}
               >
                 <Card className="overflow-hidden bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
-                  <div className="aspect-[3/4] relative">
+                  {/* 이미지 섹션 - 높이 축소 */}
+                  <div className="aspect-[4/3] relative">
                     <img 
                       src={item.image} 
                       alt={item.title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute top-2 left-2">
-                      <Badge variant="secondary" className="text-xs bg-black/30 text-white border-0">
-                        {item.tags[0]}
-                      </Badge>
+                    <div className="absolute top-2 right-2">
+                      <div className="flex items-center space-x-1 bg-black/20 backdrop-blur-sm rounded-full px-2 py-1">
+                        <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                        <span className="text-xs text-white font-medium">{item.rating}</span>
+                      </div>
                     </div>
-                    <div className="absolute bottom-2 left-2 right-2 text-white">
-                      <h4 className="font-semibold text-sm line-clamp-1 mb-1">
-                        {item.title}
-                      </h4>
-                      <div className="flex items-center justify-between">
+                  </div>
+                  
+                  {/* 콘텐츠 섹션 */}
+                  <div className="p-3">
+                    <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 line-clamp-1 mb-1">
+                      {item.title}
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed">
+                      {item.description.slice(0, 80)}...
+                    </p>
+                    
+                    {/* 태그들 */}
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {item.tags.slice(0, 3).map((tag, tagIndex) => (
+                        <Badge 
+                          key={tagIndex}
+                          variant="secondary" 
+                          className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-0"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                      {item.tags.length > 3 && (
+                        <Badge 
+                          variant="secondary" 
+                          className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 border-0"
+                        >
+                          +{item.tags.length - 3}
+                        </Badge>
+                      )}
+                    </div>
+                    
+                    {/* 통계 */}
+                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                      <div className="flex items-center space-x-3">
                         <div className="flex items-center space-x-1">
-                          <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                          <span className="text-xs">{item.rating}</span>
+                          <Heart className="w-3 h-3 text-red-400 fill-current" />
+                          <span>{(item.likeCount / 1000).toFixed(1)}K</span>
                         </div>
-                        <span className="text-xs opacity-80">
-                          {item.viewCount} views
-                        </span>
+                        <span>{item.viewCount.toLocaleString()} views</span>
                       </div>
                     </div>
                   </div>
