@@ -75,7 +75,7 @@ export default function Home() {
       )}
 
       {/* Genre Filter */}
-      <div className="flex space-x-3 mb-6 overflow-x-auto pb-2">
+      <div className="flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide">
         {genres.map((genre) => (
           <Button
             key={genre}
