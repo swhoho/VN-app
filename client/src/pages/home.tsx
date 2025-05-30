@@ -67,7 +67,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <div className="absolute bottom-6 left-6 text-white">
             <Badge className="mb-2 bg-pink-500/80 hover:bg-pink-500/90">
-              Featured
+              {getTranslation('featured', language)}
             </Badge>
             <h2 className="text-xl font-bold mb-1">{featuredNovel.title}</h2>
             <p className="text-sm opacity-90">
@@ -78,13 +78,19 @@ export default function Home() {
       )}
 
       {/* Genre Filter */}
-      <div className="flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+      <div 
+        className="flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide scroll-smooth"
+        style={{
+          scrollSnapType: 'x mandatory',
+        }}
+      >
         {genres.map((genre) => (
           <Button
             key={genre}
             variant={selectedGenre === genre ? "default" : "outline"}
             size="sm"
-            className="whitespace-nowrap rounded-full"
+            className="whitespace-nowrap rounded-full flex-shrink-0"
+            style={{ scrollSnapAlign: 'start' }}
             onClick={() => setSelectedGenre(genre)}
           >
             {genre}
