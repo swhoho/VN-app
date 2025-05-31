@@ -58,7 +58,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const items = await storage.searchItems(query);
       res.json(items);
     } catch (error) {
-      res.status(500).json({ message: "Failed to search items" });
+      console.error("Search error:", error);
+      res.status(500).json({ message: "Failed to search items", error: error.message });
     }
   });
 

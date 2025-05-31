@@ -76,7 +76,7 @@ export default function Ranking() {
           <img 
             src={topRanked.item.image} 
             alt={topRanked.item.title}
-            className="w-full h-full object-cover opacity-90"
+            className="w-full h-full object-cover object-top opacity-90"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <div className="absolute top-4 left-4">
