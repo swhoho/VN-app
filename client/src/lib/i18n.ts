@@ -59,23 +59,15 @@ export const translations = {
     items: {
       "Neon Dreams": {
         title: "Neon Dreams",
-        description: "In a cyberpunk future, a hacker discovers a conspiracy that threatens humanity"
-      },
-      "Crimson Hearts": {
-        title: "Crimson Hearts",
-        description: "A passionate love story set against the backdrop of a vampire war"
+        description: "In a cyberpunk future, a hacker discovers a conspiracy that threatens humanity. Navigate through neon-lit streets and digital networks as you uncover the truth behind the corporate facade."
       },
       "Shadow Detective": {
         title: "Shadow Detective",
-        description: "A detective with supernatural abilities solves crimes in the dark underworld"
+        description: "A detective with supernatural abilities solves crimes in the dark underworld. Each case reveals deeper mysteries about the nature of good and evil in this noir-inspired thriller."
       },
       "Royal Deception": {
         title: "Royal Deception",
-        description: "Court intrigue and forbidden romance in a medieval fantasy kingdom"
-      },
-      "Digital Ghost": {
-        title: "Digital Ghost",
-        description: "A programmer trapped in a virtual reality world must find a way back to reality"
+        description: "Court intrigue and forbidden romance in a medieval fantasy kingdom. Your choices will determine the fate of kingdoms and the hearts of those you encounter."
       },
       "Autumn Reverie": {
         title: "Autumn Reverie",
@@ -104,10 +96,6 @@ export const translations = {
       "Crimson Halo: Seraph's Edge": {
         title: "Crimson Halo: Seraph's Edge",
         description: "Clad in a sleek tactical bodysuit and wielding a radiant blade, the Seraph pilot emerges under a burning red halo amidst a dystopian battlefield. Her unwavering gaze and flowing silver hair signal humanity's final resolve against the encroaching darkness. Every choice will determine whether hope ignites or fades into ash."
-      },
-      "가을 몽상": {
-        title: "Autumn Reverie",
-        description: "Autumn Reverie follows Kaede Asakura, a quiet transfer student arriving at Maplewood High as the leaves turn. Amid the gentle rustle of amber foliage, she discovers a series of mysterious postcards addressed to her—each hinting at forgotten memories and unspoken promises. As you guide Kaede through branching story paths, you'll form deep bonds with classmates, unravel a hidden past, and decide whether to embrace the warmth of friendship or retreat into the solitude of her autumn thoughts."
       }
     }
   },
@@ -146,23 +134,15 @@ export const translations = {
     items: {
       "Neon Dreams": {
         title: "네온 드림",
-        description: "사이버펑크 미래에서 해커가 인류를 위협하는 음모를 발견합니다"
-      },
-      "Crimson Hearts": {
-        title: "크림슨 하트",
-        description: "뱀파이어 전쟁을 배경으로 한 열정적인 사랑 이야기"
+        description: "사이버펑크 미래에서 해커가 인류를 위협하는 음모를 발견합니다. 네온사인이 빛나는 거리와 디지털 네트워크를 통해 기업 파사드 뒤에 숨겨진 진실을 밝혀내세요."
       },
       "Shadow Detective": {
         title: "그림자 탐정",
-        description: "초자연적 능력을 가진 탐정이 어둠의 지하세계에서 범죄를 해결합니다"
+        description: "초자연적 능력을 가진 탐정이 어둠의 지하세계에서 범죄를 해결합니다. 각 사건은 이 누아르 스타일 스릴러에서 선과 악의 본질에 대한 더 깊은 미스터리를 드러냅니다."
       },
       "Royal Deception": {
         title: "왕실의 기만",
-        description: "중세 판타지 왕국의 궁중 음모와 금지된 로맨스"
-      },
-      "Digital Ghost": {
-        title: "디지털 고스트",
-        description: "가상현실 세계에 갇힌 프로그래머가 현실로 돌아갈 방법을 찾아야 합니다"
+        description: "중세 판타지 왕국의 궁중 음모와 금지된 로맨스. 당신의 선택이 왕국의 운명과 마주치는 이들의 마음을 결정할 것입니다."
       },
       "Autumn Reverie": {
         title: "가을 몽상",
@@ -191,10 +171,6 @@ export const translations = {
       "Crimson Halo: Seraph's Edge": {
         title: "크림슨 헤일로: 세라프의 끝",
         description: "세련된 전술복을 입고 빛나는 검을 든 세라프 파일럿이 디스토피아 전장에서 타오르는 붉은 후광 아래 등장합니다. 그녀의 흔들리지 않는 시선과 흘러내리는 은빛 머리카락은 다가오는 어둠에 맞선 인류의 마지막 결의를 나타냅니다. 모든 선택이 희망이 타오를지 재로 사라질지를 결정할 것입니다."
-      },
-      "가을 몽상": {
-        title: "가을 몽상",
-        description: "가을 몽상은 단풍이 물드는 계절에 메이플우드 고등학교로 전학 온 조용한 학생 아사쿠라 카에데의 이야기를 따릅니다. 황금빛 단풍잎의 부드러운 바스락거림 속에서, 그녀는 자신에게 보내진 신비로운 엽서들을 발견하게 됩니다—각각은 잊혀진 기억과 말하지 못한 약속들을 암시합니다. 카에데를 다양한 스토리 경로로 안내하면서, 여러분은 급우들과 깊은 유대를 형성하고, 숨겨진 과거를 풀어내며, 우정의 따뜻함을 받아들일지 아니면 가을 생각의 고독 속으로 물러날지 결정하게 됩니다."
       }
     }
   },
