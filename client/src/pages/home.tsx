@@ -215,17 +215,65 @@ export default function Home() {
                 setSelectedGenre(genre);
               }
             }}
-            onMouseDown={(e) => e.stopPropagation()}
+            onMouseDown={(e) => {
+              // 마우스 이벤트는 부모로 전파하여 스크롤 가능하게 함
+              if (!scrollRef.current) return;
+              setIsDragging(true);
+              setHasMoved(false);
+              setStartX(e.pageX - scrollRef.current.offsetLeft);
+              setScrollLeft(scrollRef.current.scrollLeft);
+            }}
+            onMouseMove={(e) => {
+              // 버튼에서 시작된 마우스 이동도 스크롤로 처리
+              if (!isDragging || !scrollRef.current) return;
+              e.preventDefault();
+              const x = e.pageX - scrollRef.current.offsetLeft;
+              const walk = (x - startX) * 2;
+              
+              if (Math.abs(walk) > 3) {
+                setHasMoved(true);
+              }
+              
+              scrollRef.current.scrollLeft = scrollLeft - walk;
+            }}
+            onMouseUp={() => {
+              setIsDragging(false);
+              setTimeout(() => {
+                setHasMoved(false);
+              }, 100);
+            }}
             onTouchStart={(e) => {
-              // 터치 시작시 이벤트 전파는 허용하여 스크롤 가능하게 함
-              // e.stopPropagation(); 제거
+              // 터치 이벤트를 부모로 전파하여 스크롤 가능하게 함
+              if (!scrollRef.current) return;
+              setIsDragging(true);
+              setHasMoved(false);
+              setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
+              setScrollLeft(scrollRef.current.scrollLeft);
+            }}
+            onTouchMove={(e) => {
+              // 버튼에서 시작된 터치 이동도 스크롤로 처리
+              if (!isDragging || !scrollRef.current) return;
+              e.preventDefault();
+              const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+              const walk = (x - startX) * 1.5;
+              
+              if (Math.abs(walk) > 3) {
+                setHasMoved(true);
+              }
+              
+              scrollRef.current.scrollLeft = scrollLeft - walk;
             }}
             onTouchEnd={(e) => {
               e.stopPropagation();
+              setIsDragging(false);
               // 스크롤 중이 아닐 때만 장르 변경
-              if (!hasMoved && !isDragging) {
+              if (!hasMoved) {
                 setSelectedGenre(genre);
               }
+              // 상태 리셋
+              setTimeout(() => {
+                setHasMoved(false);
+              }, 100);
             }}
           >
             {genre}
