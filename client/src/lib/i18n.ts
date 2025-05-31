@@ -626,24 +626,23 @@ export const getTranslation = (key: string, lang: string = 'en'): string => {
 };
 
 export const getItemTranslation = (originalTitle: string, field: 'title' | 'description', lang: string = 'en'): string => {
-  const translation = translations[lang as keyof typeof translations];
-  if (!translation || !translation.items) {
-    const enTranslation = translations.en.items;
-    if (enTranslation && enTranslation[originalTitle]) {
-      return enTranslation[originalTitle][field];
-    }
+  // If it's English, return the original title for title field or empty for description
+  if (lang === 'en') {
     return field === 'title' ? originalTitle : '';
   }
   
-  if (translation.items[originalTitle]) {
-    return translation.items[originalTitle][field];
+  // Only handle Korean translations for now
+  if (lang === 'ko') {
+    const koTranslation = translations.ko;
+    if (koTranslation.items) {
+      const items = koTranslation.items;
+      const itemKey = originalTitle as keyof typeof items;
+      if (items[itemKey] && items[itemKey][field]) {
+        return items[itemKey][field];
+      }
+    }
   }
   
-  // 번역이 없으면 영어 버전으로 폴백
-  const enTranslation = translations.en.items;
-  if (enTranslation && enTranslation[originalTitle]) {
-    return enTranslation[originalTitle][field];
-  }
-  
+  // Fallback to original title for title field, empty for description
   return field === 'title' ? originalTitle : '';
 };
