@@ -120,8 +120,8 @@ export default function Home() {
     const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
     const walk = (x - startX) * 1.5; // 스크롤 속도 조정
     
-    // 움직임이 5px 이상이면 스크롤로 인식
-    if (Math.abs(walk) > 5) {
+    // 움직임이 3px 이상이면 스크롤로 인식 (민감도 향상)
+    if (Math.abs(walk) > 3) {
       setHasMoved(true);
     }
     
@@ -130,6 +130,10 @@ export default function Home() {
 
   const handleTouchEnd = () => {
     setIsDragging(false);
+    // 터치 종료 후 잠시 후 hasMoved 상태 리셋
+    setTimeout(() => {
+      setHasMoved(false);
+    }, 100);
   };
 
   if (isLoading) {
@@ -212,7 +216,10 @@ export default function Home() {
               }
             }}
             onMouseDown={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
+            onTouchStart={(e) => {
+              // 터치 시작시 이벤트 전파는 허용하여 스크롤 가능하게 함
+              // e.stopPropagation(); 제거
+            }}
             onTouchEnd={(e) => {
               e.stopPropagation();
               // 스크롤 중이 아닐 때만 장르 변경
