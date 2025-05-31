@@ -65,7 +65,7 @@ export default function Search() {
   }, [query]);
 
   const { data: searchResults, isLoading } = useQuery<Item[]>({
-    queryKey: ["/api/items/search", { q: debouncedQuery }],
+    queryKey: ["/api/novels/search", { q: debouncedQuery }],
     enabled: debouncedQuery.length > 0,
   });
 

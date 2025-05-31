@@ -3,6 +3,21 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Search items 
+  app.get("/api/novels/search", async (req, res) => {
+    try {
+      const query = req.query.q as string;
+      if (!query) {
+        return res.json([]);
+      }
+      const items = await storage.searchItems(query);
+      res.json(items);
+    } catch (error) {
+      console.error("Search error:", error);
+      res.status(500).json({ message: "Failed to search items" });
+    }
+  });
+
   // Get all items
   app.get("/api/items", async (req, res) => {
     try {
@@ -48,20 +63,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Search items
-  app.get("/api/items/search", async (req, res) => {
-    try {
-      const query = req.query.q as string;
-      if (!query) {
-        return res.json([]);
-      }
-      const items = await storage.searchItems(query);
-      res.json(items);
-    } catch (error) {
-      console.error("Search error:", error);
-      res.status(500).json({ message: "Failed to search items" });
-    }
-  });
+
 
   // Get rankings
   app.get("/api/rankings", async (req, res) => {
