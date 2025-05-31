@@ -100,6 +100,14 @@ export const translations = {
       "Pages of Connection: Clubroom Bonds": {
         title: "Pages of Connection: Clubroom Bonds",
         description: "Step into the sunlit sanctuary of the Literature Club, where shared stories and whispered dreams forge unbreakable bonds. As you help each member find her voice—whether through poetry, prose, or heartfelt conversation—you'll uncover hidden secrets and shape the destiny of this close-knit circle of friends."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Crimson Halo: Seraph's Edge",
+        description: "Clad in a sleek tactical bodysuit and wielding a radiant blade, the Seraph pilot emerges under a burning red halo amidst a dystopian battlefield. Her unwavering gaze and flowing silver hair signal humanity's final resolve against the encroaching darkness. Every choice will determine whether hope ignites or fades into ash."
+      },
+      "가을 몽상": {
+        title: "Autumn Reverie",
+        description: "Autumn Reverie follows Kaede Asakura, a quiet transfer student arriving at Maplewood High as the leaves turn. Amid the gentle rustle of amber foliage, she discovers a series of mysterious postcards addressed to her—each hinting at forgotten memories and unspoken promises. As you guide Kaede through branching story paths, you'll form deep bonds with classmates, unravel a hidden past, and decide whether to embrace the warmth of friendship or retreat into the solitude of her autumn thoughts."
       }
     }
   },
@@ -179,6 +187,14 @@ export const translations = {
       "Pages of Connection: Clubroom Bonds": {
         title: "연결의 페이지: 동아리방 유대",
         description: "햇살이 비치는 문학부의 성소로 발걸음을 옮겨보세요. 공유하는 이야기와 속삭이는 꿈이 끊을 수 없는 유대를 만들어갑니다. 각 멤버가 자신만의 목소리를 찾도록 도와주며—시를 통해서든, 산문을 통해서든, 아니면 진심어린 대화를 통해서든—숨겨진 비밀을 밝혀내고 이 긴밀한 친구들의 운명을 만들어가게 될 것입니다."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "크림슨 헤일로: 세라프의 끝",
+        description: "세련된 전술복을 입고 빛나는 검을 든 세라프 파일럿이 디스토피아 전장에서 타오르는 붉은 후광 아래 등장합니다. 그녀의 흔들리지 않는 시선과 흘러내리는 은빛 머리카락은 다가오는 어둠에 맞선 인류의 마지막 결의를 나타냅니다. 모든 선택이 희망이 타오를지 재로 사라질지를 결정할 것입니다."
+      },
+      "가을 몽상": {
+        title: "가을 몽상",
+        description: "가을 몽상은 단풍이 물드는 계절에 메이플우드 고등학교로 전학 온 조용한 학생 아사쿠라 카에데의 이야기를 따릅니다. 황금빛 단풍잎의 부드러운 바스락거림 속에서, 그녀는 자신에게 보내진 신비로운 엽서들을 발견하게 됩니다—각각은 잊혀진 기억과 말하지 못한 약속들을 암시합니다. 카에데를 다양한 스토리 경로로 안내하면서, 여러분은 급우들과 깊은 유대를 형성하고, 숨겨진 과거를 풀어내며, 우정의 따뜻함을 받아들일지 아니면 가을 생각의 고독 속으로 물러날지 결정하게 됩니다."
       }
     }
   },

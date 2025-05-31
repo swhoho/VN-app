@@ -133,8 +133,11 @@ export class DatabaseStorage implements IStorage {
         "몽상": "reverie", 
         "꿈": "dream",
         "붉은": "crimson",
+        "크림슨": "crimson",
         "후광": "halo",
+        "헤일로": "halo",
         "세라프": "seraph",
+        "끝": "edge",
         "네온": "neon",
         "그림자": "shadow",
         "황실": "royal",
@@ -146,7 +149,19 @@ export class DatabaseStorage implements IStorage {
         "마법": "magic",
         "아카데미": "academy",
         "클럽": "club",
-        "연결": "connection"
+        "연결": "connection",
+        "황혼": "twilight",
+        "고백": "confession",
+        "새벽": "dawn",
+        "저항": "stand",
+        "석양": "dusk",
+        "전투": "battle",
+        "햇살": "sunlit",
+        "페이지": "pages",
+        "문학부": "literature",
+        "연대기": "chronicles",
+        "동아리방": "clubroom",
+        "유대": "bonds"
       };
 
       // 검색어가 한국어인 경우 영어로도 검색
