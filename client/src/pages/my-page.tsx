@@ -199,45 +199,7 @@ export default function MyPage() {
         </Card>
       </motion.div>
 
-      {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="space-y-3 mb-6"
-      >
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h3>
-        
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                <Bookmark className="w-5 h-5 text-blue-600" />
-              </div>
-              <div className="flex-1">
-                <div className="font-medium text-slate-900">My Library</div>
-                <div className="text-sm text-slate-500">View saved and reading novels</div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </div>
-          </CardContent>
-        </Card>
 
-        <Card className="cursor-pointer hover:shadow-md transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                <History className="w-5 h-5 text-green-600" />
-              </div>
-              <div className="flex-1">
-                <div className="font-medium text-slate-900">Reading History</div>
-                <div className="text-sm text-slate-500">Recent chapters and progress</div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
 
       {/* Settings */}
       <motion.div
