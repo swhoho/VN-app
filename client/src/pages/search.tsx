@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star, Heart, Search } from "lucide-react";
+import { Star, Heart, Search as SearchIcon } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation } from "@/lib/i18n";
 import type { Item } from "@shared/schema";
@@ -65,7 +65,7 @@ export default function Search() {
   }, [query]);
 
   const { data: searchResults, isLoading } = useQuery<Item[]>({
-    queryKey: ["/api/items/search", debouncedQuery],
+    queryKey: ["/api/items/search", { q: debouncedQuery }],
     enabled: debouncedQuery.length > 0,
   });
 
@@ -77,7 +77,7 @@ export default function Search() {
           {getTranslation('search', language) || 'Search'}
         </h1>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
           <Input
             type="text"
             placeholder={getTranslation('searchPlaceholder', language) || 'Search for visual novels...'}
@@ -91,7 +91,7 @@ export default function Search() {
       {/* 검색 결과 */}
       {debouncedQuery.length === 0 ? (
         <div className="text-center py-12">
-          <Search className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+          <SearchIcon className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
           <p className="text-slate-600 dark:text-slate-400">
             {getTranslation('searchHint', language) || 'Enter keywords to search for visual novels'}
           </p>
@@ -176,7 +176,7 @@ export default function Search() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <Search className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+          <SearchIcon className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
           <p className="text-slate-600 dark:text-slate-400">
             {getTranslation('noSearchResults', language) || `No results found for "${debouncedQuery}"`}
           </p>
