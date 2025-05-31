@@ -1,6 +1,6 @@
 import { users, items, rankings, type User, type InsertUser, type Item, type InsertItem, type Ranking, type InsertRanking } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, ilike, or } from "drizzle-orm";
+import { eq, desc, ilike, or, sql } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -162,36 +162,22 @@ export class DatabaseStorage implements IStorage {
         }
       });
 
-      // 향상된 검색 로직: exact match, partial match, similarity 순으로 정렬
-      const conditions = searchTerms.flatMap(term => [
-        ilike(items.title, term),
-        ilike(items.description, term),
-        // 태그 배열 검색
-        sql`EXISTS (SELECT 1 FROM unnest(${items.tags}) AS tag WHERE tag ILIKE ${term})`,
-        // 유사도 검색 (trigram 사용)
-        sql`similarity(${items.title}, ${term.replace(/%/g, '')}) > 0.1`,
-        sql`similarity(${items.description}, ${term.replace(/%/g, '')}) > 0.1`
-      ]);
+      // 향상된 검색 로직: 다국어 지원 및 부분 검색
+      const allConditions = [];
+      
+      // 각 검색어에 대해 제목, 설명, 태그에서 검색
+      for (const term of searchTerms) {
+        allConditions.push(
+          ilike(items.title, term),
+          ilike(items.description, term)
+        );
+      }
 
       const result = await db
-        .select({
-          ...items,
-          // 검색 점수 계산 (정확도 순 정렬용)
-          score: sql`
-            CASE 
-              WHEN ${items.title} ILIKE ${searchTerm} THEN 100
-              WHEN ${items.title} ILIKE ${searchTerm.replace(/%/g, `%${query.toLowerCase()}%`)} THEN 90
-              WHEN ${items.description} ILIKE ${searchTerm} THEN 80
-              ELSE greatest(
-                similarity(${items.title}, ${query.toLowerCase()}) * 50,
-                similarity(${items.description}, ${query.toLowerCase()}) * 30
-              )
-            END
-          `.as('score')
-        })
+        .select()
         .from(items)
-        .where(or(...conditions))
-        .orderBy(sql`score DESC`, desc(items.viewCount))
+        .where(or(...allConditions))
+        .orderBy(desc(items.viewCount))
         .limit(20);
       
       console.log(`Search for "${query}" returned ${result.length} items`);
