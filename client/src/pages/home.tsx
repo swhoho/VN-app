@@ -58,6 +58,7 @@ export default function Home() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [hasMoved, setHasMoved] = useState(false);
 
   const { data: items, isLoading } = useQuery<Item[]>({
     queryKey: ["/api/items"],
@@ -108,14 +109,22 @@ export default function Home() {
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
+    setHasMoved(false);
     setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging || !scrollRef.current) return;
+    e.preventDefault(); // 스크롤 중단 방지
     const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
+    const walk = (x - startX) * 1.5; // 스크롤 속도 조정
+    
+    // 움직임이 5px 이상이면 스크롤로 인식
+    if (Math.abs(walk) > 5) {
+      setHasMoved(true);
+    }
+    
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -173,10 +182,12 @@ export default function Home() {
       {/* Genre Filter */}
       <div 
         ref={scrollRef}
-        className={`flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide scroll-smooth ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        className={`flex space-x-3 mb-6 overflow-x-auto pb-2 scrollbar-hide ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         style={{
-          scrollSnapType: 'x mandatory',
+          scrollSnapType: 'x proximity',
           userSelect: 'none',
+          WebkitOverflowScrolling: 'touch',
+          scrollBehavior: isDragging ? 'auto' : 'smooth',
         }}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
@@ -195,9 +206,20 @@ export default function Home() {
             style={{ scrollSnapAlign: 'start' }}
             onClick={(e) => {
               e.stopPropagation();
-              setSelectedGenre(genre);
+              // 스크롤 중이 아닐 때만 장르 변경
+              if (!hasMoved) {
+                setSelectedGenre(genre);
+              }
             }}
             onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => {
+              e.stopPropagation();
+              // 스크롤 중이 아닐 때만 장르 변경
+              if (!hasMoved && !isDragging) {
+                setSelectedGenre(genre);
+              }
+            }}
           >
             {genre}
           </Button>
