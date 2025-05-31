@@ -21,11 +21,12 @@ import {
   ChevronRight
 } from "lucide-react";
 import { useState } from "react";
+import { useTheme } from "@/components/theme-provider";
 import type { User as UserType } from "@shared/schema";
 
 export default function MyPage() {
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const { data: user, isLoading } = useQuery<UserType>({
     queryKey: ["/api/user"],
@@ -261,10 +262,10 @@ export default function MyPage() {
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-slate-700">Dark Mode</span>
+              <span className="text-slate-700 dark:text-slate-200">Dark Mode</span>
               <Switch 
-                checked={darkMode} 
-                onCheckedChange={setDarkMode}
+                checked={theme === "dark"} 
+                onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
               />
             </div>
             
