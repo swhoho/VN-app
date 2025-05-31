@@ -122,16 +122,76 @@ export class DatabaseStorage implements IStorage {
 
       const searchTerm = `%${query.toLowerCase()}%`;
       
+      // 한국어 번역 매핑
+      const koTranslations: Record<string, string> = {
+        "가을": "autumn",
+        "몽상": "reverie", 
+        "꿈": "dream",
+        "붉은": "crimson",
+        "후광": "halo",
+        "세라프": "seraph",
+        "네온": "neon",
+        "그림자": "shadow",
+        "황실": "royal",
+        "반역": "rebel",
+        "죄수": "prisoner",
+        "탐정": "detective",
+        "악마": "demon",
+        "군주": "lord",
+        "마법": "magic",
+        "아카데미": "academy",
+        "클럽": "club",
+        "연결": "connection"
+      };
+
+      // 검색어가 한국어인 경우 영어로도 검색
+      const searchTerms = [searchTerm];
+      const lowerQuery = query.toLowerCase();
+      
+      // 한국어 키워드가 포함된 경우 해당 영어 번역도 추가
+      Object.entries(koTranslations).forEach(([ko, en]) => {
+        if (lowerQuery.includes(ko)) {
+          searchTerms.push(`%${en}%`);
+        }
+      });
+
+      // 영어 키워드가 포함된 경우 해당 한국어 번역도 추가  
+      Object.entries(koTranslations).forEach(([ko, en]) => {
+        if (lowerQuery.includes(en)) {
+          searchTerms.push(`%${ko}%`);
+        }
+      });
+
+      // 향상된 검색 로직: exact match, partial match, similarity 순으로 정렬
+      const conditions = searchTerms.flatMap(term => [
+        ilike(items.title, term),
+        ilike(items.description, term),
+        // 태그 배열 검색
+        sql`EXISTS (SELECT 1 FROM unnest(${items.tags}) AS tag WHERE tag ILIKE ${term})`,
+        // 유사도 검색 (trigram 사용)
+        sql`similarity(${items.title}, ${term.replace(/%/g, '')}) > 0.1`,
+        sql`similarity(${items.description}, ${term.replace(/%/g, '')}) > 0.1`
+      ]);
+
       const result = await db
-        .select()
+        .select({
+          ...items,
+          // 검색 점수 계산 (정확도 순 정렬용)
+          score: sql`
+            CASE 
+              WHEN ${items.title} ILIKE ${searchTerm} THEN 100
+              WHEN ${items.title} ILIKE ${searchTerm.replace(/%/g, `%${query.toLowerCase()}%`)} THEN 90
+              WHEN ${items.description} ILIKE ${searchTerm} THEN 80
+              ELSE greatest(
+                similarity(${items.title}, ${query.toLowerCase()}) * 50,
+                similarity(${items.description}, ${query.toLowerCase()}) * 30
+              )
+            END
+          `.as('score')
+        })
         .from(items)
-        .where(
-          or(
-            ilike(items.title, searchTerm),
-            ilike(items.description, searchTerm)
-          )
-        )
-        .orderBy(desc(items.viewCount))
+        .where(or(...conditions))
+        .orderBy(sql`score DESC`, desc(items.viewCount))
         .limit(20);
       
       console.log(`Search for "${query}" returned ${result.length} items`);
