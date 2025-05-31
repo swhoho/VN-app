@@ -193,8 +193,8 @@ export default function Home() {
                 onClick={() => window.location.href = `/novel/${item.id}`}
               >
                 <Card className="overflow-hidden bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
-                  {/* 이미지 섹션 - 높이 축소 */}
-                  <div className="aspect-[4/3] relative">
+                  {/* 이미지 섹션 - 832x1216 비율 */}
+                  <div className="aspect-[832/1216] relative">
                     <img 
                       src={item.image} 
                       alt={item.title}
