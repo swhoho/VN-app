@@ -51,14 +51,7 @@ export default function Search() {
       </div>
 
       {/* 검색 결과 */}
-      {debouncedQuery.length === 0 ? (
-        <div className="text-center py-12">
-          <SearchIcon className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
-          <p className="text-slate-600 dark:text-slate-400">
-            {getTranslation('searchHint', language) || 'Enter keywords to search for visual novels'}
-          </p>
-        </div>
-      ) : isLoading ? (
+      {isLoading ? (
         <div className="grid grid-cols-2 gap-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-60 w-full rounded-xl" />

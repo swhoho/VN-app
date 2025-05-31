@@ -66,7 +66,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFeaturedItems(): Promise<Item[]> {
-    return await db.select().from(items).where(eq(items.featured, true));
+    try {
+      return await db.select().from(items).where(eq(items.featured, true));
+    } catch (error) {
+      console.error("Error fetching featured items:", error);
+      throw error;
+    }
   }
 
   async createItem(insertItem: InsertItem): Promise<Item> {
