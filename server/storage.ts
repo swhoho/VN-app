@@ -115,23 +115,31 @@ export class DatabaseStorage implements IStorage {
   }
 
   async searchItems(query: string): Promise<Item[]> {
-    if (!query.trim()) {
-      return [];
-    }
+    try {
+      if (!query.trim()) {
+        return [];
+      }
 
-    const searchTerm = `%${query.toLowerCase()}%`;
-    
-    return await db
-      .select()
-      .from(items)
-      .where(
-        or(
-          ilike(items.title, searchTerm),
-          ilike(items.description, searchTerm)
+      const searchTerm = `%${query.toLowerCase()}%`;
+      
+      const result = await db
+        .select()
+        .from(items)
+        .where(
+          or(
+            ilike(items.title, searchTerm),
+            ilike(items.description, searchTerm)
+          )
         )
-      )
-      .orderBy(desc(items.viewCount))
-      .limit(20);
+        .orderBy(desc(items.viewCount))
+        .limit(20);
+      
+      console.log(`Search for "${query}" returned ${result.length} items`);
+      return result;
+    } catch (error) {
+      console.error("Database search error:", error);
+      throw error;
+    }
   }
 }
 

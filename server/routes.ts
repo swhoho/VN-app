@@ -59,7 +59,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(items);
     } catch (error) {
       console.error("Search error:", error);
-      res.status(500).json({ message: "Failed to search items", error: error.message });
+      res.status(500).json({ message: "Failed to search items" });
     }
   });
 
