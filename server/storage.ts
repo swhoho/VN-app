@@ -1,6 +1,6 @@
 import { users, items, rankings, type User, type InsertUser, type Item, type InsertItem, type Ranking, type InsertRanking } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, desc, ilike, or } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -19,6 +19,9 @@ export interface IStorage {
   // Ranking methods
   getRankings(): Promise<(Ranking & { item: Item })[]>;
   updateRanking(itemId: number, rank: number, weeklyViews: number): Promise<void>;
+  
+  // Search methods
+  searchItems(query: string): Promise<Item[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -75,15 +78,21 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getRankings(): Promise<(Ranking & { item: Item })[]> {
-    const result = await db
+    // 조회수 기반으로 상위 10개 아이템을 가져와서 랭킹 생성
+    const topItems = await db
       .select()
-      .from(rankings)
-      .innerJoin(items, eq(rankings.itemId, items.id))
-      .orderBy(rankings.rank);
+      .from(items)
+      .orderBy(desc(items.viewCount))
+      .limit(10);
 
-    return result.map(row => ({
-      ...row.rankings,
-      item: row.items
+    // 각 아이템에 대해 랭킹 정보 생성 (실제 랭킹 테이블이 없어도 동적 생성)
+    return topItems.map((item, index) => ({
+      id: index + 1,
+      itemId: item.id,
+      rank: index + 1,
+      previousRank: index + 1, // 임시로 현재 랭킹과 동일하게 설정
+      weeklyViews: item.viewCount,
+      item: item
     }));
   }
 
@@ -103,6 +112,26 @@ export class DatabaseStorage implements IStorage {
         })
         .where(eq(rankings.itemId, itemId));
     }
+  }
+
+  async searchItems(query: string): Promise<Item[]> {
+    if (!query.trim()) {
+      return [];
+    }
+
+    const searchTerm = `%${query.toLowerCase()}%`;
+    
+    return await db
+      .select()
+      .from(items)
+      .where(
+        or(
+          ilike(items.title, searchTerm),
+          ilike(items.description, searchTerm)
+        )
+      )
+      .orderBy(desc(items.viewCount))
+      .limit(20);
   }
 }
 
