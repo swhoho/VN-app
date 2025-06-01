@@ -30,9 +30,27 @@ import Login from "./login";
 import type { User as UserType } from "@shared/schema";
 
 export default function MyPage() {
-  // For now, always show login page to test
-  // TODO: Implement proper authentication check
-  return <Login />;
+  const { user, isAuthenticated, isLoading, logout, isLoggingOut } = useAuth();
+  const { language } = useLanguage();
+  const [notifications, setNotifications] = useState(true);
+  const { theme, setTheme } = useTheme();
+
+  // Show login page if not authenticated
+  if (!isLoading && !isAuthenticated) {
+    return <Login />;
+  }
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-slate-600 dark:text-slate-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleUpgradeMembership = () => {
     const event = new CustomEvent('show-coming-soon');

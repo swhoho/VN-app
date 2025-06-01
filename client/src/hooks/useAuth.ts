@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import type { User } from "@shared/schema";
 
 export function useAuth() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
