@@ -32,14 +32,11 @@ export default function Home() {
   const filteredItems = items?.filter(item => 
     selectedGenre === "All" || item.tags.includes(selectedGenre)
   ).sort((a, b) => {
-    // Autumn Reverie를 항상 맨 앞에 표시
-    if (a.title === "Autumn Reverie") return -1;
-    if (b.title === "Autumn Reverie") return 1;
-    // featured 아이템들을 그 다음에 표시
+    // featured 아이템들을 맨 앞에 표시
     if (a.featured && !b.featured) return -1;
     if (b.featured && !a.featured) return 1;
-    // 나머지는 ID 순서
-    return a.id - b.id;
+    // 나머지는 랜덤 순서로 표시
+    return Math.random() - 0.5;
   }) || [];
 
   const featuredItem = featuredItems?.[0];
