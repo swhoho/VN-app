@@ -18,7 +18,8 @@ import {
   Settings,
   HelpCircle,
   Shield,
-  ChevronRight
+  ChevronRight,
+  LogOut
 } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "@/components/theme-provider";
@@ -31,7 +32,7 @@ import type { User as UserType } from "@shared/schema";
 export default function MyPage() {
   const [notifications, setNotifications] = useState(true);
   const { theme, setTheme } = useTheme();
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading, logout, isLoggingOut } = useAuth();
   const { language } = useLanguage();
 
   // Show login page if not authenticated

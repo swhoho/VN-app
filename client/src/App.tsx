@@ -11,6 +11,7 @@ import Ranking from "@/pages/ranking";
 import MyPage from "@/pages/my-page";
 import NovelDetail from "@/pages/novel-detail";
 import Search from "@/pages/search";
+import Login from "@/pages/login";
 import Header from "@/components/header";
 import BottomNavigation from "@/components/bottom-navigation";
 import ComingSoonModal from "@/components/coming-soon-modal";
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/ranking" component={Ranking} />
       <Route path="/my-page" component={MyPage} />
       <Route path="/search" component={Search} />
+      <Route path="/login" component={Login} />
       <Route path="/novel/:id" component={NovelDetail} />
       <Route component={NotFound} />
     </Switch>
