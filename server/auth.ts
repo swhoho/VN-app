@@ -25,29 +25,16 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   },
   async (accessToken: string, refreshToken: string, profile: any, done: any) => {
     try {
-      // Check if user exists
-      let user = await storage.getUserByProviderId('google', profile.id);
-      
-      if (!user) {
-        // Create new user
-        user = await storage.createUser({
-          email: profile.emails?.[0]?.value || '',
-          provider: 'google',
-          providerId: profile.id,
-          username: profile.displayName || profile.emails?.[0]?.value || '',
-          profileImageUrl: profile.photos?.[0]?.value || '',
-          points: 0,
-          membershipType: 'free',
-          storiesRead: 0,
-          chaptersRead: 0,
-          readingTimeHours: '0',
-          favoritesCount: 0,
-          currentStreak: 0
-        });
-      }
+      // Use upsert method to handle both new and existing users
+      const user = await storage.upsertUserByProvider('google', profile.id, {
+        email: profile.emails?.[0]?.value || null,
+        username: profile.displayName || profile.emails?.[0]?.value?.split('@')[0] || 'User',
+        profileImageUrl: profile.photos?.[0]?.value || null,
+      });
       
       return done(null, user);
     } catch (error) {
+      console.error('Google auth error:', error);
       return done(error, false);
     }
   }));
