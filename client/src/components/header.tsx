@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Search, Bell, BookOpen } from "lucide-react";
 import LanguageSelector from "@/components/language-selector";
 import { useLanguage } from "@/hooks/use-language";
+import { useAuth } from "@/hooks/useAuth";
 import { getTranslation } from "@/lib/i18n";
 import { useLocation } from "wouter";
 
 export default function Header() {
   const { language, setLanguage } = useLanguage();
   const [, setLocation] = useLocation();
+  const { user, isAuthenticated } = useAuth();
 
   return (
     <header className="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40">
@@ -24,7 +26,11 @@ export default function Header() {
           </div>
           
           <div className="flex items-center space-x-3">
-            <span className="text-sm text-slate-600 dark:text-slate-400">1,250 P</span>
+            {isAuthenticated && user && (
+              <span className="text-sm text-slate-600 dark:text-slate-400">
+                {user.points?.toLocaleString() || 0} P
+              </span>
+            )}
             <Button 
               variant="ghost" 
               size="icon" 
