@@ -1,11 +1,12 @@
 import { users, items, rankings, type User, type InsertUser, type Item, type InsertItem, type Ranking, type InsertRanking } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, ilike, or, sql } from "drizzle-orm";
+import { eq, desc, ilike, or, sql, and } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByProviderId(provider: string, providerId: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, updates: Partial<User>): Promise<User | undefined>;
 
@@ -32,6 +33,13 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async getUserByProviderId(provider: string, providerId: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(
+      eq(users.provider, provider) && eq(users.providerId, providerId)
+    );
     return user || undefined;
   }
 

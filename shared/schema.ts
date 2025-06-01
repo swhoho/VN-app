@@ -4,8 +4,12 @@ import { z } from "zod";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+  username: text("username"),
+  password: text("password"),
+  email: text("email"),
+  provider: text("provider"),
+  providerId: text("provider_id"),
+  profileImageUrl: text("profile_image_url"),
   points: integer("points").notNull().default(0),
   membershipType: text("membership_type").notNull().default("free"),
   storiesRead: integer("stories_read").notNull().default(0),
@@ -13,6 +17,7 @@ export const users = pgTable("users", {
   readingTimeHours: decimal("reading_time_hours").notNull().default("0"),
   favoritesCount: integer("favorites_count").notNull().default(0),
   currentStreak: integer("current_streak").notNull().default(0),
+  createdAt: text("created_at"),
 });
 
 export const items = pgTable("items", {
