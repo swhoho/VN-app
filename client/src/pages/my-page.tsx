@@ -30,15 +30,9 @@ import Login from "./login";
 import type { User as UserType } from "@shared/schema";
 
 export default function MyPage() {
-  const [notifications, setNotifications] = useState(true);
-  const { theme, setTheme } = useTheme();
-  const { user, isAuthenticated, isLoading, logout, isLoggingOut } = useAuth();
-  const { language } = useLanguage();
-
-  // Show login page if not authenticated
-  if (!isLoading && !isAuthenticated) {
-    return <Login />;
-  }
+  // For now, always show login page to test
+  // TODO: Implement proper authentication check
+  return <Login />;
 
   const handleUpgradeMembership = () => {
     const event = new CustomEvent('show-coming-soon');

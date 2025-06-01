@@ -1,45 +1,71 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 
 export function useAuth() {
-  const queryClient = useQueryClient();
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const { data: user, isLoading, error } = useQuery({
-    queryKey: ["/api/auth/me"],
-    retry: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-
-  const logoutMutation = useMutation({
-    mutationFn: async () => {
-      const response = await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      if (!response.ok) {
-        throw new Error("Logout failed");
+  useEffect(() => {
+    let isMounted = true;
+    
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("/api/auth/me", {
+          credentials: "include",
+        });
+        
+        if (isMounted) {
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          } else {
+            setUser(null);
+          }
+          setIsLoading(false);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setUser(null);
+          setIsLoading(false);
+        }
       }
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.setQueryData(["/api/auth/me"], null);
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
-    },
-  });
+    };
+
+    checkAuth();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const loginWithGoogle = () => {
     window.location.href = "/api/auth/google";
   };
 
-  const logout = () => {
-    logoutMutation.mutate();
+  const logout = async () => {
+    setIsLoggingOut(true);
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (response.ok) {
+        setUser(null);
+        window.location.href = "/";
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   return {
     user,
     isLoading,
-    isAuthenticated: !!user && !error,
+    isAuthenticated: !!user,
     loginWithGoogle,
     logout,
-    isLoggingOut: logoutMutation.isPending,
+    isLoggingOut,
   };
 }
