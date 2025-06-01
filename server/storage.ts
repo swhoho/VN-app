@@ -38,7 +38,7 @@ export class DatabaseStorage implements IStorage {
 
   async getUserByProviderId(provider: string, providerId: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(
-      eq(users.provider, provider) && eq(users.providerId, providerId)
+      and(eq(users.provider, provider), eq(users.providerId, providerId))
     );
     return user || undefined;
   }

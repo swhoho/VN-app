@@ -22,15 +22,22 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "@/components/theme-provider";
+import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/use-language";
+import { getTranslation } from "@/lib/i18n";
+import Login from "./login";
 import type { User as UserType } from "@shared/schema";
 
 export default function MyPage() {
   const [notifications, setNotifications] = useState(true);
   const { theme, setTheme } = useTheme();
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const { language } = useLanguage();
 
-  const { data: user, isLoading } = useQuery<UserType>({
-    queryKey: ["/api/user"],
-  });
+  // Show login page if not authenticated
+  if (!isLoading && !isAuthenticated) {
+    return <Login />;
+  }
 
   const handleUpgradeMembership = () => {
     const event = new CustomEvent('show-coming-soon');
