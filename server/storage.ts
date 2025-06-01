@@ -9,6 +9,7 @@ export interface IStorage {
   getUserByProviderId(provider: string, providerId: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, updates: Partial<User>): Promise<User | undefined>;
+  upsertUserByProvider(provider: string, providerId: string, userData: Partial<InsertUser>): Promise<User>;
 
   // Item methods
   getAllItems(): Promise<Item[]>;
@@ -213,6 +214,33 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Database search error:", error);
       throw error;
+    }
+  }
+
+  async upsertUserByProvider(provider: string, providerId: string, userData: Partial<InsertUser>): Promise<User> {
+    // First try to find existing user
+    const existingUser = await this.getUserByProviderId(provider, providerId);
+    
+    if (existingUser) {
+      // Update existing user
+      const [updatedUser] = await db
+        .update(users)
+        .set(userData)
+        .where(and(eq(users.provider, provider), eq(users.providerId, providerId)))
+        .returning();
+      return updatedUser;
+    } else {
+      // Create new user
+      const newUserData: InsertUser = {
+        provider,
+        providerId,
+        ...userData
+      };
+      const [newUser] = await db
+        .insert(users)
+        .values(newUserData)
+        .returning();
+      return newUser;
     }
   }
 }
