@@ -1,7 +1,15 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import Stripe from "stripe";
 import passport from "./auth";
 import { storage } from "./storage";
+
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2025-05-28.basil",
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
@@ -125,6 +133,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(userWithoutPassword);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Create payment intent for points purchase
+  app.post("/api/create-payment-intent", async (req, res) => {
+    try {
+      const { amount, packageId } = req.body;
+      
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "usd",
+        metadata: {
+          packageId: packageId.toString(),
+          userId: "1" // Demo user
+        },
+      });
+
+      res.json({ 
+        clientSecret: paymentIntent.client_secret 
+      });
+    } catch (error: any) {
+      console.error("Payment intent creation error:", error);
+      res.status(500).json({ 
+        message: "Error creating payment intent: " + error.message 
+      });
+    }
+  });
+
+  // Handle successful payment and add points to user
+  app.post("/api/points/purchase", async (req, res) => {
+    try {
+      const { paymentIntentId, packageId, points } = req.body;
+      
+      if (!paymentIntentId || !packageId || !points) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Verify payment with Stripe
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      
+      if (paymentIntent.status !== 'succeeded') {
+        return res.status(400).json({ message: "Payment not completed" });
+      }
+
+      // Add points to user (demo user ID 1)
+      const user = await storage.getUser(1);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const newPoints = (user.points || 0) + points;
+      await storage.updateUser(1, { points: newPoints });
+
+      res.json({ 
+        success: true, 
+        newPoints,
+        message: "Points added successfully" 
+      });
+    } catch (error: any) {
+      console.error("Points purchase error:", error);
+      res.status(500).json({ 
+        message: "Error processing purchase: " + error.message 
+      });
     }
   });
 
