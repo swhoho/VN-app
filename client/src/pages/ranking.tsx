@@ -139,22 +139,22 @@ export default function Ranking() {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-slate-800 text-sm truncate">
+                    <h4 className="font-semibold text-slate-900 dark:text-slate-100 text-sm truncate">
                       {ranking.item.title}
                     </h4>
-                    <p className="text-xs text-slate-500 mt-1">
-                      {ranking.item.tags[0]} • {ranking.item.viewCount} Views
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                      {ranking.item.tags[0]} • {ranking.item.viewCount.toLocaleString()} Views
                     </p>
                     <div className="flex items-center space-x-3 mt-2">
                       <div className="flex items-center space-x-1">
                         <Heart className="w-3 h-3 text-red-400 fill-current" />
-                        <span className="text-xs text-slate-500">
+                        <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">
                           {(ranking.item.likeCount / 1000).toFixed(0)}K
                         </span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                        <span className="text-xs text-slate-500">
+                        <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">
                           {ranking.item.rating}
                         </span>
                       </div>
