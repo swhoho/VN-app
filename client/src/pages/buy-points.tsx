@@ -72,7 +72,7 @@ const pointsPackages: PointsPackage[] = [
 
 export default function BuyPoints() {
   const [selectedPackage, setSelectedPackage] = useState<PointsPackage | null>(null);
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -91,7 +91,7 @@ export default function BuyPoints() {
         description: "Points have been added to your account!",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      navigate("/my-page");
+      setLocation("/my-page");
     },
     onError: (error) => {
       toast({
@@ -139,7 +139,7 @@ export default function BuyPoints() {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => navigate("/my-page")}
+          onClick={() => setLocation("/my-page")}
           className="p-2"
         >
           <ArrowLeft className="w-5 h-5" />

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,6 +35,7 @@ export default function MyPage() {
   const { language } = useLanguage();
   const [notifications, setNotifications] = useState(true);
   const { theme, setTheme } = useTheme();
+  const [, setLocation] = useLocation();
 
   // Show login page if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -58,8 +60,7 @@ export default function MyPage() {
   };
 
   const handleBuyPoints = () => {
-    const event = new CustomEvent('show-coming-soon');
-    window.dispatchEvent(event);
+    setLocation("/buy-points");
   };
 
   if (isLoading) {

@@ -25,6 +25,7 @@ function Router() {
       <Route path="/my-page" component={MyPage} />
       <Route path="/search" component={Search} />
       <Route path="/login" component={Login} />
+      <Route path="/buy-points" component={BuyPoints} />
       <Route path="/novel/:id" component={NovelDetail} />
       <Route component={NotFound} />
     </Switch>
