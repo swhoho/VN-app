@@ -27,7 +27,13 @@ export default function Home() {
 
   const filteredItems = items?.filter(item => 
     selectedGenre === "All" || item.tags.includes(selectedGenre)
-  ).sort(() => Math.random() - 0.5) || [];
+  ).sort((a, b) => {
+    // featured 아이템들을 맨 앞에 표시
+    if (a.featured && !b.featured) return -1;
+    if (b.featured && !a.featured) return 1;
+    // 나머지는 랜덤 순서로 표시
+    return Math.random() - 0.5;
+  }) || [];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -239,6 +245,13 @@ export default function Home() {
                         <span className="text-xs text-white font-medium">{item.rating}</span>
                       </div>
                     </div>
+                    {item.featured && (
+                      <div className="absolute top-2 left-2">
+                        <Badge className="bg-pink-500/90 hover:bg-pink-500 text-white text-xs">
+                          {getTranslation('featured', language)}
+                        </Badge>
+                      </div>
+                    )}
                   </div>
                   
                   {/* 콘텐츠 섹션 */}
