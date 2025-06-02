@@ -259,7 +259,7 @@ export default function Home() {
                     <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 line-clamp-1 mb-1">
                       {getItemTranslation(item.title, 'title', language)}
                     </h4>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed h-8">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed min-h-[2rem] max-h-[2rem] overflow-hidden">
                       {item.description && item.description.length > 120 ? item.description.slice(0, 120) + '...' : item.description || 'No description available'}
                     </p>
                     
