@@ -259,8 +259,8 @@ export default function Home() {
                     <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 line-clamp-1 mb-1">
                       {getItemTranslation(item.title, 'title', language)}
                     </h4>
-                    <div 
-                      className="text-xs text-slate-600 dark:text-slate-400 mb-2 leading-[1.3] min-h-[2.6rem] max-h-[2.6rem] overflow-y-auto cursor-pointer select-none"
+                    <p 
+                      className="text-xs text-slate-600 dark:text-slate-400 mb-2 leading-[1.3] min-h-[2.6rem] max-h-[2.6rem] scrollable-description"
                       onClick={(e) => {
                         e.stopPropagation();
                       }}
@@ -272,7 +272,7 @@ export default function Home() {
                       }}
                     >
                       {item.description || 'No description available'}
-                    </div>
+                    </p>
                     
                     {/* 태그들 */}
                     <div className="flex flex-wrap gap-1 mb-2">
