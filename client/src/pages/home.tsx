@@ -260,7 +260,7 @@ export default function Home() {
                       {getItemTranslation(item.title, 'title', language)}
                     </h4>
                     <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed h-8">
-                      {getItemTranslation(item.title, 'description', language).slice(0, 120)}{getItemTranslation(item.title, 'description', language).length > 120 ? '...' : ''}
+                      {item.description && item.description.length > 120 ? item.description.slice(0, 120) + '...' : item.description || 'No description available'}
                     </p>
                     
                     {/* 태그들 */}
