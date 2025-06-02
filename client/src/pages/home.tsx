@@ -270,6 +270,11 @@ export default function Home() {
                       onTouchStart={(e) => {
                         e.stopPropagation();
                       }}
+                      onWheel={(e) => {
+                        e.stopPropagation();
+                        const element = e.currentTarget;
+                        element.scrollTop += e.deltaY;
+                      }}
                     >
                       {item.description || 'No description available'}
                     </p>
