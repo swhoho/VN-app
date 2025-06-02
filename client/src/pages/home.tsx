@@ -259,7 +259,45 @@ export default function Home() {
                     <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 line-clamp-1 mb-1">
                       {getItemTranslation(item.title, 'title', language)}
                     </h4>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-[1.3] min-h-[2.6rem] max-h-[2.6rem] overflow-hidden">
+                    <p 
+                      className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-[1.3] min-h-[2.6rem] max-h-[2.6rem] overflow-hidden cursor-pointer select-none"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        const startY = e.clientY;
+                        const startScrollY = window.pageYOffset;
+                        
+                        const handleMouseMove = (moveEvent: MouseEvent) => {
+                          const deltaY = moveEvent.clientY - startY;
+                          window.scrollTo(0, startScrollY - deltaY);
+                        };
+                        
+                        const handleMouseUp = () => {
+                          document.removeEventListener('mousemove', handleMouseMove);
+                          document.removeEventListener('mouseup', handleMouseUp);
+                        };
+                        
+                        document.addEventListener('mousemove', handleMouseMove);
+                        document.addEventListener('mouseup', handleMouseUp);
+                      }}
+                      onTouchStart={(e) => {
+                        e.preventDefault();
+                        const startY = e.touches[0].clientY;
+                        const startScrollY = window.pageYOffset;
+                        
+                        const handleTouchMove = (moveEvent: TouchEvent) => {
+                          const deltaY = moveEvent.touches[0].clientY - startY;
+                          window.scrollTo(0, startScrollY - deltaY);
+                        };
+                        
+                        const handleTouchEnd = () => {
+                          document.removeEventListener('touchmove', handleTouchMove);
+                          document.removeEventListener('touchend', handleTouchEnd);
+                        };
+                        
+                        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+                        document.addEventListener('touchend', handleTouchEnd);
+                      }}
+                    >
                       {item.description && item.description.length > 120 ? item.description.slice(0, 120) + '...' : item.description || 'No description available'}
                     </p>
                     
