@@ -7,36 +7,29 @@ export function useAuth() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
-    let isMounted = true;
+    // Temporary test user for preview
+    const testUser = {
+      id: 4,
+      username: "Test User",
+      email: "test@example.com",
+      provider: "google",
+      providerId: "test123",
+      profileImageUrl: "https://via.placeholder.com/150",
+      points: 1250,
+      membershipType: "premium",
+      storiesRead: 15,
+      chaptersRead: 47,
+      readingTimeHours: "12.5",
+      favoritesCount: 8,
+      currentStreak: 5,
+      createdAt: "2024-01-01"
+    };
     
-    const checkAuth = async () => {
-      try {
-        const response = await fetch("/api/auth/me", {
-          credentials: "include",
-        });
-        
-        if (isMounted) {
-          if (response.ok) {
-            const userData = await response.json();
-            setUser(userData);
-          } else {
-            setUser(null);
-          }
-          setIsLoading(false);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setUser(null);
-          setIsLoading(false);
-        }
-      }
-    };
-
-    checkAuth();
-
-    return () => {
-      isMounted = false;
-    };
+    // Simulate loading delay
+    setTimeout(() => {
+      setUser(testUser as any);
+      setIsLoading(false);
+    }, 500);
   }, []);
 
   const loginWithGoogle = () => {
