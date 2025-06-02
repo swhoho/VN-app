@@ -57,9 +57,9 @@ export default function Home() {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
+    const walk = (x - startX) * 0.8; // 민감도 낮춤
     
-    if (Math.abs(walk) > 3) {
+    if (Math.abs(walk) > 2) { // 임계값 낮춤
       setHasMoved(true);
     }
     
@@ -78,9 +78,9 @@ export default function Home() {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
     const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5;
+    const walk = (x - startX) * 0.6; // 터치 민감도 더 낮춤
     
-    if (Math.abs(walk) > 3) {
+    if (Math.abs(walk) > 2) { // 임계값 낮춤
       setHasMoved(true);
     }
     
@@ -155,9 +155,9 @@ export default function Home() {
               if (!isDragging || !scrollRef.current) return;
               e.preventDefault();
               const x = e.pageX - scrollRef.current.offsetLeft;
-              const walk = (x - startX) * 2;
+              const walk = (x - startX) * 0.8;
               
-              if (Math.abs(walk) > 3) {
+              if (Math.abs(walk) > 2) {
                 setHasMoved(true);
               }
               
@@ -180,9 +180,9 @@ export default function Home() {
               if (!isDragging || !scrollRef.current) return;
               e.preventDefault();
               const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-              const walk = (x - startX) * 1.5;
+              const walk = (x - startX) * 0.6;
               
-              if (Math.abs(walk) > 3) {
+              if (Math.abs(walk) > 2) {
                 setHasMoved(true);
               }
               
