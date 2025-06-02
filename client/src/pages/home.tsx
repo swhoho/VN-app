@@ -20,9 +20,6 @@ export default function Home() {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [hasMoved, setHasMoved] = useState(false);
-  
-  // Description scroll states
-  const [descScrollStates, setDescScrollStates] = useState<{[key: number]: {isDragging: boolean, startX: number, scrollLeft: number, hasMoved: boolean}}>({});
 
   const { data: items, isLoading } = useQuery<Item[]>({
     queryKey: ["/api/items"],
@@ -262,102 +259,9 @@ export default function Home() {
                     <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 line-clamp-1 mb-1">
                       {getItemTranslation(item.title, 'title', language)}
                     </h4>
-                    <div 
-                      className="text-xs text-slate-600 dark:text-slate-400 mb-2 leading-[1.3] min-h-[2.6rem] max-h-[2.6rem] overflow-x-auto overflow-y-hidden cursor-grab active:cursor-grabbing"
-                      style={{
-                        scrollSnapType: 'x proximity',
-                        userSelect: 'none',
-                        WebkitOverflowScrolling: 'touch',
-                      }}
-                      onMouseDown={(e) => {
-                        const element = e.currentTarget;
-                        const state = {
-                          isDragging: true,
-                          startX: e.pageX - element.offsetLeft,
-                          scrollLeft: element.scrollLeft,
-                          hasMoved: false
-                        };
-                        setDescScrollStates(prev => ({ ...prev, [item.id]: state }));
-                      }}
-                      onMouseMove={(e) => {
-                        const state = descScrollStates[item.id];
-                        if (!state?.isDragging) return;
-                        e.preventDefault();
-                        const element = e.currentTarget;
-                        const x = e.pageX - element.offsetLeft;
-                        const walk = (x - state.startX) * 2;
-                        
-                        if (Math.abs(walk) > 3) {
-                          setDescScrollStates(prev => ({ 
-                            ...prev, 
-                            [item.id]: { ...state, hasMoved: true }
-                          }));
-                        }
-                        
-                        element.scrollLeft = state.scrollLeft - walk;
-                      }}
-                      onMouseUp={() => {
-                        setDescScrollStates(prev => {
-                          const state = prev[item.id];
-                          if (!state) return prev;
-                          return { 
-                            ...prev, 
-                            [item.id]: { ...state, isDragging: false }
-                          };
-                        });
-                      }}
-                      onMouseLeave={() => {
-                        setDescScrollStates(prev => {
-                          const state = prev[item.id];
-                          if (!state) return prev;
-                          return { 
-                            ...prev, 
-                            [item.id]: { ...state, isDragging: false }
-                          };
-                        });
-                      }}
-                      onTouchStart={(e) => {
-                        const element = e.currentTarget;
-                        const state = {
-                          isDragging: true,
-                          startX: e.touches[0].pageX - element.offsetLeft,
-                          scrollLeft: element.scrollLeft,
-                          hasMoved: false
-                        };
-                        setDescScrollStates(prev => ({ ...prev, [item.id]: state }));
-                      }}
-                      onTouchMove={(e) => {
-                        const state = descScrollStates[item.id];
-                        if (!state?.isDragging) return;
-                        e.preventDefault();
-                        const element = e.currentTarget;
-                        const x = e.touches[0].pageX - element.offsetLeft;
-                        const walk = (x - state.startX) * 1.5;
-                        
-                        if (Math.abs(walk) > 3) {
-                          setDescScrollStates(prev => ({ 
-                            ...prev, 
-                            [item.id]: { ...state, hasMoved: true }
-                          }));
-                        }
-                        
-                        element.scrollLeft = state.scrollLeft - walk;
-                      }}
-                      onTouchEnd={() => {
-                        setDescScrollStates(prev => {
-                          const state = prev[item.id];
-                          if (!state) return prev;
-                          return { 
-                            ...prev, 
-                            [item.id]: { ...state, isDragging: false }
-                          };
-                        });
-                      }}
-                    >
-                      <div className="whitespace-nowrap">
-                        {item.description || 'No description available'}
-                      </div>
-                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-[1.3] min-h-[2.6rem] max-h-[2.6rem] overflow-hidden">
+                      {item.description && item.description.length > 120 ? item.description.slice(0, 120) + '...' : item.description || 'No description available'}
+                    </p>
                     
                     {/* 태그들 */}
                     <div className="flex flex-wrap gap-1 mb-2">
