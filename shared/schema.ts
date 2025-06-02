@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, decimal, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -41,6 +41,27 @@ export const rankings = pgTable("rankings", {
   weeklyViews: integer("weekly_views").notNull().default(0),
 });
 
+export const pointsPackages = pgTable("points_packages", {
+  id: serial("id").primaryKey(),
+  price: decimal("price").notNull(),
+  points: integer("points").notNull(),
+  title: text("title").notNull(),
+  isPopular: boolean("is_popular").default(false),
+  discountPercent: integer("discount_percent").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const pointsPurchases = pgTable("points_purchases", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  packageId: integer("package_id").notNull().references(() => pointsPackages.id),
+  amount: decimal("amount").notNull(),
+  points: integer("points").notNull(),
+  status: varchar("status").notNull().default("pending"),
+  paymentIntentId: varchar("payment_intent_id"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
 });
@@ -53,9 +74,23 @@ export const insertRankingSchema = createInsertSchema(rankings).omit({
   id: true,
 });
 
+export const insertPointsPackageSchema = createInsertSchema(pointsPackages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertPointsPurchaseSchema = createInsertSchema(pointsPurchases).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertItem = z.infer<typeof insertItemSchema>;
 export type Item = typeof items.$inferSelect;
 export type InsertRanking = z.infer<typeof insertRankingSchema>;
 export type Ranking = typeof rankings.$inferSelect;
+export type InsertPointsPackage = z.infer<typeof insertPointsPackageSchema>;
+export type PointsPackage = typeof pointsPackages.$inferSelect;
+export type InsertPointsPurchase = z.infer<typeof insertPointsPurchaseSchema>;
+export type PointsPurchase = typeof pointsPurchases.$inferSelect;

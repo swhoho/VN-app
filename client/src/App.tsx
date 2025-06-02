@@ -12,6 +12,7 @@ import MyPage from "@/pages/my-page";
 import NovelDetail from "@/pages/novel-detail";
 import Search from "@/pages/search";
 import Login from "@/pages/login";
+import BuyPoints from "@/pages/buy-points";
 import Header from "@/components/header";
 import BottomNavigation from "@/components/bottom-navigation";
 import ComingSoonModal from "@/components/coming-soon-modal";
