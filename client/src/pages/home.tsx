@@ -283,17 +283,7 @@ export default function Home() {
                         </Badge>
                       )}
                     </div>
-                    
-                    {/* 통계 */}
-                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-1">
-                          <Heart className="w-3 h-3 text-red-400 fill-current" />
-                          <span>{(item.likeCount / 1000).toFixed(1)}K</span>
-                        </div>
-                        <span>{item.viewCount.toLocaleString()} views</span>
-                      </div>
-                    </div>
+
                   </div>
                 </Card>
               </motion.div>
