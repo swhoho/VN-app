@@ -29,8 +29,8 @@ export default function Ranking() {
     );
   }
 
-  const topRanked = rankings?.[0];
-  const otherRankings = rankings?.slice(1) || [];
+  // 모든 랭킹을 동일한 UI로 표시
+  const allRankings = rankings || [];
 
   const getRankColor = (rank: number) => {
     switch (rank) {
@@ -64,113 +64,71 @@ export default function Ranking() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-6">
-      {/* #1 Spotlight */}
-      {topRanked && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative mb-6 rounded-2xl overflow-hidden h-48 cursor-pointer"
-          onClick={() => window.location.href = `/novel/${topRanked.item.id}`}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600" />
-          <img 
-            src={topRanked.item.image} 
-            alt={topRanked.item.title}
-            className="w-full h-full object-cover object-top opacity-90"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <div className="absolute top-4 left-4">
-            <div className="flex items-center justify-center w-12 h-12 bg-yellow-400 rounded-full">
-              <span className="text-xl font-bold text-yellow-900">1</span>
-            </div>
-          </div>
-          <div className="absolute bottom-6 left-6 text-white">
-            <Badge className="mb-2 bg-white/20 hover:bg-white/30">
-              Most Popular
-            </Badge>
-            <h2 className="text-xl font-bold mb-1">{topRanked.item.title}</h2>
-            <p className="text-sm opacity-90 mb-2">
-              {topRanked.item.description.slice(0, 80)}...
-            </p>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-1">
-                <Heart className="w-4 h-4 text-red-400 fill-current" />
-                <span className="text-sm">{(topRanked.item.likeCount / 1000).toFixed(1)}K</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="text-sm">{topRanked.item.rating}</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Rankings List */}
+      <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Weekly Rankings</h3>
+      
+      {/* All Rankings with Large Image UI */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="space-y-3"
+        className="space-y-4"
       >
-        <h3 className="text-lg font-semibold text-slate-800 mb-4">Weekly Rankings</h3>
-        
-        {otherRankings.map((ranking, index) => (
+        {allRankings.map((ranking, index) => (
           <motion.div
             key={ranking.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
+            className="relative rounded-2xl overflow-hidden h-48 cursor-pointer"
+            onClick={() => window.location.href = `/novel/${ranking.item.id}`}
           >
-            <Card 
-              className="cursor-pointer hover:shadow-md transition-shadow"
-              onClick={() => window.location.href = `/novel/${ranking.item.id}`}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-4">
-                  <div className={`flex items-center justify-center w-8 h-8 ${getRankColor(ranking.rank)} text-white rounded-full font-bold text-sm`}>
-                    {ranking.rank}
-                  </div>
-                  <div className="w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden">
-                    <img 
-                      src={ranking.item.image} 
-                      alt={ranking.item.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-slate-800 text-sm truncate">
-                      {ranking.item.title}
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-1">
-                      {ranking.item.tags[0]} • {ranking.item.viewCount} Views
-                    </p>
-                    <div className="flex items-center space-x-3 mt-2">
-                      <div className="flex items-center space-x-1">
-                        <Heart className="w-3 h-3 text-red-400 fill-current" />
-                        <span className="text-xs text-slate-500">
-                          {(ranking.item.likeCount / 1000).toFixed(0)}K
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                        <span className="text-xs text-slate-500">
-                          {ranking.item.rating}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right flex flex-col items-center">
-                    <div className="flex items-center space-x-1">
-                      {getTrendIcon(ranking.rank, ranking.previousRank)}
-                      <span className="text-xs font-medium">
-                        {getTrendText(ranking.rank, ranking.previousRank)}
-                      </span>
-                    </div>
-                  </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600" />
+            <img 
+              src={ranking.item.image} 
+              alt={ranking.item.title}
+              className="w-full h-full object-cover object-top opacity-90"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            
+            {/* Rank Badge */}
+            <div className="absolute top-4 left-4">
+              <div className={`flex items-center justify-center w-12 h-12 ${getRankColor(ranking.rank)} rounded-full`}>
+                <span className="text-xl font-bold text-white">{ranking.rank}</span>
+              </div>
+            </div>
+            
+            {/* Trend Indicator */}
+            <div className="absolute top-4 right-4">
+              <div className="flex items-center space-x-1 bg-black/20 backdrop-blur-sm rounded-full px-2 py-1">
+                {getTrendIcon(ranking.rank, ranking.previousRank)}
+                <span className="text-xs text-white font-medium">
+                  {getTrendText(ranking.rank, ranking.previousRank)}
+                </span>
+              </div>
+            </div>
+            
+            {/* Content */}
+            <div className="absolute bottom-6 left-6 text-white">
+              <Badge className="mb-2 bg-white/20 hover:bg-white/30">
+                {ranking.rank === 1 ? "Most Popular" : `Rank #${ranking.rank}`}
+              </Badge>
+              <h2 className="text-xl font-bold mb-1">{ranking.item.title}</h2>
+              <p className="text-sm opacity-90 mb-2">
+                {ranking.item.description.slice(0, 80)}...
+              </p>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-1">
+                  <Heart className="w-4 h-4 text-red-400 fill-current" />
+                  <span className="text-sm">{(ranking.item.likeCount / 1000).toFixed(1)}K</span>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex items-center space-x-1">
+                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                  <span className="text-sm">{ranking.item.rating}</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span className="text-xs opacity-75">{ranking.item.viewCount.toLocaleString()} views</span>
+                </div>
+              </div>
+            </div>
           </motion.div>
         ))}
       </motion.div>
