@@ -27,6 +27,10 @@ export default function Home() {
 
   const { data: featuredItems } = useQuery<Item[]>({
     queryKey: ["/api/items/featured"],
+    retry: false,
+    meta: {
+      errorPolicy: 'ignore'
+    }
   });
 
   const filteredItems = items?.filter(item => 
@@ -39,7 +43,8 @@ export default function Home() {
     return Math.random() - 0.5;
   }) || [];
 
-  const featuredItem = featuredItems?.[0];
+  // Get featured item from main items list if featured API fails
+  const featuredItem = featuredItems?.[0] || items?.find(item => item.featured);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;

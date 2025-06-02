@@ -87,9 +87,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/items/featured", async (req, res) => {
     try {
       const items = await storage.getFeaturedItems();
+      console.log("Featured items fetched:", items.length);
       res.json(items);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch featured items" });
+      console.error("Featured items error:", error);
+      res.status(500).json({ message: "Failed to fetch featured items", error: error.message });
     }
   });
 
