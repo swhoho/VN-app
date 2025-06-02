@@ -96,7 +96,6 @@ export default function MyPage() {
           </CardContent>
         </Card>
       </motion.div>
-
       {/* Membership Status */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -134,7 +133,6 @@ export default function MyPage() {
           </CardContent>
         </Card>
       </motion.div>
-
       {/* Points & Stats Grid */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -174,7 +172,6 @@ export default function MyPage() {
           </CardContent>
         </Card>
       </motion.div>
-
       {/* Reading Statistics */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -218,9 +215,6 @@ export default function MyPage() {
           </CardContent>
         </Card>
       </motion.div>
-
-
-
       {/* Settings */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -236,7 +230,7 @@ export default function MyPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-slate-700">Notifications</span>
+              <span className="text-[e2e8f0]">Notifications</span>
               <Switch 
                 checked={notifications} 
                 onCheckedChange={setNotifications}
