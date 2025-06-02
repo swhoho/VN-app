@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,26 +25,9 @@ export default function Home() {
     queryKey: ["/api/items"],
   });
 
-  const { data: featuredItems } = useQuery<Item[]>({
-    queryKey: ["/api/items/featured"],
-    retry: false,
-    meta: {
-      errorPolicy: 'ignore'
-    }
-  });
-
   const filteredItems = items?.filter(item => 
     selectedGenre === "All" || item.tags.includes(selectedGenre)
-  ).sort((a, b) => {
-    // featured 아이템들을 맨 앞에 표시
-    if (a.featured && !b.featured) return -1;
-    if (b.featured && !a.featured) return 1;
-    // 나머지는 랜덤 순서로 표시
-    return Math.random() - 0.5;
-  }) || [];
-
-  // Get featured item from main items list if featured API fails
-  const featuredItem = featuredItems?.[0] || items?.find(item => item.featured);
+  ).sort(() => Math.random() - 0.5) || [];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -59,6 +42,9 @@ export default function Home() {
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setTimeout(() => {
+      setHasMoved(false);
+    }, 100);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -66,6 +52,11 @@ export default function Home() {
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
     const walk = (x - startX) * 2;
+    
+    if (Math.abs(walk) > 3) {
+      setHasMoved(true);
+    }
+    
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -79,11 +70,10 @@ export default function Home() {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging || !scrollRef.current) return;
-    e.preventDefault(); // 스크롤 중단 방지
+    e.preventDefault();
     const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5; // 스크롤 속도 조정
+    const walk = (x - startX) * 1.5;
     
-    // 움직임이 3px 이상이면 스크롤로 인식 (민감도 향상)
     if (Math.abs(walk) > 3) {
       setHasMoved(true);
     }
@@ -93,7 +83,6 @@ export default function Home() {
 
   const handleTouchEnd = () => {
     setIsDragging(false);
-    // 터치 종료 후 잠시 후 hasMoved 상태 리셋
     setTimeout(() => {
       setHasMoved(false);
     }, 100);
@@ -102,15 +91,14 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="max-w-md mx-auto px-4 py-6">
-        <Skeleton className="h-48 w-full rounded-2xl mb-6" />
         <div className="flex space-x-3 mb-6">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-8 w-16 rounded-full" />
+            <Skeleton key={i} className="h-8 w-20 rounded-full" />
           ))}
         </div>
         <div className="grid grid-cols-2 gap-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-60 w-full rounded-xl" />
+            <Skeleton key={i} className="aspect-[832/1216] rounded-lg" />
           ))}
         </div>
       </div>
@@ -119,33 +107,6 @@ export default function Home() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-6">
-      {/* Featured Banner */}
-      {featuredItem && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative mb-6 rounded-2xl overflow-hidden h-48 cursor-pointer"
-          onClick={() => window.location.href = `/novel/${featuredItem.id}`}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600" />
-          <img 
-            src={featuredItem.image} 
-            alt={featuredItem.title}
-            className="w-full h-full object-cover opacity-80"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-6 left-6 text-white">
-            <Badge className="mb-2 bg-pink-500/80 hover:bg-pink-500/90">
-              {getTranslation('featured', language)}
-            </Badge>
-            <h2 className="text-xl font-bold mb-1">{getItemTranslation(featuredItem.title, 'title', language)}</h2>
-            <p className="text-sm opacity-90">
-              {getItemTranslation(featuredItem.title, 'description', language).slice(0, 50)}...
-            </p>
-          </div>
-        </motion.div>
-      )}
-
       {/* Genre Filter */}
       <div 
         ref={scrollRef}
@@ -173,13 +134,11 @@ export default function Home() {
             style={{ scrollSnapAlign: 'start' }}
             onClick={(e) => {
               e.stopPropagation();
-              // 스크롤 중이 아닐 때만 장르 변경
               if (!hasMoved) {
                 setSelectedGenre(genre);
               }
             }}
             onMouseDown={(e) => {
-              // 마우스 이벤트는 부모로 전파하여 스크롤 가능하게 함
               if (!scrollRef.current) return;
               setIsDragging(true);
               setHasMoved(false);
@@ -187,7 +146,6 @@ export default function Home() {
               setScrollLeft(scrollRef.current.scrollLeft);
             }}
             onMouseMove={(e) => {
-              // 버튼에서 시작된 마우스 이동도 스크롤로 처리
               if (!isDragging || !scrollRef.current) return;
               e.preventDefault();
               const x = e.pageX - scrollRef.current.offsetLeft;
@@ -206,7 +164,6 @@ export default function Home() {
               }, 100);
             }}
             onTouchStart={(e) => {
-              // 터치 이벤트를 부모로 전파하여 스크롤 가능하게 함
               if (!scrollRef.current) return;
               setIsDragging(true);
               setHasMoved(false);
@@ -214,7 +171,6 @@ export default function Home() {
               setScrollLeft(scrollRef.current.scrollLeft);
             }}
             onTouchMove={(e) => {
-              // 버튼에서 시작된 터치 이동도 스크롤로 처리
               if (!isDragging || !scrollRef.current) return;
               e.preventDefault();
               const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
@@ -229,11 +185,9 @@ export default function Home() {
             onTouchEnd={(e) => {
               e.stopPropagation();
               setIsDragging(false);
-              // 스크롤 중이 아닐 때만 장르 변경
               if (!hasMoved) {
                 setSelectedGenre(genre);
               }
-              // 상태 리셋
               setTimeout(() => {
                 setHasMoved(false);
               }, 100);
