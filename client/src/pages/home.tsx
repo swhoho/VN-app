@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star, Heart } from "lucide-react";
+import { Star } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation, getItemTranslation } from "@/lib/i18n";
 import type { Item } from "@shared/schema";
@@ -25,74 +25,78 @@ export default function Home() {
     queryKey: ["/api/items"],
   });
 
-  const filteredItems = items?.filter(item => 
-    selectedGenre === "All" || item.tags.includes(selectedGenre)
-  ).sort((a, b) => {
-    // featured 아이템들을 맨 앞에 표시
-    if (a.featured && !b.featured) return -1;
-    if (b.featured && !a.featured) return 1;
-    // 나머지는 랜덤 순서로 표시
-    return Math.random() - 0.5;
-  }) || [];
+  const filteredItems = useMemo(() => {
+    if (!items) return [];
+    
+    return items
+      .filter(item => selectedGenre === "All" || item.tags.includes(selectedGenre))
+      .sort((a, b) => {
+        // featured 아이템들을 맨 앞에 표시
+        if (a.featured && !b.featured) return -1;
+        if (b.featured && !a.featured) return 1;
+        // 나머지는 랜덤 순서로 표시
+        return Math.random() - 0.5;
+      });
+  }, [items, selectedGenre]);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
     setStartX(e.pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setIsDragging(false);
-  };
+  }, []);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsDragging(false);
     setTimeout(() => {
       setHasMoved(false);
     }, 100);
-  };
+  }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 0.8; // 민감도 낮춤
+    const walk = (x - startX) * 0.8;
     
-    if (Math.abs(walk) > 2) { // 임계값 낮춤
+    if (Math.abs(walk) > 2) {
       setHasMoved(true);
     }
     
     scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
+  }, [isDragging, startX, scrollLeft]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (!scrollRef.current) return;
     setIsDragging(true);
     setHasMoved(false);
     setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
-  };
+  }, []);
 
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
     const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 0.6; // 터치 민감도 더 낮춤
+    const walk = (x - startX) * 0.6;
     
-    if (Math.abs(walk) > 2) { // 임계값 낮춤
+    if (Math.abs(walk) > 2) {
       setHasMoved(true);
     }
     
     scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
+  }, [isDragging, startX, scrollLeft]);
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
     setTimeout(() => {
       setHasMoved(false);
     }, 100);
-  };
+  }, []);
 
   if (isLoading) {
     return (
