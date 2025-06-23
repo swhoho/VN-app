@@ -7,14 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Play, Bookmark, Share2, Star, Heart } from "lucide-react";
-import type { Novel } from "@shared/schema";
+import type { Item } from "@shared/schema";
+import SEOHead from "@/components/seo-head";
 
 export default function NovelDetail() {
   const [, params] = useRoute("/novel/:id");
   const novelId = parseInt(params?.id || "0");
 
-  const { data: novel, isLoading } = useQuery<Novel>({
-    queryKey: ["/api/novels", novelId],
+  const { data: novel, isLoading } = useQuery<Item>({
+    queryKey: ["/api/items", novelId],
     enabled: !!novelId,
   });
 
@@ -62,6 +63,14 @@ export default function NovelDetail() {
       animate={{ opacity: 1 }}
       className="max-w-md mx-auto bg-white min-h-screen"
     >
+      <SEOHead 
+        title={`${novel.title} - Visual Novel | Visual Novel Hub`}
+        description={`Read ${novel.title} - ${novel.description.slice(0, 150)}... Join thousands of readers enjoying this visual novel on Visual Novel Hub.`}
+        url={`https://visual-novel-hub.replit.app/novel/${novel.id}`}
+        image={novel.image}
+        type="article"
+        keywords={`${novel.title}, visual novel, interactive story, ${novel.tags?.join(', ')}`}
+      />
       {/* Header with Cover */}
       <div className="relative h-64 overflow-hidden">
         <img 
