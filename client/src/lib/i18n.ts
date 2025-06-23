@@ -805,7 +805,49 @@ export const translations = {
     comingSoonMessage: "यह सुविधा विकास में है। अपडेट के लिए बने रहें!",
     gotIt: "समझ गया!",
     language: "भाषा",
-    selectLanguage: "भाषा चुनें"
+    selectLanguage: "भाषा चुनें",
+    items: {
+      "Neon Dreams": {
+        title: "नियॉन सपने",
+        description: "साइबरपंक भविष्य में, एक हैकर मानवता को धमकाने वाली साजिश की खोज करता है। नियॉन-प्रकाशित सड़कों और डिजिटल नेटवर्क के माध्यम से, कॉर्पोरेट मुखौटों के पीछे छुपे सच को उजागर करें।"
+      },
+      "Shadow Detective": {
+        title: "छाया जासूस",
+        description: "अलौकिक क्षमताओं वाला एक जासूस अंधेरी भूमिगत दुनिया में अपराध सुलझाता है। प्रत्येक मामला इस नॉयर शैली के थ्रिलर में अच्छाई और बुराई की प्रकृति के बारे में गहरी रहस्य को उजागर करता है।"
+      },
+      "Royal Deception": {
+        title: "शाही धोखा",
+        description: "मध्यकालीन फंतासी राज्य में दरबारी षड्यंत्र और निषिद्ध रोमांस। आपकी पसंद राज्य की नियति और उन लोगों के दिलों को निर्धारित करेगी जिनसे आप मिलते हैं।"
+      },
+      "Autumn Reverie": {
+        title: "शरद ऋतु का सपना",
+        description: "कायदे असाकुरा की कहानी, एक शांत छात्रा जो पत्तियों के बदलने के मौसम में मेपलवुड हाई स्कूल में स्थानांतरित होती है। जब सुनहरे पत्ते धीरे से सरसराते हैं, तो वह अपने नाम के रहस्यमय पोस्टकार्ड पाती है। प्रत्येक पोस्टकार्ड भूले हुए यादों और न कहे गए वादों का संकेत देता है। शाखित कहानियों के माध्यम से कायदे का मार्गदर्शन करें, सहपाठियों के साथ गहरे रिश्ते बनाएं, छुपे हुए अतीत को उजागर करें, और तय करें कि दोस्ती की गर्माहट को अपनाना है या शरद ऋतु के एकांत में वापस जाना है।"
+      },
+      "Rebel's Twilight Confession": {
+        title: "विद्रोही की संध्या स्वीकारोक्ति",
+        description: "संध्या के अंतिम क्षणों में, स्कूल की सबसे कुख्यात विद्रोही के साथ खतरनाक रोमांस का अनुभव करें। इस विज़ुअल नॉवेल में, आपकी ईमानदार पसंद तय करेगी कि क्या उसका कठोर बाहरी रूप टूटेगा और भीतरी गर्माहट प्रकट होगी। क्या आप अंतिम घंटी बजने से पहले उसका विश्वास जीत सकते हैं?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "सेराफ डॉन: अंतिम संघर्ष",
+        description: "रहस्यमय कैंसर खतरे से तबाह हुई दुनिया में, आप एलीट सेराफ पायलटों में से एक बनते हैं—मानवता की अंतिम आशा। भोर में बारिश से भीगे रनवे पर खड़े होकर, अपना हेलमेट पकड़े हुए जबकि आपके पीछे विशाल मेका युद्ध की तैयारी कर रहा है। आपकी पसंद भारी बाधाओं के खिलाफ लड़ाई को आकार देगी और आपके दृढ़ संकल्प में छुपे साहस को प्रकट करेगी।"
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "सेराफ संध्या: सांझ की लड़ाई",
+        description: "संध्या में ढहते शहरी परिदृश्य के बीच, आप सेराफ पायलट के रूप में खड़े हैं—मानवता की अंतिम रक्षा पंक्ति। बारिश से भीगी सड़कें नियॉन होलो विज्ञापनों को दर्शाती हैं जबकि आपके पीछे विशाल मेका अंतिम मिशन की तैयारी कर रहा है। अपनी राइफल को मजबूती से पकड़ें और अपना संकल्प मजबूत करें: आज रात, दुनिया की नियति आपके हाथों में है।"
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "धूप वाले पन्ने: साहित्य क्लब इतिहास",
+        description: "साहित्य क्लब में शामिल हों और चार अनूठे व्यक्तित्वों के साथ दिल छूने वाले क्षणों का अनुभव करें जो कविता, उपन्यास और साझा सपनों के माध्यम से जुड़ते हैं। इस विज़ुअल नॉवेल में, आपकी पसंद दोस्ती को आकार देगी, छुपे हुए जुनून को प्रकट करेगी, और कक्षा में हर उज्ज्वल दोपहर में गर्माहट लाएगी।"
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "संबंध के पन्ने: क्लब रूम के बंधन",
+        description: "साहित्य क्लब के धूप से भरे अभयारण्य में कदम रखें, जहां साझा कहानियां और फुसफुसाए गए सपने अटूट बंधन बनाते हैं। जब आप प्रत्येक सदस्य को उनकी आवाज़ खोजने में मदद करते हैं—चाहे कविता के माध्यम से, गद्य के माध्यम से, या दिल से बातचीत के माध्यम से—आप छुपे हुए रहस्यों को उजागर करेंगे और दोस्तों के इस करीबी दायरे की नियति को आकार देंगे।"
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "क्रिमसन हेलो: सेराफ की धार",
+        description: "सुरुचिपूर्ण सामरिक सूट पहने और चमकदार ब्लेड उठाए, सेराफ पायलट डिस्टोपियन युद्धक्षेत्र के बीच जलते लाल प्रभामंडल के नीचे प्रकट होता है। उसकी अडिग नज़र और बहते चांदी के बाल आने वाले अंधकार के खिलाफ मानवता के अंतिम संकल्प का संकेत देते हैं। हर पसंद तय करेगी कि आशा जलेगी या राख में बदल जाएगी।"
+      }
+    }
   },
   th: {
     appName: "ศูนย์นิยายภาพ",
@@ -838,7 +880,49 @@ export const translations = {
     comingSoonMessage: "คุณสมบัตินี้อยู่ระหว่างการพัฒนา โปรดติดตามการอัปเดต!",
     gotIt: "เข้าใจแล้ว!",
     language: "ภาษา",
-    selectLanguage: "เลือกภาษา"
+    selectLanguage: "เลือกภาษา",
+    items: {
+      "Neon Dreams": {
+        title: "ความฝันนีออน",
+        description: "ในอนาคตไซเบอร์พังค์ แฮกเกอร์ค้นพบแผนการสมรู้ร่วมคิดที่คุกคามมนุษยชาติ ผ่านถนนที่ส่องแสงด้วยนีออนและเครือข่ายดิจิทัล เปิดเผยความจริงที่ซ่อนอยู่เบื้องหลังหน้ากากของบริษัท"
+      },
+      "Shadow Detective": {
+        title: "นักสืบเงา",
+        description: "นักสืบที่มีความสามารถเหนือธรรมชาติแก้ไขอาชญากรรมในโลกใต้ดินที่มืดมน แต่ละคดีเผยให้เห็นความลึกลับที่ลึกซึ้งยิ่งขึ้นเกี่ยวกับธรรมชาติของความดีและความชั่วในเรื่องระทึกขวัญสไตล์นัวร์นี้"
+      },
+      "Royal Deception": {
+        title: "การหลอกลวงของราชวงศ์",
+        description: "การสมรู้ร่วมคิดในราชสำนักและความรักที่ต้องห้ามในอาณาจักรแฟนตาซียุคกลาง ทางเลือกของคุณจะกำหนดชะตากรรมของอาณาจักรและหัวใจของผู้ที่คุณพบ"
+      },
+      "Autumn Reverie": {
+        title: "ความฝันฤดูใบไม้ร่วง",
+        description: "เรื่องราวของคาเอเดะ อาซากุระ นักเรียนเงียบๆ ที่ย้ายไปโรงเรียนมัธยมเมเปิลวูดในช่วงฤดูใบไม้เปลี่ยนสี ขณะที่ใบไม้สีทองกระซิบเบาๆ เธอค้นพบโปสการ์ดลึกลับที่ส่งมาให้เธอ โปสการ์ดแต่ละใบบอกเป็นนัยถึงความทรงจำที่ถูกลืมและคำสัญญาที่ไม่เคยพูด นำทางคาเอเดะผ่านเรื่องราวที่แตกแขนง สร้างสายสัมพันธ์อันลึกซึ้งกับเพื่อนร่วมชั้น เปิดเผยอดีตที่ซ่อนเร้น และตัดสินใจว่าจะโอบกอดความอบอุ่นของมิตรภาพหรือถอยกลับไปสู่ความเหงาของฤดูใบไม้ร่วง"
+      },
+      "Rebel's Twilight Confession": {
+        title: "คำสารภาพของนักกบฏในยามค่ำคืน",
+        description: "ในช่วงเวลาสุดท้ายของค่ำคืน สัมผัสความรักที่เสี่ยงอันตรายกับนักกบฏที่มีชื่อเสียงที่สุดของโรงเรียน ในนิยายภาพนี้ ทางเลือกที่จริงใจของคุณจะกำหนดว่าภายนอกที่หยาบกร้านของเธอจะพังทลายและเผยให้เห็นความอบอุ่นภายในหรือไม่ คุณจะชนะความไว้วางใจของเธอได้ก่อนที่ระฆังสุดท้ายจะดังหรือไม่?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "รุ่งอรุณเซราฟ: การยืนหยัดครั้งสุดท้าย",
+        description: "ในโลกที่ถูกทำลายโดยภัยคุกคามแคนเซอร์ลึกลับ คุณกลายเป็นหนึ่งในนักบินเซราฟชั้นยอด—ความหวังสุดท้ายของมนุษยชาติ ยืนบนทางวิ่งที่เปียกฝนในยามรุ่งอรุณ กำมือหมวกนิรภัยขณะที่เมคาขนาดใหญ่เบื้องหลังคุณเตรียมพร้อมสำหรับการต่อสู้ ทางเลือกของคุณจะหล่อหลอมการต่อสู้กับอุปสรรคที่ท่วมท้นและเผยให้เห็นความกล้าหาญที่ซ่อนอยู่ในความมุ่งมั่นของคุณ"
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "ค่ำคืนเซราฟ: การต่อสู้ยามพลบค่ำ",
+        description: "ท่ามกลางภูมิทัศน์เมืองที่พังทลายในยามค่ำคืน คุณยืนในฐานะนักบินเซราฟ—แนวป้องกันสุดท้ายของมนุษยชาติ ถนนที่เปียกฝนสะท้อนโฆษณาโฮโลนีออนขณะที่เมคาขนาดใหญ่เบื้องหลังคุณเตรียมพร้อมสำหรับภารกิจสุดท้าย จับปืนไรเฟิลให้แน่นและเสริมความมุ่งมั่น: คืนนี้ชะตากรรมของโลกอยู่ในมือของคุณ"
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "หน้ากระดาษแสงแดด: บันทึกชมรมวรรณกรรม",
+        description: "เข้าร่วมชมรมวรรณกรรมและสัมผัสช่วงเวลาที่อบอุ่นใจกับบุคลิกภาพที่มีเอกลักษณ์สี่คนที่เชื่อมโยงกันผ่านบทกวี นิยาย และความฝันที่มีร่วมกัน ในนิยายภาพนี้ ทางเลือกของคุณจะหล่อหลอมมิตรภาพ เปิดเผยความหลงใหลที่ซ่อนเร้น และนำความอบอุ่นมาสู่ทุกบ่ายที่สดใสในห้องเรียน"
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "หน้าแห่งการเชื่อมโยง: สายสัมพันธ์ห้องชมรม",
+        description: "ก้าวเข้าสู่สถานที่ศักดิ์สิทธิ์ของชมรมวรรณกรรมที่แสงแดดส่องผ่าน ที่ซึ่งเรื่องราวที่แบ่งปันและความฝันที่กระซิบสร้างสายสัมพันธ์ที่ขาดไม่ได้ ขณะที่คุณช่วยให้สมาชิกแต่ละคนค้นหาเสียงของตน—ไม่ว่าจะผ่านบทกวี ร้อยแก้ว หรือการสนทนาที่จริงใจ—คุณจะเปิดเผยความลับที่ซ่อนเร้นและหล่อหลอมชะตากรรมของวงเพื่อนสนิทกลุ่มนี้"
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "ร่วงแสงสีแดงเข้ม: ขอบเขตเซราฟ",
+        description: "สวมชุดทางยุทธวิธีที่หรูหราและถือดาบที่เปล่งแสง นักบินเซราฟปรากฏตัวใต้ร่วงแสงสีแดงที่ลุกโชนท่ามกลางสนามรบดิสโทเปีย สายตาที่มั่นคงและผมสีเงินที่ปลิวไสวของเธอส่งสัญญาณถึงความมุ่งมั่นสุดท้ายของมนุษยชาติต่อต้านความมืดมิดที่กำลังมาถึง ทุกทางเลือกจะกำหนดว่าความหวังจะลุกโชนหรือกลายเป็นเถ้าถ่าน"
+      }
+    }
   },
   vi: {
     appName: "Trung Tâm Tiểu Thuyết Hình Ảnh",
@@ -871,7 +955,49 @@ export const translations = {
     comingSoonMessage: "Tính năng này đang được phát triển. Hãy theo dõi các cập nhật!",
     gotIt: "Hiểu rồi!",
     language: "Ngôn Ngữ",
-    selectLanguage: "Chọn Ngôn Ngữ"
+    selectLanguage: "Chọn Ngôn Ngữ",
+    items: {
+      "Neon Dreams": {
+        title: "Giấc Mơ Neon",
+        description: "Trong tương lai cyberpunk, một hacker phát hiện âm mưu đe dọa nhân loại. Qua những con phố được chiếu sáng bằng neon và mạng lưới kỹ thuật số, hãy khám phá sự thật ẩn giấu đằng sau những mặt tiền công ty."
+      },
+      "Shadow Detective": {
+        title: "Thám Tử Bóng Tối",
+        description: "Một thám tử có khả năng siêu nhiên giải quyết tội phạm trong thế giới ngầm tối tăm. Mỗi vụ án tiết lộ một bí ẩn sâu sắc hơn về bản chất của thiện và ác trong bộ phim kinh dị phong cách noir này."
+      },
+      "Royal Deception": {
+        title: "Lừa Dối Hoàng Gia",
+        description: "Âm mưu cung đình và tình yêu bị cấm trong một vương quốc fantasy thời trung cổ. Những lựa chọn của bạn sẽ quyết định số phận của vương quốc và trái tim của những người bạn gặp."
+      },
+      "Autumn Reverie": {
+        title: "Mộng Mơ Mùa Thu",
+        description: "Câu chuyện về Kaede Asakura, một học sinh yên tĩnh chuyển đến trường trung học Maplewood trong mùa lá thay màu. Khi những chiếc lá vàng thì thầm nhẹ nhàng, cô khám phá những tấm bưu thiếp bí ẩn được gửi cho cô. Mỗi tấm bưu thiếp ám chỉ những ký ức bị lãng quên và những lời hứa chưa được nói ra. Hướng dẫn Kaede qua những câu chuyện phân nhánh, tạo dựng mối liên kết sâu sắc với các bạn cùng lớp, khám phá quá khứ ẩn giấu, và quyết định liệu có nên đón nhận sự ấm áp của tình bạn hay rút lui vào sự cô đơn của mùa thu."
+      },
+      "Rebel's Twilight Confession": {
+        title: "Lời Thú Tội Của Kẻ Nổi Loạn Lúc Hoàng Hôn",
+        description: "Trong những khoảnh khắc cuối của hoàng hôn, trải nghiệm một cuộc tình lãng mạn nguy hiểm với kẻ nổi loạn khét tiếng nhất của trường. Trong tiểu thuyết hình ảnh này, những lựa chọn chân thành của bạn sẽ quyết định liệu vẻ ngoài thô ráp của cô ấy có sụp đổ và tiết lộ sự ấm áp bên trong hay không. Bạn có thể giành được sự tin tưởng của cô ấy trước khi tiếng chuông cuối cùng vang lên không?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Bình Minh Seraph: Trận Chiến Cuối Cùng",
+        description: "Trong một thế giới bị tàn phá bởi mối đe dọa Cancer bí ẩn, bạn trở thành một trong những phi công Seraph ưu tú—niềm hy vọng cuối cùng của nhân loại. Đứng trên đường băng ướt mưa lúc bình minh, nắm chặt mũ bảo hiểm trong khi chiếc mecha khổng lồ phía sau bạn chuẩn bị chiến đấu. Những lựa chọn của bạn sẽ định hình cuộc chiến chống lại những khó khăn áp đảo và tiết lộ lòng dũng cảm ẩn giấu trong quyết tâm của bạn."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Hoàng Hôn Seraph: Trận Chiến Lúc Chạng Vạng",
+        description: "Giữa cảnh quan thành phố đang sụp đổ lúc hoàng hôn, bạn đứng như một phi công Seraph—tuyến phòng thủ cuối cùng của nhân loại. Những con phố ướt mưa phản chiếu quảng cáo holo neon trong khi chiếc mecha khổng lồ phía sau bạn chuẩn bị cho nhiệm vụ cuối cùng. Nắm chặt súng trường và tăng cường quyết tâm: đêm nay, số phận của thế giới nằm trong tay bạn."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Những Trang Ánh Nắng: Biên Niên Sử Câu Lạc Bộ Văn Học",
+        description: "Tham gia Câu lạc bộ Văn học và trải nghiệm những khoảnh khắc cảm động với bốn nhân vật độc đáo kết nối qua thơ ca, tiểu thuyết và những giấc mơ chung. Trong tiểu thuyết hình ảnh này, những lựa chọn của bạn sẽ định hình tình bạn, tiết lộ những đam mê ẩn giấu và mang lại sự ấm áp cho mỗi buổi chiều tươi sáng trong lớp học."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Những Trang Kết Nối: Mối Liên Kết Phòng Câu Lạc Bộ",
+        description: "Bước vào thánh đường được ánh nắng chiếu rọi của Câu lạc bộ Văn học, nơi những câu chuyện được chia sẻ và những giấc mơ thì thầm tạo nên những mối liên kết không thể phá vỡ. Khi bạn giúp từng thành viên tìm thấy tiếng nói của họ—dù qua thơ ca, văn xuôi hay cuộc trò chuyện chân thành—bạn sẽ khám phá những bí mật ẩn giấu và định hình số phận của vòng tròn bạn bè thân thiết này."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Hào Quang Đỏ Thẫm: Lưỡi Kiếm Seraph",
+        description: "Mặc bộ đồ chiến thuật thanh lịch và vung thanh kiếm rực rỡ, phi công Seraph xuất hiện dưới hào quang đỏ cháy giữa chiến trường dystopian. Ánh mắt kiên định và mái tóc bạc bay phấp phới của cô báo hiệu quyết tâm cuối cùng của nhân loại chống lại bóng tối đang đến gần. Mỗi lựa chọn sẽ quyết định liệu hy vọng có bùng cháy hay tan thành tro bụi."
+      }
+    }
   },
   it: {
     appName: "Centro Romanzi Visivi",
