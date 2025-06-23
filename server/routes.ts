@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import passport from "./auth";
 import { storage } from "./storage";
+import { generateSitemap, generateRobotsTxt } from "./sitemap";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -215,6 +216,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Error processing purchase: " + error.message 
       });
     }
+  });
+
+  // SEO Routes
+  app.get("/sitemap.xml", async (req, res) => {
+    try {
+      const sitemap = await generateSitemap();
+      res.set("Content-Type", "text/xml");
+      res.send(sitemap);
+    } catch (error) {
+      res.status(500).json({ message: "Error generating sitemap" });
+    }
+  });
+
+  app.get("/robots.txt", (req, res) => {
+    const robotsTxt = generateRobotsTxt();
+    res.set("Content-Type", "text/plain");
+    res.send(robotsTxt);
   });
 
   const httpServer = createServer(app);

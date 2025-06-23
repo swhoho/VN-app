@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Star, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import type { Ranking, Item } from "@shared/schema";
+import SEOHead from "@/components/seo-head";
 
 interface RankingWithItem extends Ranking {
   item: Item;
@@ -64,6 +65,12 @@ export default function Ranking() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-6">
+      <SEOHead 
+        title="Visual Novel Rankings - Top Trending Stories | Visual Novel Hub"
+        description="Discover the most popular visual novels ranked by weekly views. See trending stories in romance, fantasy, horror, and sci-fi genres on Visual Novel Hub."
+        url="https://visual-novel-hub.replit.app/ranking"
+        keywords="visual novel rankings, trending stories, popular novels, weekly charts, romance rankings, fantasy rankings"
+      />
       {/* #1 Spotlight */}
       {topRanked && (
         <motion.div

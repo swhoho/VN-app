@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import SEOHead from "@/components/seo-head";
 
 // Initialize Stripe
 if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
@@ -261,6 +262,12 @@ export default function BuyPoints() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+      <SEOHead 
+        title="Buy Points - Unlock Premium Visual Novel Content | Visual Novel Hub"
+        description="Purchase points to unlock premium visual novel chapters and exclusive content. Choose from affordable packages starting at $2.99. Secure payment with Stripe."
+        url="https://visual-novel-hub.replit.app/buy-points"
+        keywords="buy points, premium content, visual novel chapters, in-app purchase, unlock stories, stripe payment"
+      />
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
