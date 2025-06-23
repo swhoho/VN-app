@@ -205,7 +205,49 @@ export const translations = {
     comingSoonMessage: "この機能は現在開発中です。アップデートをお待ちください！",
     gotIt: "了解！",
     language: "言語",
-    selectLanguage: "言語を選択"
+    selectLanguage: "言語を選択",
+    items: {
+      "Neon Dreams": {
+        title: "ネオンドリーム",
+        description: "サイバーパンクな未来で、ハッカーが人類を脅かす陰謀を発見します。ネオンサインが光る街並みとデジタルネットワークを通じて、企業のファサードに隠された真実を明らかにしてください。"
+      },
+      "Shadow Detective": {
+        title: "影の探偵",
+        description: "超自然的な能力を持つ探偵が闇の地下世界で犯罪を解決します。各事件は、このノワールスタイルのスリラーで善と悪の本質についてより深い謎を明らかにします。"
+      },
+      "Royal Deception": {
+        title: "王室の欺瞞",
+        description: "中世ファンタジー王国での宮廷陰謀と禁じられたロマンス。あなたの選択が王国の運命と出会う者たちの心を決定するでしょう。"
+      },
+      "Autumn Reverie": {
+        title: "秋の夢想",
+        description: "紅葉の季節にメープルウッド高校に転校してきた静かな学生、楓朝倉の物語です。金色の落ち葉が優しくざわめく中、彼女は自分宛ての謎めいた葉書を発見します。それぞれの葉書は忘れられた記憶と語られなかった約束を暗示しています。分岐するストーリーを通じて楓を導き、同級生たちとの深い絆を築き、隠された過去を解き明かし、友情の温かさを受け入れるか秋の孤独に退くかを決めなければなりません。"
+      },
+      "Rebel's Twilight Confession": {
+        title: "反逆者の黄昏告白",
+        description: "夕暮れの最後の瞬間、学校で最も悪名高い反逆者との危険なロマンスを体験してください。このビジュアルノベルでは、あなたの心からの選択が彼女の荒々しい外見を崩し、内なる温かさを明らかにするかを決定します。最後の鐘が鳴る前に彼女の信頼を得ることができるでしょうか？"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "セラフの夜明け：最後の抵抗",
+        description: "謎めいたキャンサーの脅威によって荒廃した世界で、あなたは人類最後の希望であるエリートセラフパイロットになります。雨に濡れた滑走路で夜明けに立ち、ヘルメットを握りしめ、背後の巨大なメカが戦闘の準備をします。あなたの選択が圧倒的な困難に対する戦いを形作り、決意の中に隠された勇気を明らかにするでしょう。"
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "セラフの黄昏：夕暮れの戦い",
+        description: "黄昏時の崩れゆく都市景観の中で、あなたは人類最後の防衛線であるセラフパイロットとして立っています。雨に濡れた街はネオンホロ広告を反射し、背後の巨大なメカが最後の任務の準備をしています。ライフルをしっかりと握り、決意を固めてください。今夜、世界の運命があなたの手に委ねられています。"
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "陽だまりのページ：文学部年代記",
+        description: "文学部に参加し、詩、小説、共有する夢を通じて絆を形成する4人のユニークな人格との心温まる瞬間を体験してください。このビジュアルノベルでは、あなたの選択が友情を形成し、隠された情熱を明らかにし、教室での明るい午後ごとに温かさをもたらすでしょう。"
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "繋がりのページ：部室の絆",
+        description: "陽光が差し込む文学部の聖域に足を踏み入れてください。共有する物語とささやかれる夢が断ち切れない絆を築きます。各メンバーが自分の声を見つけるのを手助けしながら—詩を通じて、散文を通じて、または心からの会話を通じて—隠された秘密を明らかにし、この親密な友人サークルの運命を形作ることになるでしょう。"
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "クリムゾンヘイロー：セラフの刃",
+        description: "洗練された戦術スーツを身に纏い、輝く剣を wielding するセラフパイロットが、ディストピアの戦場で燃える赤い後光の下に現れます。彼女の揺るぎない眼差しと流れる銀髪は、迫り来る闇に対する人類の最後の決意を示しています。すべての選択が希望が燃え上がるか灰に帰すかを決定するでしょう。"
+      }
+    }
   },
   zh: {
     appName: "视觉小说中心",
@@ -238,7 +280,49 @@ export const translations = {
     comingSoonMessage: "此功能正在开发中，敬请期待更新！",
     gotIt: "知道了！",
     language: "语言",
-    selectLanguage: "选择语言"
+    selectLanguage: "选择语言",
+    items: {
+      "Neon Dreams": {
+        title: "霓虹梦境",
+        description: "在赛博朋克的未来中，黑客发现了威胁人类的阴谋。通过霓虹灯闪烁的街道和数字网络，揭示隐藏在企业门面背后的真相。"
+      },
+      "Shadow Detective": {
+        title: "暗影侦探",
+        description: "拥有超自然能力的侦探在黑暗的地下世界解决犯罪。每个案件都在这部黑色风格的惊悚片中揭示关于善恶本质的更深层谜团。"
+      },
+      "Royal Deception": {
+        title: "皇室欺骗",
+        description: "中世纪奇幻王国中的宫廷阴谋和禁忌爱情。你的选择将决定王国的命运以及相遇之人的心灵。"
+      },
+      "Autumn Reverie": {
+        title: "秋日遐想",
+        description: "在枫叶飘落的季节转学到枫木高中的安静学生枫朝仓的故事。在金色落叶轻柔沙沙声中，她发现了寄给自己的神秘明信片。每张明信片都暗示着被遗忘的回忆和未曾言明的承诺。通过分支故事引导枫，与同学们建立深厚的纽带，揭开隐藏的过去，决定是拥抱友谊的温暖还是退回到秋日的孤独中。"
+      },
+      "Rebel's Twilight Confession": {
+        title: "叛逆者的黄昏告白",
+        description: "在黄昏的最后时刻，体验与学校最臭名昭著的叛逆者的危险浪漫。在这部视觉小说中，你真诚的选择将决定她粗糙的外表是否会崩塌，内心的温暖是否会显露。你能在最后一声铃响前赢得她的信任吗？"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "炽天使黎明：最后抵抗",
+        description: "在被神秘癌症威胁蹂躏的世界中，你成为了人类最后希望的精英炽天使飞行员。在黎明时分站在雨水湿润的跑道上，紧握头盔，身后巨大的机甲准备战斗。你的选择将塑造对抗压倒性困难的战斗，并揭示隐藏在决心中的勇气。"
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "炽天使黄昏：黄昏之战",
+        description: "在黄昏时分崩塌的城市景观中，你作为人类最后的防线炽天使飞行员屹立不倒。雨水湿润的街道反射着霓虹全息广告，身后巨大的机甲准备执行最后任务。紧握步枪，坚定决心：今夜，世界的命运就在你手中。"
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "阳光书页：文学社编年史",
+        description: "加入文学社，与四个独特的人格体验温馨时光，他们通过诗歌、小说和共同梦想建立纽带。在这部视觉小说中，你的选择将塑造友谊，揭示隐藏的激情，为教室里每个明亮的午后带来温暖。"
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "连接之页：社团室纽带",
+        description: "踏入阳光洒落的文学社圣所，在这里分享的故事和轻声的梦想锻造着无法断裂的纽带。当你帮助每个成员找到自己的声音时——无论是通过诗歌、散文还是真心对话——你将揭开隐藏的秘密，塑造这个紧密朋友圈的命运。"
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "深红光环：炽天使之刃",
+        description: "身着精密战术服，挥舞着光芒四射的剑刃，炽天使飞行员在反乌托邦战场上的燃烧红色光环下现身。她坚定的凝视和飘逸的银发标志着人类对抗侵袭黑暗的最后决心。每个选择都将决定希望是燃起还是化为灰烬。"
+      }
+    }
   },
   es: {
     appName: "Centro de Novelas Visuales",
@@ -271,7 +355,49 @@ export const translations = {
     comingSoonMessage: "Esta función está en desarrollo. ¡Mantente atento a las actualizaciones!",
     gotIt: "¡Entendido!",
     language: "Idioma",
-    selectLanguage: "Seleccionar Idioma"
+    selectLanguage: "Seleccionar Idioma",
+    items: {
+      "Neon Dreams": {
+        title: "Sueños de Neón",
+        description: "En un futuro ciberpunk, un hacker descubre una conspiración que amenaza a la humanidad. A través de calles iluminadas por neón y redes digitales, descubre la verdad oculta detrás de las fachadas corporativas."
+      },
+      "Shadow Detective": {
+        title: "Detective Sombra",
+        description: "Un detective con habilidades sobrenaturales resuelve crímenes en el oscuro submundo. Cada caso revela un misterio más profundo sobre la naturaleza del bien y el mal en este thriller de estilo noir."
+      },
+      "Royal Deception": {
+        title: "Engaño Real",
+        description: "Intrigas palaciegas y romance prohibido en un reino de fantasía medieval. Tus decisiones determinarán el destino del reino y los corazones de quienes encuentres."
+      },
+      "Autumn Reverie": {
+        title: "Ensueño de Otoño",
+        description: "La historia de Kaede Asakura, una estudiante tranquila que se transfiere a la Escuela Secundaria Maplewood durante la temporada de hojas cambiantes. Mientras las hojas doradas susurran suavemente, descubre misteriosas postales dirigidas a ella. Cada postal insinúa recuerdos olvidados y promesas no dichas. Guía a Kaede a través de historias ramificadas, forjando vínculos profundos con compañeros de clase, desentrañando un pasado oculto y decidiendo si abrazar la calidez de la amistad o retirarse a la soledad del otoño."
+      },
+      "Rebel's Twilight Confession": {
+        title: "Confesión del Rebelde al Atardecer",
+        description: "En los últimos momentos del crepúsculo, experimenta un romance peligroso con la rebelde más notoria de la escuela. En esta novela visual, tus decisiones sinceras determinarán si su exterior rudo se desmorona y se revela su calidez interior. ¿Podrás ganar su confianza antes de que suene la campana final?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Amanecer Serafín: Última Resistencia",
+        description: "En un mundo devastado por la misteriosa amenaza del Cáncer, te conviertes en uno de los pilotos Serafín de élite, la última esperanza de la humanidad. Párate en la pista empapada por la lluvia al amanecer, agarrando tu casco mientras el mecha imponente detrás de ti se prepara para el combate. Tus decisiones darán forma a la batalla contra probabilidades abrumadoras y revelarán el coraje oculto dentro de tu determinación."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Crepúsculo Serafín: Batalla al Anochecer",
+        description: "En medio de un paisaje urbano que se desmorona al atardecer, te yergues como un piloto Serafín, la última línea de defensa de la humanidad. Las calles empapadas por la lluvia reflejan anuncios holográficos de neón mientras el mecha imponente detrás de ti se prepara para una misión final. Agarra tu rifle con fuerza y fortalece tu determinación: esta noche, el destino del mundo está en tus manos."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Páginas Iluminadas: Crónicas del Club de Literatura",
+        description: "Únete al Club de Literatura y experimenta momentos conmovedores con cuatro personalidades únicas mientras se unen a través de poesía, novelas y sueños compartidos. En esta novela visual, tus decisiones darán forma a las amistades, revelarán pasiones ocultas y traerán calidez a cada tarde brillante en el aula."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Páginas de Conexión: Vínculos del Salón del Club",
+        description: "Entra en el santuario iluminado por el sol del Club de Literatura, donde las historias compartidas y los sueños susurrados forjan vínculos inquebrantables. Mientras ayudas a cada miembro a encontrar su voz, ya sea a través de poesía, prosa o conversación sincera, descubrirás secretos ocultos y darás forma al destino de este círculo cercano de amigos."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Halo Carmesí: Filo del Serafín",
+        description: "Vestida con un traje táctico elegante y empuñando una espada radiante, la piloto Serafín emerge bajo un halo rojo ardiente en medio de un campo de batalla distópico. Su mirada inquebrantable y cabello plateado que fluye señalan la resolución final de la humanidad contra la oscuridad que se acerca. Cada decisión determinará si la esperanza se enciende o se desvanece en cenizas."
+      }
+    }
   },
   fr: {
     appName: "Centre de Romans Visuels",
@@ -304,7 +430,49 @@ export const translations = {
     comingSoonMessage: "Cette fonctionnalité est en cours de développement. Restez à l'écoute !",
     gotIt: "Compris !",
     language: "Langue",
-    selectLanguage: "Sélectionner la Langue"
+    selectLanguage: "Sélectionner la Langue",
+    items: {
+      "Neon Dreams": {
+        title: "Rêves de Néon",
+        description: "Dans un futur cyberpunk, un hacker découvre une conspiration qui menace l'humanité. À travers les rues éclairées au néon et les réseaux numériques, découvrez la vérité cachée derrière les façades d'entreprise."
+      },
+      "Shadow Detective": {
+        title: "Détective de l'Ombre",
+        description: "Un détective aux capacités surnaturelles résout des crimes dans le sombre monde souterrain. Chaque affaire révèle un mystère plus profond sur la nature du bien et du mal dans ce thriller de style noir."
+      },
+      "Royal Deception": {
+        title: "Tromperie Royale",
+        description: "Intrigues de cour et romance interdite dans un royaume de fantasy médiéval. Vos choix détermineront le destin du royaume et les cœurs de ceux que vous rencontrez."
+      },
+      "Autumn Reverie": {
+        title: "Rêverie d'Automne",
+        description: "L'histoire de Kaede Asakura, une étudiante tranquille qui transfère au lycée Maplewood pendant la saison des feuilles changeantes. Alors que les feuilles dorées murmurent doucement, elle découvre de mystérieuses cartes postales qui lui sont adressées. Chaque carte postale évoque des souvenirs oubliés et des promesses non dites. Guidez Kaede à travers des histoires ramifiées, forgeant des liens profonds avec ses camarades de classe, dévoilant un passé caché, et décidant d'embrasser la chaleur de l'amitié ou de se retirer dans la solitude de l'automne."
+      },
+      "Rebel's Twilight Confession": {
+        title: "Confession du Rebelle au Crépuscule",
+        description: "Dans les derniers moments du crépuscule, vivez une romance dangereuse avec la rebelle la plus notoire de l'école. Dans ce roman visuel, vos choix sincères détermineront si son extérieur rude s'effrite et révèle sa chaleur intérieure. Pourrez-vous gagner sa confiance avant que la cloche finale ne sonne ?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Aube du Séraphin : Dernier Rempart",
+        description: "Dans un monde ravagé par la mystérieuse menace du Cancer, vous devenez l'un des pilotes Séraphin d'élite—le dernier espoir de l'humanité. Tenez-vous sur la piste trempée de pluie à l'aube, serrant votre casque tandis que le mecha imposant derrière vous se prépare au combat. Vos choix façonneront la bataille contre des obstacles écrasants et révéleront le courage caché dans votre détermination."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Crépuscule du Séraphin : Bataille au Crépuscule",
+        description: "Au milieu d'un paysage urbain en ruine au crépuscule, vous vous dressez comme un pilote Séraphin—la dernière ligne de défense de l'humanité. Les rues trempées de pluie reflètent les publicités holographiques néon tandis que le mecha imposant derrière vous se prépare pour une mission finale. Serrez fermement votre fusil et fortifiez votre détermination : ce soir, le destin du monde repose entre vos mains."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Pages Ensoleillées : Chroniques du Club de Littérature",
+        description: "Rejoignez le Club de Littérature et vivez des moments touchants avec quatre personnalités uniques qui se lient à travers la poésie, les romans et les rêves partagés. Dans ce roman visuel, vos choix façonneront les amitiés, révéleront des passions cachées et apporteront de la chaleur à chaque après-midi lumineux dans la salle de classe."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Pages de Connexion : Liens de la Salle de Club",
+        description: "Entrez dans le sanctuaire ensoleillé du Club de Littérature, où les histoires partagées et les rêves murmurés forgent des liens incassables. En aidant chaque membre à trouver sa voix—que ce soit à travers la poésie, la prose ou une conversation sincère—vous découvrirez des secrets cachés et façonnerez le destin de ce cercle d'amis proche."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Halo Cramoisi : Lame du Séraphin",
+        description: "Vêtue d'une combinaison tactique élégante et brandissant une lame radieuse, la pilote Séraphin émerge sous un halo rouge ardent au milieu d'un champ de bataille dystopique. Son regard inébranlable et ses cheveux argentés flottants signalent la détermination finale de l'humanité contre les ténèbres qui approchent. Chaque choix déterminera si l'espoir s'enflamme ou se transforme en cendres."
+      }
+    }
   },
   de: {
     appName: "Visual Novel Hub",
@@ -337,7 +505,49 @@ export const translations = {
     comingSoonMessage: "Diese Funktion wird derzeit entwickelt. Bleiben Sie dran!",
     gotIt: "Verstanden!",
     language: "Sprache",
-    selectLanguage: "Sprache Auswählen"
+    selectLanguage: "Sprache Auswählen",
+    items: {
+      "Neon Dreams": {
+        title: "Neonträume",
+        description: "In einer Cyberpunk-Zukunft entdeckt ein Hacker eine Verschwörung, die die Menschheit bedroht. Durch neonbeleuchtete Straßen und digitale Netzwerke enthüllen Sie die Wahrheit hinter Unternehmensfassaden."
+      },
+      "Shadow Detective": {
+        title: "Schatten-Detektiv",
+        description: "Ein Detektiv mit übernatürlichen Fähigkeiten löst Verbrechen in der dunklen Unterwelt. Jeder Fall enthüllt ein tieferes Mysterium über die Natur von Gut und Böse in diesem Noir-Thriller."
+      },
+      "Royal Deception": {
+        title: "Königlicher Betrug",
+        description: "Hofintrigen und verbotene Romantik in einem mittelalterlichen Fantasy-Königreich. Ihre Entscheidungen werden das Schicksal des Königreichs und die Herzen derer bestimmen, die Sie treffen."
+      },
+      "Autumn Reverie": {
+        title: "Herbstträumerei",
+        description: "Die Geschichte von Kaede Asakura, einer ruhigen Schülerin, die während der Zeit des Laubwechsels an die Maplewood High School wechselt. Während goldene Blätter sanft rascheln, entdeckt sie geheimnisvolle Postkarten, die an sie adressiert sind. Jede Postkarte deutet auf vergessene Erinnerungen und unausgesprochene Versprechen hin. Führen Sie Kaede durch verzweigte Geschichten, knüpfen Sie tiefe Verbindungen zu Klassenkameraden, enthüllen Sie eine verborgene Vergangenheit und entscheiden Sie, ob Sie die Wärme der Freundschaft annehmen oder sich in die Einsamkeit des Herbstes zurückziehen."
+      },
+      "Rebel's Twilight Confession": {
+        title: "Geständnis der Rebellin in der Dämmerung",
+        description: "In den letzten Momenten der Dämmerung erleben Sie eine gefährliche Romanze mit der berüchtigtsten Rebellin der Schule. In dieser Visual Novel bestimmen Ihre aufrichtigen Entscheidungen, ob ihre raue Fassade bröckelt und ihre innere Wärme zum Vorschein kommt. Können Sie ihr Vertrauen gewinnen, bevor die letzte Glocke läutet?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Seraph-Dämmerung: Letzter Stand",
+        description: "In einer von der mysteriösen Krebs-Bedrohung verwüsteten Welt werden Sie zu einem der Elite-Seraph-Piloten—der letzten Hoffnung der Menschheit. Stehen Sie im Morgengrauen auf der regennassen Landebahn, greifen Sie Ihren Helm, während sich der imposante Mecha hinter Ihnen auf den Kampf vorbereitet. Ihre Entscheidungen werden den Kampf gegen überwältigende Widrigkeiten prägen und den in Ihrer Entschlossenheit verborgenen Mut offenbaren."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Seraph-Dämmerung: Schlacht in der Abenddämmerung",
+        description: "Inmitten einer bröckelnden Stadtlandschaft in der Dämmerung stehen Sie als Seraph-Pilot—die letzte Verteidigungslinie der Menschheit. Die regennassen Straßen reflektieren Neon-Holo-Werbung, während sich der imposante Mecha hinter Ihnen auf eine finale Mission vorbereitet. Greifen Sie Ihr Gewehr fest und stärken Sie Ihre Entschlossenheit: Heute Nacht liegt das Schicksal der Welt in Ihren Händen."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Sonnenbeschienene Seiten: Literaturclub-Chroniken",
+        description: "Treten Sie dem Literaturclub bei und erleben Sie herzerwärmende Momente mit vier einzigartigen Persönlichkeiten, die sich durch Poesie, Romane und geteilte Träume verbinden. In dieser Visual Novel werden Ihre Entscheidungen Freundschaften formen, verborgene Leidenschaften enthüllen und Wärme in jeden hellen Nachmittag im Klassenzimmer bringen."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Seiten der Verbindung: Clubraum-Bindungen",
+        description: "Betreten Sie das sonnenbeschienene Heiligtum des Literaturclubs, wo geteilte Geschichten und geflüsterte Träume unzerbrechliche Bindungen schmieden. Während Sie jedem Mitglied helfen, seine Stimme zu finden—sei es durch Poesie, Prosa oder herzliche Gespräche—werden Sie verborgene Geheimnisse aufdecken und das Schicksal dieses engen Freundeskreises gestalten."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Purpurroter Heiligenschein: Seraphs Klinge",
+        description: "Gekleidet in einen eleganten taktischen Anzug und eine strahlende Klinge schwingend, erscheint die Seraph-Pilotin unter einem brennenden roten Heiligenschein inmitten eines dystopischen Schlachtfelds. Ihr unerschütterlicher Blick und ihr fließendes silbernes Haar signalisieren die finale Entschlossenheit der Menschheit gegen die herannahende Dunkelheit. Jede Entscheidung wird bestimmen, ob Hoffnung entflammt oder zu Asche zerfällt."
+      }
+    }
   },
   pt: {
     appName: "Centro de Novelas Visuais",
@@ -370,7 +580,49 @@ export const translations = {
     comingSoonMessage: "Esta funcionalidade está em desenvolvimento. Fique atento às atualizações!",
     gotIt: "Entendi!",
     language: "Idioma",
-    selectLanguage: "Selecionar Idioma"
+    selectLanguage: "Selecionar Idioma",
+    items: {
+      "Neon Dreams": {
+        title: "Sonhos de Néon",
+        description: "Em um futuro cyberpunk, um hacker descobre uma conspiração que ameaça a humanidade. Através de ruas iluminadas por néon e redes digitais, descubra a verdade escondida por trás das fachadas corporativas."
+      },
+      "Shadow Detective": {
+        title: "Detetive das Sombras",
+        description: "Um detetive com habilidades sobrenaturais resolve crimes no sombrio submundo. Cada caso revela um mistério mais profundo sobre a natureza do bem e do mal neste thriller noir."
+      },
+      "Royal Deception": {
+        title: "Decepção Real",
+        description: "Intrigas da corte e romance proibido em um reino de fantasia medieval. Suas escolhas determinarão o destino do reino e os corações daqueles que você encontrar."
+      },
+      "Autumn Reverie": {
+        title: "Devaneio de Outono",
+        description: "A história de Kaede Asakura, uma estudante quieta que se transfere para a Escola Secundária Maplewood durante a estação das folhas que mudam. Enquanto folhas douradas sussurram suavemente, ela descobre cartões postais misteriosos endereçados a ela. Cada postal sugere memórias esquecidas e promessas não ditas. Guie Kaede através de histórias ramificadas, forjando laços profundos com colegas de classe, desvendando um passado oculto e decidindo se abraça o calor da amizade ou se retira para a solidão do outono."
+      },
+      "Rebel's Twilight Confession": {
+        title: "Confissão da Rebelde ao Crepúsculo",
+        description: "Nos últimos momentos do crepúsculo, experimente um romance perigoso com a rebelde mais notória da escola. Nesta novela visual, suas escolhas sinceras determinarão se seu exterior áspero se desmorona e revela seu calor interior. Você conseguirá ganhar sua confiança antes que o sino final toque?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Alvorada Serafim: Última Resistência",
+        description: "Em um mundo devastado pela misteriosa ameaça do Câncer, você se torna um dos pilotos Serafim de elite—a última esperança da humanidade. Fique na pista molhada pela chuva ao amanhecer, segurando seu capacete enquanto o mecha imponente atrás de você se prepara para o combate. Suas escolhas moldarão a batalha contra probabilidades esmagadoras e revelarão a coragem escondida dentro de sua determinação."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Crepúsculo Serafim: Batalha ao Anoitecer",
+        description: "Em meio a uma paisagem urbana em ruínas ao crepúsculo, você se ergue como um piloto Serafim—a última linha de defesa da humanidade. As ruas molhadas pela chuva refletem anúncios holográficos de néon enquanto o mecha imponente atrás de você se prepara para uma missão final. Segure seu rifle firmemente e fortaleça sua determinação: esta noite, o destino do mundo está em suas mãos."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Páginas Iluminadas pelo Sol: Crônicas do Clube de Literatura",
+        description: "Junte-se ao Clube de Literatura e experimente momentos tocantes com quatro personalidades únicas que se conectam através de poesia, romances e sonhos compartilhados. Nesta novela visual, suas escolhas moldarão amizades, revelarão paixões ocultas e trarão calor para cada tarde brilhante na sala de aula."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Páginas de Conexão: Laços da Sala do Clube",
+        description: "Entre no santuário iluminado pelo sol do Clube de Literatura, onde histórias compartilhadas e sonhos sussurrados forjam laços inquebráveis. Enquanto você ajuda cada membro a encontrar sua voz—seja através de poesia, prosa ou conversa sincera—você descobrirá segredos ocultos e moldará o destino deste círculo próximo de amigos."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Halo Carmesim: Lâmina do Serafim",
+        description: "Vestida com um traje tático elegante e empunhando uma lâmina radiante, a piloto Serafim emerge sob um halo vermelho ardente em meio a um campo de batalha distópico. Seu olhar inabalável e cabelo prateado flutuante sinalizam a determinação final da humanidade contra a escuridão que se aproxima. Cada escolha determinará se a esperança se acende ou desvanece em cinzas."
+      }
+    }
   },
   ru: {
     appName: "Центр Визуальных Новелл",
@@ -403,7 +655,49 @@ export const translations = {
     comingSoonMessage: "Эта функция находится в разработке. Следите за обновлениями!",
     gotIt: "Понятно!",
     language: "Язык",
-    selectLanguage: "Выбрать Язык"
+    selectLanguage: "Выбрать Язык",
+    items: {
+      "Neon Dreams": {
+        title: "Неоновые Сны",
+        description: "В киберпанк-будущем хакер обнаруживает заговор, угрожающий человечеству. Через неоновые улицы и цифровые сети раскройте правду, скрытую за корпоративными фасадами."
+      },
+      "Shadow Detective": {
+        title: "Теневой Детектив",
+        description: "Детектив со сверхъестественными способностями раскрывает преступления в темном подземном мире. Каждое дело раскрывает более глубокую тайну о природе добра и зла в этом нуарном триллере."
+      },
+      "Royal Deception": {
+        title: "Королевский Обман",
+        description: "Придворные интриги и запретная романтика в средневековом фэнтезийном королевстве. Ваш выбор определит судьбу королевства и сердца тех, кого вы встретите."
+      },
+      "Autumn Reverie": {
+        title: "Осенние Грезы",
+        description: "История Каэде Асакуры, тихой студентки, которая переводится в старшую школу Мейплвуд в сезон смены листьев. Пока золотые листья мягко шелестят, она обнаруживает загадочные открытки, адресованные ей. Каждая открытка намекает на забытые воспоминания и невысказанные обещания. Ведите Каэде через разветвленные истории, создавая глубокие связи с одноклассниками, раскрывая скрытое прошлое и решая, принять ли тепло дружбы или отступить в одиночество осени."
+      },
+      "Rebel's Twilight Confession": {
+        title: "Признание Бунтарки в Сумерках",
+        description: "В последние моменты сумерек переживите опасный роман с самой печально известной бунтаркой школы. В этой визуальной новелле ваш искренний выбор определит, рухнет ли ее грубая внешность и раскроется ли внутреннее тепло. Сможете ли вы завоевать ее доверие до того, как прозвенит последний звонок?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Рассвет Серафима: Последний Рубеж",
+        description: "В мире, опустошенном загадочной угрозой Рака, вы становитесь одним из элитных пилотов Серафимов—последней надеждой человечества. Стойте на промокшей дождем взлетной полосе на рассвете, сжимая шлем, пока внушительный меха позади вас готовится к бою. Ваш выбор сформирует битву против подавляющих трудностей и раскроет мужество, скрытое в вашей решимости."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Сумерки Серафима: Битва в Сумерках",
+        description: "Среди рушащегося городского пейзажа в сумерках вы стоите как пилот Серафима—последняя линия защиты человечества. Промокшие дождем улицы отражают неоновую голографическую рекламу, пока внушительный меха позади вас готовится к финальной миссии. Крепко сожмите винтовку и укрепите решимость: сегодня ночью судьба мира в ваших руках."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Солнечные Страницы: Хроники Литературного Клуба",
+        description: "Присоединитесь к Литературному клубу и переживите трогательные моменты с четырьмя уникальными личностями, которые объединяются через поэзию, романы и общие мечты. В этой визуальной новелле ваш выбор сформирует дружбу, раскроет скрытые страсти и принесет тепло в каждый яркий послеобеденный час в классе."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Страницы Связи: Узы Клубной Комнаты",
+        description: "Войдите в освещенное солнцем святилище Литературного клуба, где общие истории и шепчущиеся мечты создают нерушимые узы. Помогая каждому участнику найти свой голос—через поэзию, прозу или искренний разговор—вы раскроете скрытые секреты и сформируете судьбу этого тесного круга друзей."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Алый Нимб: Грань Серафима",
+        description: "Одетая в элегантный тактический костюм и размахивающая сияющим клинком, пилот Серафима появляется под горящим красным нимбом посреди антиутопического поля битвы. Ее непоколебимый взгляд и струящиеся серебряные волосы сигнализируют о финальной решимости человечества против надвигающейся тьмы. Каждый выбор определит, загорится ли надежда или превратится в пепел."
+      }
+    }
   },
   ar: {
     appName: "مركز الروايات المرئية",
@@ -436,7 +730,49 @@ export const translations = {
     comingSoonMessage: "هذه الميزة قيد التطوير حالياً. ترقب التحديثات!",
     gotIt: "فهمت!",
     language: "اللغة",
-    selectLanguage: "اختيار اللغة"
+    selectLanguage: "اختيار اللغة",
+    items: {
+      "Neon Dreams": {
+        title: "أحلام النيون",
+        description: "في مستقبل سايبربانك، يكتشف هاكر مؤامرة تهدد البشرية. من خلال الشوارع المضاءة بالنيون والشبكات الرقمية، اكتشف الحقيقة المخفية وراء واجهات الشركات."
+      },
+      "Shadow Detective": {
+        title: "المحقق الظل",
+        description: "محقق بقدرات خارقة للطبيعة يحل الجرائم في العالم السفلي المظلم. كل قضية تكشف لغزاً أعمق حول طبيعة الخير والشر في هذا الإثارة النوار."
+      },
+      "Royal Deception": {
+        title: "الخداع الملكي",
+        description: "مؤامرات البلاط والرومانسية المحرمة في مملكة خيالية من العصور الوسطى. اختياراتك ستحدد مصير المملكة وقلوب من تقابلهم."
+      },
+      "Autumn Reverie": {
+        title: "أحلام الخريف",
+        description: "قصة كايدي أساكورا، طالبة هادئة تنقل إلى مدرسة مابلوود الثانوية خلال موسم تغيير الأوراق. بينما تهمس الأوراق الذهبية بلطف، تكتشف بطاقات بريدية غامضة موجهة إليها. كل بطاقة بريدية تلمح إلى ذكريات منسية ووعود غير منطوقة. قد كايدي عبر قصص متشعبة، وكوّن روابط عميقة مع زملاء الصف، واكشف ماضياً مخفياً، وقرر ما إذا كنت ستحتضن دفء الصداقة أم تنسحب إلى وحدة الخريف."
+      },
+      "Rebel's Twilight Confession": {
+        title: "اعتراف المتمردة عند الغسق",
+        description: "في اللحظات الأخيرة من الغسق، اختبر رومانسية خطيرة مع أكثر المتمردات سيئة السمعة في المدرسة. في هذه الرواية المرئية، اختياراتك الصادقة ستحدد ما إذا كان مظهرها الخشن سينهار ويكشف عن دفئها الداخلي. هل يمكنك كسب ثقتها قبل أن يدق الجرس الأخير؟"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "فجر السيرافيم: الموقف الأخير",
+        description: "في عالم دمره تهديد السرطان الغامض، تصبح أحد طياري السيرافيم النخبة—آخر أمل للبشرية. قف على المدرج المبلل بالمطر عند الفجر، ممسكاً بخوذتك بينما يستعد الميكا المهيب خلفك للقتال. اختياراتك ستشكل المعركة ضد الصعاب الساحقة وتكشف الشجاعة المخفية في عزيمتك."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "غسق السيرافيم: معركة عند الغسق",
+        description: "وسط منظر حضري متداعٍ عند الغسق، تقف كطيار سيرافيم—آخر خط دفاع للبشرية. الشوارع المبللة بالمطر تعكس إعلانات الهولوغرام النيون بينما يستعد الميكا المهيب خلفك لمهمة أخيرة. امسك بندقيتك بقوة وقوّ عزيمتك: هذه الليلة، مصير العالم في يديك."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "صفحات مشمسة: سجلات نادي الأدب",
+        description: "انضم إلى نادي الأدب واختبر لحظات مؤثرة مع أربع شخصيات فريدة يترابطون من خلال الشعر والروايات والأحلام المشتركة. في هذه الرواية المرئية، اختياراتك ستشكل الصداقات وتكشف العواطف المخفية وتجلب الدفء لكل بعد ظهر مشرق في الفصل الدراسي."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "صفحات الاتصال: روابط غرفة النادي",
+        description: "ادخل إلى ملاذ نادي الأدب المضاء بأشعة الشمس، حيث تكوّن القصص المشتركة والأحلام المهموسة روابط لا تنكسر. بينما تساعد كل عضو في العثور على صوته—سواء من خلال الشعر أو النثر أو المحادثة الصادقة—ستكشف أسراراً مخفية وتشكل مصير هذه الدائرة المتماسكة من الأصدقاء."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "الهالة القرمزية: حافة السيرافيم",
+        description: "مرتدية بذلة تكتيكية أنيقة وتلوح بنصل مشع، تظهر طيارة السيرافيم تحت هالة حمراء مشتعلة وسط ساحة معركة ديستوبية. نظرتها الثابتة وشعرها الفضي المتدفق يشيران إلى عزيمة البشرية الأخيرة ضد الظلام المقترب. كل اختيار سيحدد ما إذا كان الأمل سيشتعل أم يتحول إلى رماد."
+      }
+    }
   },
   hi: {
     appName: "विज़ुअल नॉवेल हब",
