@@ -10,6 +10,7 @@ import { useLanguage } from "@/hooks/use-language";
 import { getTranslation, getItemTranslation } from "@/lib/i18n";
 import type { Item } from "@shared/schema";
 import { useLocation } from "wouter";
+import SEOHead from "@/components/seo-head";
 
 export default function Search() {
   const [query, setQuery] = useState("");
@@ -33,6 +34,11 @@ export default function Search() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-6">
+      <SEOHead 
+        title={`Search Visual Novels${debouncedQuery ? ` - "${debouncedQuery}"` : ''} | Visual Novel Hub`}
+        description={`Search and discover visual novels${debouncedQuery ? ` matching "${debouncedQuery}"` : ''}. Find romance, fantasy, horror, and sci-fi interactive stories on Visual Novel Hub.`}
+        url={`https://visual-novel-hub.replit.app/search${debouncedQuery ? `?q=${encodeURIComponent(debouncedQuery)}` : ''}`}
+      />
       {/* 검색 헤더 */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">

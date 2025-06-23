@@ -9,6 +9,7 @@ import { Star } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation, getItemTranslation } from "@/lib/i18n";
 import type { Item } from "@shared/schema";
+import SEOHead from "@/components/seo-head";
 
 const genres = ["All", "Romance", "Horror", "Sci-Fi", "Fantasy", "Drama", "Mystery"];
 
@@ -117,6 +118,11 @@ export default function Home() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-6">
+      <SEOHead 
+        title="Visual Novel Hub - Discover Amazing Interactive Stories | Home"
+        description="Browse featured visual novels and discover new stories across romance, fantasy, horror, and sci-fi genres. Start reading premium visual novels today."
+        url="https://visual-novel-hub.replit.app/"
+      />
       {/* Genre Filter */}
       <div 
         ref={scrollRef}
