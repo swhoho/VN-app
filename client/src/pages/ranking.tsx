@@ -98,9 +98,9 @@ export default function Ranking() {
             <Badge className="mb-2 bg-white/20 hover:bg-white/30">
               Most Popular
             </Badge>
-            <h2 className="text-xl font-bold mb-1">{topRanked.item.title}</h2>
+            <h2 className="text-xl font-bold mb-1">{getItemTranslation(topRanked.item.title, 'title', language)}</h2>
             <p className="text-sm opacity-90 mb-2">
-              {topRanked.item.description.slice(0, 80)}...
+              {getItemTranslation(topRanked.item.description, 'description', language).slice(0, 80)}...
             </p>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-1">
@@ -150,7 +150,7 @@ export default function Ranking() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-slate-900 dark:text-slate-100 text-sm truncate">
-                      {ranking.item.title}
+                      {getItemTranslation(ranking.item.title, 'title', language)}
                     </h4>
                     <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                       {ranking.item.tags[0]} • {ranking.item.viewCount.toLocaleString()} Views

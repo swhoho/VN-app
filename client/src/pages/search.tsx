@@ -96,7 +96,7 @@ export default function Search() {
                     {getItemTranslation(item.title, 'title', language)}
                   </h4>
                   <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed">
-                    {getItemTranslation(item.title, 'description', language).slice(0, 80)}...
+                    {getItemTranslation(item.description, 'description', language).slice(0, 80)}...
                   </p>
                   
                   {/* 태그들 */}
