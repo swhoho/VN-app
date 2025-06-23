@@ -7,12 +7,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Star, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import type { Ranking, Item } from "@shared/schema";
 import SEOHead from "@/components/seo-head";
+import { useLanguage } from "@/hooks/use-language";
+import { getTranslation, getItemTranslation } from "@/lib/i18n";
 
 interface RankingWithItem extends Ranking {
   item: Item;
 }
 
 export default function Ranking() {
+  const { language } = useLanguage();
   const { data: rankings, isLoading } = useQuery<RankingWithItem[]>({
     queryKey: ["/api/rankings"],
   });

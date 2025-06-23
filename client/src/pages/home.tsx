@@ -286,7 +286,7 @@ export default function Home() {
                         element.scrollTop += e.deltaY;
                       }}
                     >
-                      {item.description || 'No description available'}
+                      {getItemTranslation(item.description, 'description', language) || 'No description available'}
                     </p>
                     
                     {/* 태그들 */}
