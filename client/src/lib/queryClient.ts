@@ -33,8 +33,18 @@ export const getQueryFn: <T>(options: {
     
     // Handle query parameters for search
     if (queryKey.length > 1 && queryKey[1] && typeof queryKey[1] === 'object') {
-      const params = new URLSearchParams(queryKey[1] as Record<string, string>);
-      url += '?' + params.toString();
+      const params = new URLSearchParams();
+      const queryParams = queryKey[1] as Record<string, string>;
+      
+      Object.entries(queryParams).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          params.append(key, String(value));
+        }
+      });
+      
+      if (params.toString()) {
+        url += '?' + params.toString();
+      }
     }
     
     const res = await fetch(url, {

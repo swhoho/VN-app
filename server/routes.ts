@@ -42,7 +42,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Search items 
+  // Search novels
   app.get("/api/novels/search", async (req, res) => {
     try {
       const query = req.query.q as string;
@@ -92,20 +92,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Search novels
-  app.get("/api/novels/search", async (req, res) => {
-    try {
-      const query = req.query.q as string;
-      if (!query) {
-        return res.status(400).json({ message: "Search query is required" });
-      }
-      const items = await storage.searchItems(query);
-      res.json(items);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to search items" });
-    }
-  });
-
 
 
 
@@ -151,8 +137,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Authentication middleware
+  const requireAuth = (req: any, res: any, next: any) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+    next();
+  };
+
   // Create payment intent for points purchase
-  app.post("/api/create-payment-intent", async (req, res) => {
+  app.post("/api/create-payment-intent", requireAuth, async (req, res) => {
     try {
       const { amount, packageId } = req.body;
       
@@ -165,7 +159,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         currency: "usd",
         metadata: {
           packageId: packageId.toString(),
-          userId: "1" // Demo user
+          userId: req.user?.id?.toString() || "1" // Use authenticated user ID
         },
       });
 
@@ -175,13 +169,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Payment intent creation error:", error);
       res.status(500).json({ 
-        message: "Error creating payment intent: " + error.message 
+        message: "Failed to create payment intent",
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
     }
   });
 
   // Handle successful payment and add points to user
-  app.post("/api/points/purchase", async (req, res) => {
+  app.post("/api/points/purchase", requireAuth, async (req, res) => {
     try {
       const { paymentIntentId, packageId, points } = req.body;
       
@@ -196,14 +191,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Payment not completed" });
       }
 
-      // Add points to user (demo user ID 1)
-      const user = await storage.getUser(1);
+      // Add points to authenticated user
+      const userId = req.user?.id || 1; // Fallback to demo user
+      const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
       const newPoints = (user.points || 0) + points;
-      await storage.updateUser(1, { points: newPoints });
+      await storage.updateUser(userId, { points: newPoints });
 
       res.json({ 
         success: true, 

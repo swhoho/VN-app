@@ -5,9 +5,14 @@ import passport from "./auth";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+// Validate required environment variables
+if (!process.env.SESSION_SECRET && process.env.NODE_ENV === 'production') {
+  console.warn('Warning: SESSION_SECRET not set in production');
+}
+
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '10mb' })); // Prevent large payload attacks
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());
 
 // Session configuration
@@ -16,8 +21,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Set to true in production with HTTPS
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    secure: process.env.NODE_ENV === 'production', // HTTPS in production
+    httpOnly: true, // Prevent XSS attacks
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: 'lax' // CSRF protection
   }
 }));
 
