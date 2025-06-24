@@ -209,7 +209,7 @@ export default function Home() {
               }, 100);
             }}
           >
-            {genre}
+            {getTagTranslation(genre, language)}
           </Button>
         ))}
       </div>
@@ -221,7 +221,7 @@ export default function Home() {
         transition={{ delay: 0.2 }}
       >
         <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">
-          {selectedGenre === "All" ? "Popular Items" : `${selectedGenre} Items`}
+          {selectedGenre === "All" ? getTranslation('popularNovels', language) : `${getTagTranslation(selectedGenre, language)} ${getTranslation('popularNovels', language)}`}
         </h3>
         
         {filteredItems.length === 0 ? (

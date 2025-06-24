@@ -1182,6 +1182,7 @@ export const getItemTranslation = (originalTitle: string, field: 'title' | 'desc
 export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
   const tagTranslations: Record<string, Record<string, string>> = {
     ko: {
+      'All': '전체',
       'Romance': '로맨스',
       'Adventure': '모험',
       'Mystery': '미스터리', 
@@ -1199,6 +1200,7 @@ export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
       'Visual Novel': '비주얼 노벨'
     },
     ja: {
+      'All': 'すべて',
       'Romance': 'ロマンス',
       'Adventure': 'アドベンチャー',
       'Mystery': 'ミステリー',
@@ -1216,6 +1218,7 @@ export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
       'Visual Novel': 'ビジュアルノベル'
     },
     'zh-CN': {
+      'All': '全部',
       'Romance': '浪漫',
       'Adventure': '冒险',
       'Mystery': '悬疑',
@@ -1233,6 +1236,7 @@ export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
       'Visual Novel': '视觉小说'
     },
     es: {
+      'All': 'Todos',
       'Romance': 'Romance',
       'Adventure': 'Aventura',
       'Mystery': 'Misterio',
@@ -1250,6 +1254,7 @@ export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
       'Visual Novel': 'Novela Visual'
     },
     fr: {
+      'All': 'Tous',
       'Romance': 'Romance',
       'Adventure': 'Aventure',
       'Mystery': 'Mystère',
@@ -1267,6 +1272,7 @@ export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
       'Visual Novel': 'Roman Visuel'
     },
     de: {
+      'All': 'Alle',
       'Romance': 'Romantik',
       'Adventure': 'Abenteuer',
       'Mystery': 'Mystery',
@@ -1282,6 +1288,150 @@ export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
       'Supernatural': 'Übernatürlich',
       'Mecha': 'Mecha',
       'Visual Novel': 'Visual Novel'
+    },
+    pt: {
+      'All': 'Todos',
+      'Romance': 'Romance',
+      'Adventure': 'Aventura',
+      'Mystery': 'Mistério',
+      'Fantasy': 'Fantasia',
+      'Sci-Fi': 'Ficção Científica',
+      'Horror': 'Terror',
+      'Drama': 'Drama',
+      'Action': 'Ação',
+      'Comedy': 'Comédia',
+      'Thriller': 'Suspense',
+      'School': 'Escola',
+      'Slice of Life': 'Fatia de Vida',
+      'Supernatural': 'Sobrenatural',
+      'Mecha': 'Mecha',
+      'Visual Novel': 'Romance Visual'
+    },
+    ru: {
+      'All': 'Все',
+      'Romance': 'Романтика',
+      'Adventure': 'Приключения',
+      'Mystery': 'Мистика',
+      'Fantasy': 'Фэнтези',
+      'Sci-Fi': 'Научная Фантастика',
+      'Horror': 'Ужасы',
+      'Drama': 'Драма',
+      'Action': 'Боевик',
+      'Comedy': 'Комедия',
+      'Thriller': 'Триллер',
+      'School': 'Школа',
+      'Slice of Life': 'Повседневность',
+      'Supernatural': 'Сверхъестественное',
+      'Mecha': 'Меха',
+      'Visual Novel': 'Визуальная Новелла'
+    },
+    ar: {
+      'All': 'الكل',
+      'Romance': 'رومانسي',
+      'Adventure': 'مغامرة',
+      'Mystery': 'غموض',
+      'Fantasy': 'خيال',
+      'Sci-Fi': 'خيال علمي',
+      'Horror': 'رعب',
+      'Drama': 'دراما',
+      'Action': 'أكشن',
+      'Comedy': 'كوميدي',
+      'Thriller': 'إثارة',
+      'School': 'مدرسة',
+      'Slice of Life': 'شريحة الحياة',
+      'Supernatural': 'خارق للطبيعة',
+      'Mecha': 'ميكا',
+      'Visual Novel': 'رواية مرئية'
+    },
+    hi: {
+      'All': 'सभी',
+      'Romance': 'रोमांस',
+      'Adventure': 'रोमांच',
+      'Mystery': 'रहस्य',
+      'Fantasy': 'काल्पनिक',
+      'Sci-Fi': 'साइंस फिक्शन',
+      'Horror': 'डरावना',
+      'Drama': 'नाटक',
+      'Action': 'एक्शन',
+      'Comedy': 'कॉमेडी',
+      'Thriller': 'थ्रिलर',
+      'School': 'स्कूल',
+      'Slice of Life': 'जीवन के टुकड़े',
+      'Supernatural': 'अलौकिक',
+      'Mecha': 'मेका',
+      'Visual Novel': 'दृश्य उपन्यास'
+    },
+    th: {
+      'All': 'ทั้งหมด',
+      'Romance': 'โรแมนซ์',
+      'Adventure': 'ผจญภัย',
+      'Mystery': 'ลึกลับ',
+      'Fantasy': 'แฟนตาซี',
+      'Sci-Fi': 'ไซไฟ',
+      'Horror': 'สยองขวัญ',
+      'Drama': 'ดราม่า',
+      'Action': 'แอ็คชั่น',
+      'Comedy': 'ตลก',
+      'Thriller': 'ระทึกขวัญ',
+      'School': 'โรงเรียน',
+      'Slice of Life': 'ชีวิตประจำวัน',
+      'Supernatural': 'เหนือธรรมชาติ',
+      'Mecha': 'เมคา',
+      'Visual Novel': 'นิยายภาพ'
+    },
+    vi: {
+      'All': 'Tất cả',
+      'Romance': 'Lãng mạn',
+      'Adventure': 'Phiêu lưu',
+      'Mystery': 'Bí ẩn',
+      'Fantasy': 'Giả tưởng',
+      'Sci-Fi': 'Khoa học viễn tưởng',
+      'Horror': 'Kinh dị',
+      'Drama': 'Kịch tính',
+      'Action': 'Hành động',
+      'Comedy': 'Hài kịch',
+      'Thriller': 'Gay cấn',
+      'School': 'Học đường',
+      'Slice of Life': 'Đời thường',
+      'Supernatural': 'Siêu nhiên',
+      'Mecha': 'Mecha',
+      'Visual Novel': 'Tiểu thuyết hình ảnh'
+    },
+    it: {
+      'All': 'Tutti',
+      'Romance': 'Romance',
+      'Adventure': 'Avventura',
+      'Mystery': 'Mistero',
+      'Fantasy': 'Fantasy',
+      'Sci-Fi': 'Fantascienza',
+      'Horror': 'Horror',
+      'Drama': 'Dramma',
+      'Action': 'Azione',
+      'Comedy': 'Commedia',
+      'Thriller': 'Thriller',
+      'School': 'Scuola',
+      'Slice of Life': 'Vita Quotidiana',
+      'Supernatural': 'Soprannaturale',
+      'Mecha': 'Mecha',
+      'Visual Novel': 'Romanzo Visivo'
+    },
+    tr: {
+      'All': 'Hepsi',
+      'Romance': 'Romantik',
+      'Adventure': 'Macera',
+      'Mystery': 'Gizem',
+      'Fantasy': 'Fantezi',
+      'Sci-Fi': 'Bilim Kurgu',
+      'Horror': 'Korku',
+      'Drama': 'Drama',
+      'Action': 'Aksiyon',
+      'Comedy': 'Komedi',
+      'Thriller': 'Gerilim',
+      'School': 'Okul',
+      'Slice of Life': 'Günlük Yaşam',
+      'Supernatural': 'Doğaüstü',
+      'Mecha': 'Mecha',
+      'Visual Novel': 'Görsel Roman'
     }
   };
 
