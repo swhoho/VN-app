@@ -1164,11 +1164,6 @@ export const getTranslation = (key: string, lang: string = 'en'): string => {
 };
 
 export const getItemTranslation = (originalTitle: string, field: 'title' | 'description', lang: string = 'en'): string => {
-  // If it's English, return the original title for title field or empty for description
-  if (lang === 'en') {
-    return field === 'title' ? originalTitle : '';
-  }
-  
   // Get the translation for the specified language
   const langTranslation = translations[lang as keyof typeof translations];
   if (langTranslation && 'items' in langTranslation && langTranslation.items) {
@@ -1179,6 +1174,117 @@ export const getItemTranslation = (originalTitle: string, field: 'title' | 'desc
     }
   }
   
-  // Fallback to original title for title field, empty for description
-  return field === 'title' ? originalTitle : '';
+  // Return the original title (no fallback translation available)
+  return originalTitle;
+};
+
+// New function for translating tags/genres
+export const getTagTranslation = (tag: string, lang: string = 'en'): string => {
+  const tagTranslations: Record<string, Record<string, string>> = {
+    ko: {
+      'Romance': '로맨스',
+      'Adventure': '모험',
+      'Mystery': '미스터리', 
+      'Fantasy': '판타지',
+      'Sci-Fi': 'SF',
+      'Horror': '호러',
+      'Drama': '드라마',
+      'Action': '액션',
+      'Comedy': '코미디',
+      'Thriller': '스릴러',
+      'School': '학원물',
+      'Slice of Life': '일상물',
+      'Supernatural': '초자연적',
+      'Mecha': '메카',
+      'Visual Novel': '비주얼 노벨'
+    },
+    ja: {
+      'Romance': 'ロマンス',
+      'Adventure': 'アドベンチャー',
+      'Mystery': 'ミステリー',
+      'Fantasy': 'ファンタジー', 
+      'Sci-Fi': 'SF',
+      'Horror': 'ホラー',
+      'Drama': 'ドラマ',
+      'Action': 'アクション',
+      'Comedy': 'コメディー',
+      'Thriller': 'スリラー',
+      'School': '学園もの',
+      'Slice of Life': '日常系',
+      'Supernatural': '超自然的',
+      'Mecha': 'メカ',
+      'Visual Novel': 'ビジュアルノベル'
+    },
+    'zh-CN': {
+      'Romance': '浪漫',
+      'Adventure': '冒险',
+      'Mystery': '悬疑',
+      'Fantasy': '奇幻',
+      'Sci-Fi': '科幻',
+      'Horror': '恐怖',
+      'Drama': '剧情',
+      'Action': '动作',
+      'Comedy': '喜剧',
+      'Thriller': '惊悚',
+      'School': '校园',
+      'Slice of Life': '日常',
+      'Supernatural': '超自然',
+      'Mecha': '机甲',
+      'Visual Novel': '视觉小说'
+    },
+    es: {
+      'Romance': 'Romance',
+      'Adventure': 'Aventura',
+      'Mystery': 'Misterio',
+      'Fantasy': 'Fantasía',
+      'Sci-Fi': 'Ciencia Ficción',
+      'Horror': 'Terror',
+      'Drama': 'Drama',
+      'Action': 'Acción',
+      'Comedy': 'Comedia',
+      'Thriller': 'Thriller',
+      'School': 'Escolar',
+      'Slice of Life': 'Vida Cotidiana',
+      'Supernatural': 'Sobrenatural',
+      'Mecha': 'Mecha',
+      'Visual Novel': 'Novela Visual'
+    },
+    fr: {
+      'Romance': 'Romance',
+      'Adventure': 'Aventure',
+      'Mystery': 'Mystère',
+      'Fantasy': 'Fantaisie',
+      'Sci-Fi': 'Science-Fiction',
+      'Horror': 'Horreur',
+      'Drama': 'Drame',
+      'Action': 'Action',
+      'Comedy': 'Comédie',
+      'Thriller': 'Thriller',
+      'School': 'École',
+      'Slice of Life': 'Tranche de Vie',
+      'Supernatural': 'Surnaturel',
+      'Mecha': 'Mecha',
+      'Visual Novel': 'Roman Visuel'
+    },
+    de: {
+      'Romance': 'Romantik',
+      'Adventure': 'Abenteuer',
+      'Mystery': 'Mystery',
+      'Fantasy': 'Fantasy',
+      'Sci-Fi': 'Science-Fiction',
+      'Horror': 'Horror',
+      'Drama': 'Drama',
+      'Action': 'Action',
+      'Comedy': 'Komödie',
+      'Thriller': 'Thriller',
+      'School': 'Schule',
+      'Slice of Life': 'Alltag',
+      'Supernatural': 'Übernatürlich',
+      'Mecha': 'Mecha',
+      'Visual Novel': 'Visual Novel'
+    }
+  };
+
+  const langTags = tagTranslations[lang];
+  return langTags?.[tag] || tag;
 };

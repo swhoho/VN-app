@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
-import { getTranslation, getItemTranslation } from "@/lib/i18n";
+import { getTranslation, getItemTranslation, getTagTranslation } from "@/lib/i18n";
 import type { Item } from "@shared/schema";
 import SEOHead from "@/components/seo-head";
 
@@ -286,7 +286,10 @@ export default function Home() {
                         element.scrollTop += e.deltaY;
                       }}
                     >
-                      {getItemTranslation(item.description, 'description', language) || 'No description available'}
+                      {(() => {
+                        const translatedDescription = getItemTranslation(item.title, 'description', language);
+                        return translatedDescription !== item.title ? translatedDescription : (item.description || 'No description available');
+                      })()}
                     </p>
                     
                     {/* 태그들 */}
@@ -297,7 +300,7 @@ export default function Home() {
                           variant="secondary" 
                           className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-0"
                         >
-                          {tag}
+                          {getTagTranslation(tag, language)}
                         </Badge>
                       ))}
                       {item.tags.length > 3 && (

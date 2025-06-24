@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import type { Item } from "@shared/schema";
-import { getItemTranslation } from "@/lib/i18n";
+import { getItemTranslation, getTagTranslation } from "@/lib/i18n";
 import { useLanguage } from "@/hooks/use-language";
 
 interface NovelCardProps {
@@ -18,7 +18,8 @@ export default function NovelCard({ novel }: NovelCardProps) {
 
   const translatedTitle = getItemTranslation(novel.title, 'title', language);
   const translatedDescription = getItemTranslation(novel.title, 'description', language);
-  const displayDescription = translatedDescription || novel.description || "No description available";
+  const displayDescription = translatedDescription !== novel.title ? translatedDescription : (novel.description || "No description available");
+  const translatedTag = getTagTranslation(novel.tags[0] || 'Visual Novel', language);
 
   return (
     <Card 
@@ -48,7 +49,7 @@ export default function NovelCard({ novel }: NovelCardProps) {
                 variant="secondary" 
                 className="ml-2 text-xs"
               >
-                {novel.tags[0] || 'Novel'}
+                {translatedTag}
               </Badge>
             </div>
             
