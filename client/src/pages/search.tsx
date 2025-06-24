@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star, Heart, Search as SearchIcon } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
-import { getTranslation, getItemTranslation } from "@/lib/i18n";
+import { getTranslation, getItemTranslation, getTagTranslation } from "@/lib/i18n";
 import type { Item } from "@shared/schema";
 import { useLocation } from "wouter";
 import SEOHead from "@/components/seo-head";
@@ -96,7 +96,11 @@ export default function Search() {
                     {getItemTranslation(item.title, 'title', language)}
                   </h4>
                   <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-2 leading-relaxed">
-                    {getItemTranslation(item.description, 'description', language).slice(0, 80)}...
+                    {(() => {
+                      const translatedDescription = getItemTranslation(item.title, 'description', language);
+                      const displayDescription = translatedDescription !== item.title ? translatedDescription : item.description;
+                      return displayDescription ? displayDescription.slice(0, 80) + '...' : 'No description available';
+                    })()}
                   </p>
                   
                   {/* 태그들 */}
@@ -107,7 +111,7 @@ export default function Search() {
                         variant="secondary" 
                         className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-0"
                       >
-                        {tag}
+                        {getTagTranslation(tag, language)}
                       </Badge>
                     ))}
                     {item.tags.length > 3 && (

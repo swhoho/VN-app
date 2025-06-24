@@ -8,7 +8,7 @@ import { Heart, Star, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import type { Ranking, Item } from "@shared/schema";
 import SEOHead from "@/components/seo-head";
 import { useLanguage } from "@/hooks/use-language";
-import { getTranslation, getItemTranslation } from "@/lib/i18n";
+import { getTranslation, getItemTranslation, getTagTranslation } from "@/lib/i18n";
 
 interface RankingWithItem extends Ranking {
   item: Item;
@@ -100,7 +100,11 @@ export default function Ranking() {
             </Badge>
             <h2 className="text-xl font-bold mb-1">{getItemTranslation(topRanked.item.title, 'title', language)}</h2>
             <p className="text-sm opacity-90 mb-2">
-              {getItemTranslation(topRanked.item.description, 'description', language).slice(0, 80)}...
+              {(() => {
+                const translatedDescription = getItemTranslation(topRanked.item.title, 'description', language);
+                const displayDescription = translatedDescription !== topRanked.item.title ? translatedDescription : topRanked.item.description;
+                return displayDescription ? displayDescription.slice(0, 80) + '...' : 'No description available';
+              })()}
             </p>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-1">
@@ -153,7 +157,7 @@ export default function Ranking() {
                       {getItemTranslation(ranking.item.title, 'title', language)}
                     </h4>
                     <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                      {ranking.item.tags[0]} • {ranking.item.viewCount.toLocaleString()} Views
+                      {getTagTranslation(ranking.item.tags[0] || 'Visual Novel', language)} • {ranking.item.viewCount.toLocaleString()} Views
                     </p>
                     <div className="flex items-center space-x-3 mt-2">
                       <div className="flex items-center space-x-1">
