@@ -1105,7 +1105,49 @@ export const translations = {
     comingSoonMessage: "Bu özellik geliştirme aşamasında. Güncellemeler için takipte kalın!",
     gotIt: "Anladım!",
     language: "Dil",
-    selectLanguage: "Dil Seç"
+    selectLanguage: "Dil Seç",
+    items: {
+      "Neon Dreams": {
+        title: "Neon Rüyalar",
+        description: "Siberpunk geleceğinde, bir hacker insanlığı tehdit eden bir komployu keşfeder. Neon ışıklı sokaklar ve dijital ağlar arasında, kurumsal maskelerin arkasında gizlenen gerçeği ortaya çıkarın."
+      },
+      "Shadow Detective": {
+        title: "Gölge Dedektifi",
+        description: "Doğaüstü yetenekleri olan bir dedektif, karanlık yeraltı dünyasında suçları çözer. Her vaka, bu noir gerilim türündeki iyilik ve kötülüğün doğası hakkında daha derin bir gizemi ortaya çıkarır."
+      },
+      "Royal Deception": {
+        title: "Kraliyet Aldatmacası",
+        description: "Ortaçağ fantezi krallığında saray entrikası ve yasak aşk. Seçimleriniz krallığın kaderini ve karşılaştığınız kişilerin kalpsini belirleyecek."
+      },
+      "Autumn Reverie": {
+        title: "Sonbahar Hayali",
+        description: "Yaprakların değişim mevsiminde Maplewood Lisesi'ne transfer olan sessiz öğrenci Kaede Asakura'nın hikayesi. Altın yapraklar usulca fısıldarken, kendisine gönderilen gizemli kartpostallar keşfeder. Her kartpostal unutulmuş anıları ve söylenmemiş sözleri ima eder. Kaede'yi dallanan hikayeler boyunca yönlendir, sınıf arkadaşlarıyla derin bağlar kur, gizli bir geçmişi ortaya çıkar ve dostluğun sıcaklığını kucaklamaya mı yoksa sonbahar yalnızlığına mı çekilmeye karar ver."
+      },
+      "Rebel's Twilight Confession": {
+        title: "İsyancının Alacakaranlık İtirafı",
+        description: "Alacakaranlığın son anlarında, okulun en ünlü isyancısıyla tehlikeli bir aşk yaşayın. Bu görsel romanda, samimi seçimleriniz onun sert dış görünüşünün çöküp içindeki sıcaklığı ortaya çıkarıp çıkarmayacağını belirleyecek. Son zil çalmadan önce güvenini kazanabilecek misin?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Seraf Şafağı: Son Duruş",
+        description: "Gizemli Kanser tehdidi tarafından harap edilmiş bir dünyada, elit Seraph pilotlarından biri olursunuz—insanlığın son umudu. Şafakta yağmurlu pistte durarak, arkanda dev mecha savaşa hazırlanırken kaskınızı kavrayın. Seçimleriniz ezici zorluklara karşı mücadeleyi şekillendirecek ve kararlılığınızda gizli cesareti ortaya çıkaracak."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Seraf Alacakaranlığı: Akşam Savaşı",
+        description: "Alacakaranlıkta çöken şehir manzarası ortasında, Seraph pilotu olarak duruyorsunuz—insanlığın son savunma hattı. Yağmurlu sokaklar neon holo reklamları yansıtırken arkamızda dev mecha son görev için hazırlanıyor. Tüfeğinizi sıkıca kavrayın ve kararlılığınızı güçlendirin: bu gece dünyanın kaderi ellerinizde."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Güneşli Sayfalar: Edebiyat Kulübü Kayıtları",
+        description: "Edebiyat Kulübü'ne katılın ve şiir, roman ve ortak hayaller aracılığıyla bağ kuran dört benzersiz kişilikle dokunaklı anlar yaşayın. Bu görsel romanda, seçimleriniz dostlukları şekillendirecek, gizli tutkuları ortaya çıkaracak ve sınıftaki her parlak öğleden sonraya sıcaklık getirecek."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Bağlantı Sayfaları: Kulüp Odası Bağları",
+        description: "Paylaşılan hikayelerin ve fısıldanan hayallerin kopmaz bağlar kurduğu Edebiyat Kulübü'nün güneşli kutsal alanına adım atın. Her üyenin sesini bulmasına yardım ederken—şiir, düzyazı veya samimi sohbet yoluyla—gizli sırları keşfedecek ve bu yakın arkadaş çembersinin kaderini şekillendireceksiniz."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Kızıl Hale: Seraf'ın Sınırı",
+        description: "Zarif taktik giysi giymiş ve parlayan kılıç sallayan Seraph pilotu, distopyan savaş alanı ortasında alevli kızıl hale altında ortaya çıkıyor. Kararlı bakışları ve dalgalanan gümüş saçları, yaklaşan karanlığa karşı insanlığın son kararlılığının işareti. Her seçim umudun alevleneceğini mi yoksa küle dönüşeceğini mi belirleyecek."
+      }
+    }
   }
 };
 
