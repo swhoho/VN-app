@@ -1,16 +1,24 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
-import type { Novel } from "@shared/schema";
+import type { Item } from "@shared/schema";
+import { getItemTranslation } from "@/lib/i18n";
+import { useLanguage } from "@/hooks/use-language";
 
 interface NovelCardProps {
-  novel: Novel;
+  novel: Item;
 }
 
 export default function NovelCard({ novel }: NovelCardProps) {
+  const { language } = useLanguage();
+  
   const handleClick = () => {
     window.location.href = `/novel/${novel.id}`;
   };
+
+  const translatedTitle = getItemTranslation(novel.title, 'title', language);
+  const translatedDescription = getItemTranslation(novel.title, 'description', language);
+  const displayDescription = translatedDescription || novel.description || "No description available";
 
   return (
     <Card 
@@ -21,8 +29,8 @@ export default function NovelCard({ novel }: NovelCardProps) {
         <div className="flex">
           <div className="w-24 h-32 flex-shrink-0">
             <img 
-              src={novel.coverImage} 
-              alt={novel.title}
+              src={novel.image} 
+              alt={translatedTitle}
               className="w-full h-full object-cover"
             />
           </div>
@@ -30,22 +38,22 @@ export default function NovelCard({ novel }: NovelCardProps) {
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
                 <h4 className="font-semibold text-slate-900 text-sm line-clamp-1">
-                  {novel.title}
+                  {translatedTitle}
                 </h4>
                 <p className="text-xs text-slate-500 mt-1">
-                  Chapter 1-{novel.availableChapters} Available
+                  {novel.viewCount} views • {novel.likeCount} likes
                 </p>
               </div>
               <Badge 
                 variant="secondary" 
                 className="ml-2 text-xs"
               >
-                {novel.genre}
+                {novel.tags[0] || 'Novel'}
               </Badge>
             </div>
             
             <p className="text-xs text-slate-600 mb-3 line-clamp-2">
-              {novel.description}
+              {displayDescription}
             </p>
             
             <div className="flex items-center justify-between">
@@ -54,10 +62,10 @@ export default function NovelCard({ novel }: NovelCardProps) {
                 <span className="text-xs text-slate-500">{novel.rating}</span>
               </div>
               <Badge 
-                variant={novel.isPremium ? "default" : "outline"}
+                variant={novel.featured ? "default" : "outline"}
                 className="text-xs"
               >
-                {novel.isPremium ? "Premium" : "Free"}
+                {novel.featured ? "Featured" : "Regular"}
               </Badge>
             </div>
           </div>

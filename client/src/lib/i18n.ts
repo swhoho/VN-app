@@ -1030,7 +1030,49 @@ export const translations = {
     comingSoonMessage: "Questa funzionalità è in sviluppo. Resta sintonizzato per gli aggiornamenti!",
     gotIt: "Capito!",
     language: "Lingua",
-    selectLanguage: "Seleziona Lingua"
+    selectLanguage: "Seleziona Lingua",
+    items: {
+      "Neon Dreams": {
+        title: "Sogni al Neon",
+        description: "In un futuro cyberpunk, un hacker scopre una cospirazione che minaccia l'umanità. Attraverso strade illuminate al neon e reti digitali, scopri la verità nascosta dietro le facciate aziendali."
+      },
+      "Shadow Detective": {
+        title: "Detective delle Ombre",
+        description: "Un detective con abilità soprannaturali risolve crimini nel mondo sotterraneo oscuro. Ogni caso rivela un mistero più profondo sulla natura del bene e del male in questo thriller noir."
+      },
+      "Royal Deception": {
+        title: "Inganno Reale",
+        description: "Cospirazione di corte e romanticismo proibito in un regno fantasy medievale. Le tue scelte determineranno il destino del regno e i cuori di coloro che incontri."
+      },
+      "Autumn Reverie": {
+        title: "Sogno d'Autunno",
+        description: "La storia di Kaede Asakura, una studentessa tranquilla che si trasferisce alla Maplewood High School durante la stagione del cambio delle foglie. Mentre le foglie dorate sussurrano dolcemente, scopre cartoline misteriose indirizzate a lei. Ogni cartolina allude a ricordi dimenticati e promesse non dette. Guida Kaede attraverso storie ramificate, forma legami profondi con i compagni di classe, scopri un passato nascosto e decidi se abbracciare il calore dell'amicizia o ritirarsi nella solitudine autunnale."
+      },
+      "Rebel's Twilight Confession": {
+        title: "Confessione del Ribelle al Crepuscolo",
+        description: "Nei momenti finali del crepuscolo, vivi un romanticismo pericoloso con la ribelle più famigerata della scuola. In questa visual novel, le tue scelte sincere determineranno se il suo esteriore ruvido crollerà e rivelerà il calore interiore. Puoi guadagnare la sua fiducia prima che suoni l'ultima campana?"
+      },
+      "Seraph Dawn: Last Stand": {
+        title: "Alba del Serafino: Ultima Resistenza",
+        description: "In un mondo devastato dalla misteriosa minaccia del Cancro, diventi uno dei piloti Seraph d'élite—l'ultima speranza dell'umanità. In piedi su una pista bagnata dalla pioggia all'alba, stringendo il casco mentre il gigantesco mecha dietro di te si prepara per la battaglia. Le tue scelte plasmeranno la lotta contro le probabilità schiaccianti e riveleranno il coraggio nascosto nella tua determinazione."
+      },
+      "Seraph Twilight: Battle at Dusk": {
+        title: "Crepuscolo del Serafino: Battaglia al Tramonto",
+        description: "In mezzo a un paesaggio urbano in rovina al crepuscolo, stai come pilota Seraph—l'ultima linea di difesa dell'umanità. Le strade bagnate dalla pioggia riflettono pubblicità olografiche al neon mentre il gigantesco mecha dietro di te si prepara per la missione finale. Afferra saldamente il fucile e rafforza la tua determinazione: stanotte, il destino del mondo è nelle tue mani."
+      },
+      "Sunlit Pages: Literature Club Chronicles": {
+        title: "Pagine Illuminate dal Sole: Cronache del Club Letterario",
+        description: "Unisciti al Club Letterario e vivi momenti toccanti con quattro personalità uniche che si legano attraverso poesia, romanzi e sogni condivisi. In questa visual novel, le tue scelte plasmeranno le amicizie, riveleranno passioni nascoste e porteranno calore a ogni pomeriggio luminoso in classe."
+      },
+      "Pages of Connection: Clubroom Bonds": {
+        title: "Pagine di Connessione: Legami della Stanza del Club",
+        description: "Entra nel santuario baciato dal sole del Club Letterario, dove storie condivise e sogni sussurrati forgiano legami indissolubili. Mentre aiuti ogni membro a trovare la propria voce—che sia attraverso la poesia, la prosa o conversazioni sincere—scoprirai segreti nascosti e plasmerai il destino di questa cerchia ristretta di amici."
+      },
+      "Crimson Halo: Seraph's Edge": {
+        title: "Alone Cremisi: Il Limite del Serafino",
+        description: "Indossando una tuta tattica elegante e brandendo una lama radiosa, il pilota Seraph emerge sotto un alone cremisi fiammeggiante in mezzo a un campo di battaglia distopico. Il suo sguardo fermo e i capelli argentati fluttuanti segnalano la determinazione finale dell'umanità contro l'oscurità incombente. Ogni scelta determinerà se la speranza si accenderà o si trasformerà in cenere."
+      }
+    }
   },
   tr: {
     appName: "Görsel Roman Merkezi",
@@ -1085,15 +1127,13 @@ export const getItemTranslation = (originalTitle: string, field: 'title' | 'desc
     return field === 'title' ? originalTitle : '';
   }
   
-  // Only handle Korean translations for now
-  if (lang === 'ko') {
-    const koTranslation = translations.ko;
-    if (koTranslation.items) {
-      const items = koTranslation.items;
-      const itemKey = originalTitle as keyof typeof items;
-      if (items[itemKey] && items[itemKey][field]) {
-        return items[itemKey][field];
-      }
+  // Get the translation for the specified language
+  const langTranslation = translations[lang as keyof typeof translations];
+  if (langTranslation && 'items' in langTranslation && langTranslation.items) {
+    const items = langTranslation.items as any;
+    const itemKey = originalTitle as keyof typeof items;
+    if (items[itemKey] && items[itemKey][field]) {
+      return items[itemKey][field];
     }
   }
   
