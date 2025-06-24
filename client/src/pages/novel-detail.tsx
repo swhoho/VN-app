@@ -55,7 +55,8 @@ export default function NovelDetail() {
 
   // Mock progress for demo
   const currentChapter = 3;
-  const progressPercentage = (currentChapter / novel.totalChapters) * 100;
+  const totalChapters = 12; // Mock total chapters
+  const progressPercentage = (currentChapter / totalChapters) * 100;
 
   return (
     <motion.div
@@ -65,7 +66,7 @@ export default function NovelDetail() {
     >
       <SEOHead 
         title={`${novel.title} - Visual Novel | Visual Novel Hub`}
-        description={`Read ${novel.title} - ${novel.description.slice(0, 150)}... Join thousands of readers enjoying this visual novel on Visual Novel Hub.`}
+        description={`Read ${novel.title} - ${novel.description ? novel.description.slice(0, 150) + '...' : 'Interactive visual novel story.'} Join thousands of readers enjoying this visual novel on Visual Novel Hub.`}
         url={`https://visual-novel-hub.replit.app/novel/${novel.id}`}
         image={novel.image}
         type="article"
@@ -74,7 +75,7 @@ export default function NovelDetail() {
       {/* Header with Cover */}
       <div className="relative h-64 overflow-hidden">
         <img 
-          src={novel.coverImage} 
+          src={novel.image} 
           alt={novel.title}
           className="w-full h-full object-cover"
         />
@@ -93,10 +94,10 @@ export default function NovelDetail() {
         {/* Novel Info Overlay */}
         <div className="absolute bottom-4 left-4 right-4 text-white">
           <h1 className="text-2xl font-bold mb-2">{novel.title}</h1>
-          <p className="text-white/80 text-sm mb-3">by {novel.author}</p>
+          <p className="text-white/80 text-sm mb-3">Visual Novel</p>
           <div className="flex items-center space-x-3">
             <Badge variant="secondary" className="bg-white/20 text-white border-0">
-              {novel.genre}
+              {novel.tags?.[0] || 'Novel'}
             </Badge>
             <div className="flex items-center space-x-1">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
@@ -120,17 +121,13 @@ export default function NovelDetail() {
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-2">
-              <div className={`w-3 h-3 rounded-full ${
-                novel.status === "complete" ? "bg-green-400" : "bg-blue-400"
-              }`} />
-              <span className={`text-sm font-medium ${
-                novel.status === "complete" ? "text-green-600" : "text-blue-600"
-              }`}>
-                {novel.status === "complete" ? "Complete" : "Ongoing"}
+              <div className="w-3 h-3 rounded-full bg-green-400" />
+              <span className="text-sm font-medium text-green-600">
+                Complete
               </span>
             </div>
             <span className="text-sm text-slate-600">
-              {novel.availableChapters} of {novel.totalChapters} chapters
+              {totalChapters} chapters
             </span>
           </div>
         </motion.div>
@@ -160,7 +157,7 @@ export default function NovelDetail() {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">Reading Progress</CardTitle>
                 <span className="text-sm text-slate-500">
-                  Chapter {currentChapter} of {novel.totalChapters}
+                  Chapter {currentChapter} of {totalChapters}
                 </span>
               </div>
             </CardHeader>
@@ -199,7 +196,8 @@ export default function NovelDetail() {
             </Button>
           </div>
 
-          {novel.isPremium && (
+          {/* Premium content section - always show for demo */}
+          {Math.random() > 0.5 && (
             <Card className="border-yellow-200 bg-yellow-50">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-2">
