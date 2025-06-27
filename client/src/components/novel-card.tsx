@@ -30,9 +30,10 @@ export default function NovelCard({ novel }: NovelCardProps) {
         <div className="flex">
           <div className="w-24 h-32 flex-shrink-0">
             <img 
-              src={novel.image} 
+              src={`/proxy${new URL(novel.image).pathname}`}
               alt={translatedTitle}
               className="w-full h-full object-cover"
+              onError={(e) => console.error('Image load error:', e, 'URL:', `/proxy${new URL(novel.image).pathname}`)}
             />
           </div>
           <div className="flex-1 p-4">

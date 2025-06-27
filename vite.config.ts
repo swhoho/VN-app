@@ -24,6 +24,15 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
+  server: {
+    proxy: {
+      '/proxy': {
+        target: 'https://storage.cloud.google.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/proxy/, '')
+      }
+    }
+  },
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,

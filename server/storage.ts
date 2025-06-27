@@ -62,16 +62,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllItems(): Promise<Item[]> {
-    return await db.select().from(items);
+    const result = await db.select().from(items);
+    return result.map(item => ({
+      ...item,
+      tags: typeof item.tags === 'string' ? JSON.parse(item.tags) : item.tags
+    }));
   }
 
   async getItem(id: number): Promise<Item | undefined> {
     const [item] = await db.select().from(items).where(eq(items.id, id));
-    return item || undefined;
+    if (!item) return undefined;
+    return {
+      ...item,
+      tags: typeof item.tags === 'string' ? JSON.parse(item.tags) : item.tags
+    };
   }
 
   async getItemsByTag(tag: string): Promise<Item[]> {
-    return await db.select().from(items).where(eq(items.tags, [tag]));
+    // For SQLite, we need to search within the JSON string
+    return await db.select().from(items).where(sql`json_extract(${items.tags}, '$') LIKE '%${tag}%'`);
   }
 
   async getFeaturedItems(): Promise<Item[]> {
