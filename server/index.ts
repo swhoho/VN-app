@@ -5,6 +5,9 @@ import cookieParser from "cookie-parser";
 import passport from "./auth";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import cors from 'cors';
 
 // Validate required environment variables
 if (!process.env.SESSION_SECRET && process.env.NODE_ENV === 'production') {
@@ -12,6 +15,27 @@ if (!process.env.SESSION_SECRET && process.env.NODE_ENV === 'production') {
 }
 
 const app = express();
+
+// Security Middlewares
+app.use(
+  helmet({
+    contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false,
+  })
+);
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? '*' : 'http://localhost:3000',
+  credentials: true,
+}));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api', limiter);
+
+
 app.use(express.json({ limit: '10mb' })); // Prevent large payload attacks
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());

@@ -203,20 +203,8 @@ export async function migrateData() {
     console.log("Inserting users...");
     for (const userData of usersData) {
       await db.insert(users).values({
-        username: userData.username,
-        password: userData.password,
-        points: userData.points,
-        membershipType: userData.membershipType,
-        storiesRead: userData.storiesRead,
-        chaptersRead: userData.chaptersRead,
-        readingTimeHours: userData.readingTimeHours,
-        favoritesCount: userData.favoritesCount,
-        currentStreak: userData.currentStreak,
-        email: userData.email,
-        provider: userData.provider,
-        providerId: userData.providerId,
-        profileImageUrl: userData.profileImageUrl,
-        createdAt: userData.createdAt
+        ...userData,
+        createdAt: new Date(userData.createdAt),
       });
     }
 
@@ -224,15 +212,8 @@ export async function migrateData() {
     console.log("Inserting items...");
     for (const itemData of itemsData) {
       await db.insert(items).values({
-        title: itemData.title,
-        description: itemData.description,
-        image: itemData.image,
-        tags: JSON.stringify(itemData.tags), // Convert array to JSON string for SQLite
-        rating: itemData.rating,
-        viewCount: itemData.viewCount,
-        likeCount: itemData.likeCount,
-        featured: itemData.featured,
-        createdAt: itemData.createdAt
+        ...itemData,
+        createdAt: new Date(itemData.createdAt),
       });
     }
 

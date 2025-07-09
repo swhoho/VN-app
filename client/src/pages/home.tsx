@@ -13,6 +13,9 @@ import SEOHead from "@/components/seo-head";
 
 const genres = ["All", "Romance", "Horror", "Sci-Fi", "Fantasy", "Drama", "Mystery"];
 
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("All");
   const { language } = useLanguage();
@@ -23,7 +26,19 @@ export default function Home() {
   const [hasMoved, setHasMoved] = useState(false);
 
   const { data: items, isLoading } = useQuery<Item[]>({
-    queryKey: ["/api/items"],
+    queryKey: ["items"],
+    queryFn: async () => {
+      const response = await fetch(`${supabaseUrl}/rest/v1/items?select=*`, {
+        headers: {
+          apikey: supabaseAnonKey!,
+          Authorization: `Bearer ${supabaseAnonKey!}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    },
   });
 
   const filteredItems = useMemo(() => {

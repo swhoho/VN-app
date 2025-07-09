@@ -1,4 +1,4 @@
-import { storage } from "./storage";
+import { db } from "./db";
 
 export async function generateSitemap(): Promise<string> {
   const baseUrl = "https://visual-novel-hub.replit.app";
@@ -34,7 +34,7 @@ export async function generateSitemap(): Promise<string> {
 
   try {
     // Add novel pages
-    const items = await storage.getAllItems();
+    const items = await db.query.items.findMany();
     
     for (const item of items) {
       sitemap += `
