@@ -1,0 +1,11 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[dotenv@16.6.0] injecting env (8) from .env
+1:29:49 PM [express] serving on port 3000
+1:29:58 PM [express] HEAD /api/items 200 in 10ms :: [{"id":16,"title":"Rebel's Twilight Confession",…
+Decoded URL: https://storage.cloud.google.com/aivn/royal.png
+Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme

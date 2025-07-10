@@ -26,10 +26,13 @@ export default defineConfig({
   root: path.resolve(import.meta.dirname, "client"),
   server: {
     proxy: {
-      '/proxy': {
-        target: 'https://storage.cloud.google.com',
+      '/api': {
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/proxy/, '')
+      },
+      '/attached_assets': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
       }
     }
   },

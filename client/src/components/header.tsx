@@ -33,9 +33,9 @@ export default function Header() {
           </div>
           
           <div className="flex items-center space-x-3">
-            {isAuthenticated && user && (
+            {isAuthenticated && user && user.points !== undefined && (
               <span className="text-sm text-slate-600 dark:text-slate-400">
-                {user.points?.toLocaleString() || 0} P
+                {user.points.toLocaleString()} P
               </span>
             )}
             <Button 

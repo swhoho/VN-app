@@ -13,8 +13,6 @@ import SEOHead from "@/components/seo-head";
 
 const genres = ["All", "Romance", "Horror", "Sci-Fi", "Fantasy", "Drama", "Mystery"];
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("All");
@@ -28,12 +26,7 @@ export default function Home() {
   const { data: items, isLoading } = useQuery<Item[]>({
     queryKey: ["items"],
     queryFn: async () => {
-      const response = await fetch(`${supabaseUrl}/rest/v1/items?select=*`, {
-        headers: {
-          apikey: supabaseAnonKey!,
-          Authorization: `Bearer ${supabaseAnonKey!}`,
-        },
-      });
+      const response = await fetch("/api/items");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -260,9 +253,15 @@ export default function Home() {
                   {/* 이미지 섹션 - 832x1216 비율 */}
                   <div className="aspect-[832/1216] relative">
                     <img 
-                      src={item.image} 
+                      src={item.image.startsWith('http://localhost:3000') ? item.image : `/proxy/${encodeURIComponent(item.image)}`}
                       alt={item.title}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('Image load error:', e, 'URL:', item.image);
+                        // 에러 시 대체 이미지 표시
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjMzNCIvPgo8dGV4dCB4PSIxMDAiIHk9IjEwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';
+                      }}
                     />
                     <div className="absolute top-2 right-2">
                       <div className="flex items-center space-x-1 bg-black/20 backdrop-blur-sm rounded-full px-2 py-1">
