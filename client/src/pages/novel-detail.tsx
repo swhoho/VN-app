@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Play, Bookmark, Share2, Star, Heart } from "lucide-react";
-import type { Item } from "@shared/schema";
+import type { Item } from "@/types";
 import SEOHead from "@/components/seo-head";
 
 export default function NovelDetail() {

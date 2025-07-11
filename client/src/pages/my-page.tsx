@@ -28,7 +28,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation } from "@/lib/i18n";
 import Login from "./login";
-import type { User as UserType } from "@shared/schema";
+import type { User as UserType } from "@/types";
 
 export default function MyPage() {
   const { user, isAuthenticated, isLoading, logout, isLoggingOut } = useAuth();

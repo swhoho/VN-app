@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Star, Heart, Search as SearchIcon } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation, getItemTranslation, getTagTranslation } from "@/lib/i18n";
-import type { Item } from "@shared/schema";
+import type { Item } from "@/types";
 import { useLocation } from "wouter";
 import SEOHead from "@/components/seo-head";
 

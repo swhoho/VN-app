@@ -190,45 +190,141 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static files from attached_assets
   app.use('/attached_assets', express.static(path.resolve(__dirname, '..', 'attached_assets')));
 
-  // 이미지 프록시 라우트 - 외부 이미지 URL을 프록시하여 CORS 문제 해결
+  // 허용된 이미지 도메인 화이트리스트
+  const ALLOWED_IMAGE_DOMAINS = [
+    'images.unsplash.com',
+    'cdn.pixabay.com',
+    'images.pexels.com',
+    'via.placeholder.com',
+    'picsum.photos',
+    'source.unsplash.com',
+    'res.cloudinary.com',
+    'imgur.com',
+    'i.imgur.com',
+    'github.com',
+    'raw.githubusercontent.com',
+    // 필요에 따라 추가 도메인을 여기에 추가
+  ];
+
+  // Rate limiting을 위한 간단한 메모리 기반 카운터
+  const requestCounts = new Map<string, { count: number; resetTime: number }>();
+  const RATE_LIMIT_PER_IP = 100; // IP당 시간당 요청 수
+  const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1시간
+
+  // 이미지 프록시 라우트 - 보안 강화된 외부 이미지 프록시
   app.get('/proxy/*', async (req, res) => {
     try {
-      const encodedUrl = req.params[0];
-      if (!encodedUrl) {
+      const targetUrl = req.params[0];
+      const clientIP = req.ip || req.connection.remoteAddress || 'unknown';
+
+      // Rate limiting 검사
+      const now = Date.now();
+      const userRequests = requestCounts.get(clientIP);
+      
+      if (userRequests) {
+        if (now > userRequests.resetTime) {
+          // 시간 윈도우가 지났으므로 리셋
+          requestCounts.set(clientIP, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+        } else if (userRequests.count >= RATE_LIMIT_PER_IP) {
+          return res.status(429).json({ 
+            error: 'Too many requests. Please try again later.',
+            retryAfter: Math.ceil((userRequests.resetTime - now) / 1000)
+          });
+        } else {
+          userRequests.count++;
+        }
+      } else {
+        requestCounts.set(clientIP, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+      }
+
+      if (!targetUrl) {
         return res.status(400).json({ error: 'Missing target URL' });
       }
 
-      // URL 디코딩
+      // URL 처리 및 검증
       let fullUrl: string;
+      let parsedUrl: URL;
+      
       try {
-        fullUrl = decodeURIComponent(encodedUrl);
-        console.log('Decoded URL:', fullUrl);
-        new URL(fullUrl);
+        // 이미 완전한 URL인지 확인
+        if (targetUrl.startsWith('https://') || targetUrl.startsWith('http://')) {
+          fullUrl = targetUrl;
+        } else {
+          // URL 디코딩
+          fullUrl = decodeURIComponent(targetUrl);
+        }
+        
+        parsedUrl = new URL(fullUrl);
+        
+        // HTTPS만 허용 (보안상 HTTP는 차단)
+        if (parsedUrl.protocol !== 'https:') {
+          return res.status(400).json({ error: 'Only HTTPS URLs are allowed' });
+        }
+        
       } catch (error) {
-        console.error('URL decode error:', error);
-        return res.status(400).json({ error: 'Invalid URL' });
+        console.error('URL processing error:', error, 'Original:', targetUrl);
+        return res.status(400).json({ error: 'Invalid URL format' });
+      }
+
+      // 도메인 화이트리스트 검증
+      const hostname = parsedUrl.hostname.toLowerCase();
+      const isAllowedDomain = ALLOWED_IMAGE_DOMAINS.some(domain => {
+        return hostname === domain || hostname.endsWith('.' + domain);
+      });
+
+      if (!isAllowedDomain) {
+        console.warn('Blocked request to unauthorized domain:', hostname);
+        return res.status(403).json({ 
+          error: 'Domain not allowed',
+          allowedDomains: ALLOWED_IMAGE_DOMAINS
+        });
       }
 
       // 외부 이미지 요청
-      const response = await fetch(fullUrl);
+      console.log('Fetching URL:', fullUrl);
+      const response = await fetch(fullUrl, {
+        method: 'GET',
+        redirect: 'follow',
+        headers: {
+          'User-Agent': 'VN-App-Proxy/1.0',
+          'Accept': 'image/*',
+        },
+        // 타임아웃 설정 (10초)
+        signal: AbortSignal.timeout(10000)
+      });
+      
+      console.log('Response status:', response.status, 'Response URL:', response.url);
       
       if (!response.ok) {
-        return res.status(response.status).json({ error: 'Failed to fetch image' });
+        console.log('Response not OK:', response.status, response.statusText);
+        return res.status(response.status).json({ 
+          error: 'Failed to fetch image',
+          statusCode: response.status 
+        });
       }
 
-      // Content-Type 설정
+      // Content-Type 검증 (이미지만 허용)
       const contentType = response.headers.get('content-type');
-      if (contentType) {
-        res.setHeader('Content-Type', contentType);
+      if (!contentType || !contentType.startsWith('image/')) {
+        return res.status(400).json({ 
+          error: 'Invalid content type. Only images are allowed.',
+          receivedType: contentType 
+        });
       }
 
-      // CORS 헤더 설정
+      // 파일 크기 제한 (5MB)
+      const contentLength = response.headers.get('content-length');
+      if (contentLength && parseInt(contentLength) > 5 * 1024 * 1024) {
+        return res.status(413).json({ error: 'Image too large. Maximum size is 5MB.' });
+      }
+
+      // 응답 헤더 설정
+      res.setHeader('Content-Type', contentType);
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-      // 캐시 헤더 설정
-      res.setHeader('Cache-Control', 'public, max-age=3600');
+      res.setHeader('Cache-Control', 'public, max-age=3600, immutable');
+      res.setHeader('X-Content-Type-Options', 'nosniff');
 
       // 이미지 데이터 스트리밍
       const buffer = await response.arrayBuffer();
@@ -236,7 +332,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     } catch (error) {
       console.error('Proxy error:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      if (error.name === 'TimeoutError') {
+        res.status(504).json({ error: 'Request timeout' });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
     }
   });
 

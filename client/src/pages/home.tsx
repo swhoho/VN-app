@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState, useRef, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,21 +7,36 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
+import { useDragScroll } from "@/hooks/use-drag-scroll";
 import { getTranslation, getItemTranslation, getTagTranslation } from "@/lib/i18n";
-import type { Item } from "@shared/schema";
+import type { Item } from "@/types";
 import SEOHead from "@/components/seo-head";
 
 const genres = ["All", "Romance", "Horror", "Sci-Fi", "Fantasy", "Drama", "Mystery"];
+
+// 상수 정의
+const SKELETON_LOADING_COUNT = 5;
+const GRID_SKELETON_COUNT = 6;
+const MAX_VISIBLE_TAGS = 3;
+const ANIMATION_DELAY_INCREMENT = 0.1;
+const INITIAL_ANIMATION_DELAY = 0.2;
 
 
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState("All");
   const { language } = useLanguage();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const [hasMoved, setHasMoved] = useState(false);
+  const {
+    scrollRef,
+    isDragging,
+    hasMoved,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleMouseLeave,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+  } = useDragScroll();
 
   const { data: items, isLoading } = useQuery<Item[]>({
     queryKey: ["items"],
@@ -43,80 +58,24 @@ export default function Home() {
         // featured 아이템들을 맨 앞에 표시
         if (a.featured && !b.featured) return -1;
         if (b.featured && !a.featured) return 1;
-        // 나머지는 랜덤 순서로 표시
-        return Math.random() - 0.5;
+        // 안정된 랜덤 정렬을 위해 아이템 ID 기반 해시 사용
+        const hashA = a.id.toString().split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+        const hashB = b.id.toString().split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+        return (hashA % 2) - (hashB % 2);
       });
   }, [items, selectedGenre]);
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (!scrollRef.current) return;
-    setIsDragging(true);
-    setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false);
-    setTimeout(() => {
-      setHasMoved(false);
-    }, 100);
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 0.8;
-    
-    if (Math.abs(walk) > 2) {
-      setHasMoved(true);
-    }
-    
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  }, [isDragging, startX, scrollLeft]);
-
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!scrollRef.current) return;
-    setIsDragging(true);
-    setHasMoved(false);
-    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  }, []);
-
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!isDragging || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 0.6;
-    
-    if (Math.abs(walk) > 2) {
-      setHasMoved(true);
-    }
-    
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  }, [isDragging, startX, scrollLeft]);
-
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false);
-    setTimeout(() => {
-      setHasMoved(false);
-    }, 100);
-  }, []);
 
   if (isLoading) {
     return (
       <div className="max-w-md mx-auto px-4 py-6">
         <div className="flex space-x-3 mb-6">
-          {Array.from({ length: 5 }).map((_, i) => (
+          {Array.from({ length: SKELETON_LOADING_COUNT }).map((_, i) => (
             <Skeleton key={i} className="h-8 w-20 rounded-full" />
           ))}
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: GRID_SKELETON_COUNT }).map((_, i) => (
             <Skeleton key={i} className="aspect-[832/1216] rounded-lg" />
           ))}
         </div>
@@ -162,60 +121,6 @@ export default function Home() {
                 setSelectedGenre(genre);
               }
             }}
-            onMouseDown={(e) => {
-              if (!scrollRef.current) return;
-              setIsDragging(true);
-              setHasMoved(false);
-              setStartX(e.pageX - scrollRef.current.offsetLeft);
-              setScrollLeft(scrollRef.current.scrollLeft);
-            }}
-            onMouseMove={(e) => {
-              if (!isDragging || !scrollRef.current) return;
-              e.preventDefault();
-              const x = e.pageX - scrollRef.current.offsetLeft;
-              const walk = (x - startX) * 0.8;
-              
-              if (Math.abs(walk) > 2) {
-                setHasMoved(true);
-              }
-              
-              scrollRef.current.scrollLeft = scrollLeft - walk;
-            }}
-            onMouseUp={() => {
-              setIsDragging(false);
-              setTimeout(() => {
-                setHasMoved(false);
-              }, 100);
-            }}
-            onTouchStart={(e) => {
-              if (!scrollRef.current) return;
-              setIsDragging(true);
-              setHasMoved(false);
-              setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
-              setScrollLeft(scrollRef.current.scrollLeft);
-            }}
-            onTouchMove={(e) => {
-              if (!isDragging || !scrollRef.current) return;
-              e.preventDefault();
-              const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-              const walk = (x - startX) * 0.6;
-              
-              if (Math.abs(walk) > 2) {
-                setHasMoved(true);
-              }
-              
-              scrollRef.current.scrollLeft = scrollLeft - walk;
-            }}
-            onTouchEnd={(e) => {
-              e.stopPropagation();
-              setIsDragging(false);
-              if (!hasMoved) {
-                setSelectedGenre(genre);
-              }
-              setTimeout(() => {
-                setHasMoved(false);
-              }, 100);
-            }}
           >
             {getTagTranslation(genre, language)}
           </Button>
@@ -226,7 +131,7 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
+        transition={{ delay: INITIAL_ANIMATION_DELAY }}
       >
         <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">
           {selectedGenre === "All" ? getTranslation('popularNovels', language) : `${getTagTranslation(selectedGenre, language)} ${getTranslation('popularNovels', language)}`}
@@ -245,7 +150,7 @@ export default function Home() {
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * ANIMATION_DELAY_INCREMENT }}
                 className="cursor-pointer hover:scale-105 transition-transform duration-200"
                 onClick={() => window.location.href = `/novel/${item.id}`}
               >
@@ -253,11 +158,11 @@ export default function Home() {
                   {/* 이미지 섹션 - 832x1216 비율 */}
                   <div className="aspect-[832/1216] relative">
                     <img 
-                      src={item.image.startsWith('http://localhost:3000') ? item.image : `/proxy/${encodeURIComponent(item.image)}`}
+                      src={item.image.startsWith('http://localhost:3000') ? item.image : `/proxy/${item.image}`}
                       alt={item.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        console.error('Image load error:', e, 'URL:', item.image);
+                        console.error('Image load error:', e, 'URL:', item.image, 'Proxy URL:', `/proxy/${item.image}`);
                         // 에러 시 대체 이미지 표시
                         const target = e.target as HTMLImageElement;
                         target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjMzNCIvPgo8dGV4dCB4PSIxMDAiIHk9IjEwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';
@@ -308,7 +213,7 @@ export default function Home() {
                     
                     {/* 태그들 */}
                     <div className="flex flex-wrap gap-1 mb-2">
-                      {item.tags.slice(0, 3).map((tag, tagIndex) => (
+                      {item.tags.slice(0, MAX_VISIBLE_TAGS).map((tag, tagIndex) => (
                         <Badge 
                           key={tagIndex}
                           variant="secondary" 
@@ -317,12 +222,12 @@ export default function Home() {
                           {getTagTranslation(tag, language)}
                         </Badge>
                       ))}
-                      {item.tags.length > 3 && (
+                      {item.tags.length > MAX_VISIBLE_TAGS && (
                         <Badge 
                           variant="secondary" 
                           className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 border-0"
                         >
-                          +{item.tags.length - 3}
+                          +{item.tags.length - MAX_VISIBLE_TAGS}
                         </Badge>
                       )}
                     </div>
