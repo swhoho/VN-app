@@ -15,12 +15,11 @@ export interface User {
   id: string;
   username?: string;
   profileImageUrl?: string;
-  points: number;
-  membershipType: string;
   storiesRead: number;
   chaptersRead: number;
   readingTimeHours: string;
   favoritesCount: number;
   currentStreak: number;
   updatedAt?: string;
+  createdAt?: string;
 }

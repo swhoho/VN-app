@@ -18,7 +18,7 @@ const itemsData = itemsJsonData.map((item: any) => ({
   likeCount: item.like_count,
   featured: item.featured,
   image: item.image,
-  tags: JSON.stringify(item.tags), // SQLite에서는 JSON 문자열로 저장
+  tags: JSON.stringify(item.tags), // PostgreSQL에서는 JSON 문자열로 저장
   createdAt: item.created_at
 }));
 

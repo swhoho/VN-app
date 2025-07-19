@@ -230,12 +230,69 @@ return (
 
 ### 🔐 인증 API
 
-#### Google OAuth 로그인
+#### Supabase JWT 기반 인증
+이 플랫폼은 **Supabase Auth**를 사용하여 JWT 토큰 기반 인증을 제공합니다.
+
+**인증 헤더 형식**:
+```http
+Authorization: Bearer <jwt_token>
+```
+
+**토큰 획득 방법**: Supabase 클라이언트를 통한 로그인 후 자동 발급
+
+**인증 플로우**:
+1. 클라이언트에서 Supabase Auth로 로그인
+2. JWT 토큰 자동 발급 및 저장
+3. API 요청 시 Authorization 헤더에 토큰 포함
+4. 서버에서 토큰 검증 후 사용자 정보 제공
+
+---
+
+#### 사용자 통계 정보
+```http
+GET /api/my-page/stats
+```
+
+**설명**: 현재 로그인한 사용자의 통계 정보를 반환합니다.
+
+**인증**: 필요 ✅ (Supabase JWT 토큰)
+
+**응답**:
+```json
+{
+  "totalReadingTime": 15.5,
+  "favoritesCount": 12,
+  "completedCount": 8,
+  "achievementsCount": 25
+}
+```
+
+**응답 필드**:
+- `totalReadingTime` (number): 총 독서 시간 (시간 단위)
+- `favoritesCount` (number): 즐겨찾기 수
+- `completedCount` (number): 완료한 작품 수
+- `achievementsCount` (number): 획득한 업적 수
+
+**오류 응답**:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**상태 코드**:
+- `200 OK`: 성공
+- `401 Unauthorized`: 인증 토큰 없음 또는 유효하지 않음
+- `500 Internal Server Error`: 서버 오류
+
+---
+
+#### Google OAuth 로그인 (레거시)
 ```http
 GET /api/auth/google
 ```
 
-**설명**: Google OAuth 2.0 로그인 페이지로 리디렉션합니다.
+**설명**: Google OAuth 2.0 로그인 페이지로 리디렉션합니다. (Supabase 마이그레이션으로 인해 사용 중단 예정)
 
 **응답**: 
 - `302 Found`: Google OAuth 페이지로 리디렉션
@@ -249,12 +306,12 @@ window.location.href = '/api/auth/google';
 
 ---
 
-#### Google OAuth 콜백
+#### Google OAuth 콜백 (레거시)
 ```http
 GET /api/auth/google/callback
 ```
 
-**설명**: Google OAuth 인증 후 콜백을 처리합니다.
+**설명**: Google OAuth 인증 후 콜백을 처리합니다. (Supabase 마이그레이션으로 인해 사용 중단 예정)
 
 **쿼리 매개변수**:
 - `code`: Google에서 제공하는 인증 코드
@@ -266,12 +323,12 @@ GET /api/auth/google/callback
 
 ---
 
-#### 현재 사용자 정보
+#### 현재 사용자 정보 (레거시)
 ```http
 GET /api/auth/me
 ```
 
-**설명**: 현재 로그인한 사용자 정보를 반환합니다.
+**설명**: 현재 로그인한 사용자 정보를 반환합니다. (세션 기반, 사용 중단 예정)
 
 **인증**: 필요 ✅
 
@@ -302,12 +359,12 @@ GET /api/auth/me
 
 ---
 
-#### 로그아웃
+#### 로그아웃 (레거시)
 ```http
 POST /api/auth/logout
 ```
 
-**설명**: 현재 세션을 종료하고 로그아웃합니다.
+**설명**: 현재 세션을 종료하고 로그아웃합니다. (세션 기반, 사용 중단 예정)
 
 **응답**:
 ```json
@@ -336,7 +393,7 @@ POST /api/auth/logout
 GET /api/items
 ```
 
-**설명**: 모든 비주얼 노벨 아이템 목록을 반환합니다.
+**설명**: 일반 비주얼 노벨 아이템 목록을 반환합니다. (canvas=false 아이템만 포함)
 
 **응답**:
 ```json
@@ -351,6 +408,7 @@ GET /api/items
     "viewCount": 12500,
     "likeCount": 850,
     "featured": true,
+    "canvas": false,
     "createdAt": "2024-01-01T00:00:00.000Z"
   },
   {
@@ -363,6 +421,7 @@ GET /api/items
     "viewCount": 8900,
     "likeCount": 420,
     "featured": false,
+    "canvas": false,
     "createdAt": "2024-01-02T00:00:00.000Z"
   }
 ]
@@ -373,17 +432,75 @@ GET /api/items
 - `title` (string): 제목
 - `description` (string): 설명
 - `image` (string): 이미지 URL
-- `tags` (array): 태그 배열
+- `tags` (array): 태그 배열 (JSON에서 파싱됨)
 - `rating` (string): 평점 (0-5)
 - `viewCount` (integer): 조회수
 - `likeCount` (integer): 좋아요 수
 - `featured` (boolean): 추천 여부
+- `canvas` (boolean): 캔버스 아이템 여부 (일반 아이템은 false)
 - `createdAt` (string): 생성일시 (ISO 8601 형식)
 
 **오류 응답**:
 ```json
 {
   "message": "Error fetching items"
+}
+```
+
+**상태 코드**:
+- `200 OK`: 성공
+- `500 Internal Server Error`: 서버 오류
+
+---
+
+#### 캔버스 아이템 목록
+```http
+GET /api/canvas-items
+```
+
+**설명**: 사용자 생성 콘텐츠(UGC) 캔버스 아이템 목록을 반환합니다. (canvas=true 아이템만 포함)
+
+**응답**:
+```json
+[
+  {
+    "id": "uuid-1234",
+    "title": "My Custom Story",
+    "description": "A user-created interactive story.",
+    "image": "https://example.com/user-image.jpg",
+    "tags": ["user-generated", "interactive"],
+    "rating": "4.0",
+    "viewCount": 150,
+    "likeCount": 25,
+    "featured": false,
+    "canvas": true,
+    "created_at": "2024-12-01T10:30:00.000Z"
+  }
+]
+```
+
+**응답 필드**:
+- `id` (string): 아이템 고유 ID (UUID 형식)
+- `title` (string): 제목
+- `description` (string): 설명
+- `image` (string): 이미지 URL
+- `tags` (array): 태그 배열 (JSON에서 파싱됨)
+- `rating` (string): 평점 (0-5)
+- `viewCount` (integer): 조회수
+- `likeCount` (integer): 좋아요 수
+- `featured` (boolean): 추천 여부
+- `canvas` (boolean): 캔버스 아이템 여부 (항상 true)
+- `created_at` (string): 생성일시 (ISO 8601 형식, Supabase 필드명)
+
+**특징**:
+- 캔버스 전용 아이템만 필터링
+- 생성일 기준 내림차순 정렬
+- 사용자 생성 콘텐츠(UGC) 전용
+
+**오류 응답**:
+```json
+{
+  "message": "Error fetching canvas items"
 }
 ```
 
@@ -448,26 +565,46 @@ GET /api/rankings
 
 ### 🖼️ 유틸리티 API
 
-#### 이미지 프록시
+#### 보안 강화 이미지 프록시
 ```http
 GET /proxy/*
 ```
 
-**설명**: 외부 이미지 URL을 프록시하여 CORS 문제를 해결합니다.
+**설명**: 외부 이미지 URL을 안전하게 프록시하여 CORS 문제를 해결합니다. 강화된 보안 기능을 포함합니다.
 
 **경로 매개변수**:
 - `*`: 프록시할 외부 이미지 URL
 
+**보안 기능**:
+- **도메인 화이트리스트**: 허용된 도메인만 접근 가능
+- **Rate Limiting**: IP당 시간당 100회 요청 제한
+- **HTTPS 강제**: HTTP 요청 자동 차단
+- **파일 크기 제한**: 최대 5MB
+- **콘텐츠 타입 검증**: 이미지 파일만 허용
+- **요청 타임아웃**: 10초 제한
+
+**허용된 도메인**:
+```javascript
+[
+  'images.unsplash.com',
+  'cdn.pixabay.com', 
+  'images.pexels.com',
+  'source.unsplash.com',
+  'picsum.photos',
+  // 기타 승인된 이미지 도메인들
+]
+```
+
 **사용 예시**:
 ```javascript
-// 원본 이미지 URL
-const originalUrl = 'https://external-site.com/image.jpg';
+// 원본 이미지 URL (허용된 도메인)
+const originalUrl = 'https://images.unsplash.com/photo-1234567890';
 
 // 프록시된 URL
 const proxyUrl = `/proxy/${encodeURIComponent(originalUrl)}`;
 
 // 또는 이미 완전한 URL인 경우
-const proxyUrl = `/proxy/https://external-site.com/image.jpg`;
+const proxyUrl = `/proxy/https://images.unsplash.com/photo-1234567890`;
 ```
 
 **응답**:
@@ -478,18 +615,42 @@ const proxyUrl = `/proxy/https://external-site.com/image.jpg`;
 - `Access-Control-Allow-Origin: *`
 - `Access-Control-Allow-Methods: GET`
 - `Cache-Control: public, max-age=3600`
+- `X-Proxy-Cache: HIT|MISS`
 
 **오류 응답**:
 ```json
 {
-  "error": "Missing target URL"
+  "error": "Domain not allowed"
+}
+```
+```json
+{
+  "error": "Rate limit exceeded"
+}
+```
+```json
+{
+  "error": "File too large (max 5MB)"
+}
+```
+```json
+{
+  "error": "Invalid content type"
 }
 ```
 
 **상태 코드**:
 - `200 OK`: 성공
-- `400 Bad Request`: 잘못된 URL
+- `400 Bad Request`: 잘못된 URL 또는 허용되지 않은 도메인
+- `413 Payload Too Large`: 파일 크기 초과
+- `429 Too Many Requests`: Rate limit 초과
 - `500 Internal Server Error`: 프록시 오류
+- `504 Gateway Timeout`: 원본 서버 응답 시간 초과
+
+**Rate Limiting 정보**:
+- **제한**: IP당 시간당 100회 요청
+- **헤더**: `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+- **초과 시**: 1시간 후 재시도 가능
 
 ---
 
@@ -720,6 +881,35 @@ function getProxyImageUrl(originalUrl) {
 - `2024-01-01`: 초기 API 버전 릴리스
 - `2024-01-15`: 이미지 프록시 기능 추가
 - `2024-02-01`: 랭킹 API 성능 최적화
+- `2024-11-15`: Supabase 통합 및 JWT 기반 인증 추가
+- `2024-12-01`: 캔버스 아이템 API 추가 (/api/canvas-items)
+- `2024-12-01`: 사용자 통계 API 추가 (/api/my-page/stats)
+- `2024-12-01`: 이미지 프록시 보안 강화 (도메인 화이트리스트, Rate limiting)
+- `2024-12-15`: UGC(사용자 생성 콘텐츠) 플랫폼 기능 완성
+
+---
+
+## 📋 API 요약
+
+### 현재 사용 가능한 엔드포인트
+| 엔드포인트 | 메소드 | 인증 | 설명 |
+|-----------|--------|------|------|
+| `/api/my-page/stats` | GET | JWT ✅ | 사용자 통계 정보 |
+| `/api/items` | GET | ❌ | 일반 비주얼 노벨 목록 |
+| `/api/canvas-items` | GET | ❌ | 캔버스(UGC) 아이템 목록 |
+| `/api/rankings` | GET | ❌ | 랭킹 정보 |
+| `/proxy/*` | GET | ❌ | 보안 강화 이미지 프록시 |
+| `/attached_assets/*` | GET | ❌ | 정적 파일 서비스 |
+| `/sitemap.xml` | GET | ❌ | 사이트맵 |
+| `/robots.txt` | GET | ❌ | 로봇 텍스트 |
+
+### 레거시 엔드포인트 (사용 중단 예정)
+| 엔드포인트 | 메소드 | 인증 | 설명 |
+|-----------|--------|------|------|
+| `/api/auth/google` | GET | ❌ | Google OAuth 로그인 |
+| `/api/auth/google/callback` | GET | ❌ | OAuth 콜백 |
+| `/api/auth/me` | GET | 세션 | 현재 사용자 정보 |
+| `/api/auth/logout` | POST | 세션 | 로그아웃 |
 
 ---
 

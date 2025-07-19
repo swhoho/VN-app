@@ -2,10 +2,9 @@
 > rest-express@1.0.0 dev
 > NODE_ENV=development tsx server/index.ts
 
-[dotenv@16.6.0] injecting env (8) from .env
-1:29:49 PM [express] serving on port 3000
-1:29:58 PM [express] HEAD /api/items 200 in 10ms :: [{"id":16,"title":"Rebel's Twilight Confession",…
-Decoded URL: https://storage.cloud.google.com/aivn/royal.png
-Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
-  npx update-browserslist-db@latest
-  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[dotenv@16.6.0] injecting env (11) from .env
+[dotenv@16.6.0] injecting env (11) from .env
+9:17:17 AM [express] serving on port 3000
+9:17:42 AM [express] GET /api/items 304 in 686ms :: [{"id":29,"title":"Neon Dreams","description":"I…
+9:17:48 AM [express] GET /api/items 200 in 351ms :: [{"id":29,"title":"Neon Dreams","description":"I…
+오전 9:17:49 [vite] Pre-transform error: Failed to parse JSON file.

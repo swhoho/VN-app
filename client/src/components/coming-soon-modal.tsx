@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Clock } from "lucide-react";
+import { useLanguage } from "@/hooks/use-language";
+import { getTranslation } from "@/lib/i18n";
 
 export default function ComingSoonModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const { language } = useLanguage();
 
   useEffect(() => {
     const handleShowModal = () => {
@@ -43,18 +46,18 @@ export default function ComingSoonModal() {
             </motion.div>
             
             <h3 className="text-lg font-semibold text-slate-900 mb-2">
-              Coming Soon!
+              {getTranslation('comingSoonTitle', language)}
             </h3>
             
             <p className="text-slate-600 text-sm mb-6">
-              This feature is currently under development. Stay tuned for updates!
+              {getTranslation('comingSoonDescription', language)}
             </p>
             
             <Button 
               onClick={handleClose}
               className="bg-primary hover:bg-primary/90 text-white px-6"
             >
-              Got it!
+              {getTranslation('gotItButton', language)}
             </Button>
           </motion.div>
         </div>

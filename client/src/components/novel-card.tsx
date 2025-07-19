@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 import type { Item } from "@/types";
 import { getItemTranslation, getTagTranslation } from "@/lib/i18n";
 import { useLanguage } from "@/hooks/use-language";
+import { getImageProps } from "@/utils/imageProxy";
 
 interface NovelCardProps {
   novel: Item;
@@ -18,7 +19,7 @@ export default function NovelCard({ novel }: NovelCardProps) {
 
   const translatedTitle = getItemTranslation(novel.title, 'title', language);
   const translatedDescription = getItemTranslation(novel.title, 'description', language);
-  const displayDescription = translatedDescription !== novel.title ? translatedDescription : (novel.description || "No description available");
+  const displayDescription = translatedDescription !== novel.title ? translatedDescription : (novel.description || getTranslation('noDescriptionAvailable', language));
   const translatedTag = getTagTranslation(novel.tags[0] || 'Visual Novel', language);
 
   return (
@@ -30,10 +31,9 @@ export default function NovelCard({ novel }: NovelCardProps) {
         <div className="flex">
           <div className="w-24 h-32 flex-shrink-0">
             <img 
-              src={`/proxy${new URL(novel.image).pathname}`}
+              {...getImageProps(novel.image)}
               alt={translatedTitle}
               className="w-full h-full object-cover"
-              onError={(e) => console.error('Image load error:', e, 'URL:', `/proxy${new URL(novel.image).pathname}`)}
             />
           </div>
           <div className="flex-1 p-4">
@@ -43,7 +43,7 @@ export default function NovelCard({ novel }: NovelCardProps) {
                   {translatedTitle}
                 </h4>
                 <p className="text-xs text-slate-500 mt-1">
-                  {novel.viewCount} views • {novel.likeCount} likes
+                  {novel.viewCount} {getTranslation('views', language)} • {novel.likeCount} {getTranslation('likes', language)}
                 </p>
               </div>
               <Badge 
@@ -67,7 +67,7 @@ export default function NovelCard({ novel }: NovelCardProps) {
                 variant={novel.featured ? "default" : "outline"}
                 className="text-xs"
               >
-                {novel.featured ? "Featured" : "Regular"}
+                {novel.featured ? getTranslation('featured', language) : getTranslation('regular', language)}
               </Badge>
             </div>
           </div>

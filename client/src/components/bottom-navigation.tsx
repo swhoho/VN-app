@@ -1,5 +1,5 @@
 import { useLocation } from "wouter";
-import { Home, Trophy, User } from "lucide-react";
+import { Home, Trophy, User, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation } from "@/lib/i18n";
@@ -11,6 +11,7 @@ export default function BottomNavigation() {
   const navItems = [
     { path: "/", icon: Home, labelKey: "home" },
     { path: "/ranking", icon: Trophy, labelKey: "ranking" },
+    { path: "/canvas", icon: Palette, labelKey: "canvas" },
     { path: "/my-page", icon: User, labelKey: "myPage" },
   ];
 

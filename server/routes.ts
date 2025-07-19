@@ -1,9 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
-import passport from "./auth";
 import { eq } from "drizzle-orm";
 import { db } from "./db";
+import { supabase } from "./supabase";
 import { profiles, rankings, items } from "@shared/schema";
 import { generateSitemap, generateRobotsTxt } from "./sitemap";
 import fs from "fs/promises";
@@ -22,114 +22,125 @@ const __dirname = path.dirname(__filename);
 // });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Authentication routes
-  app.get('/api/auth/google', passport.authenticate('google', { 
-    scope: ['profile', 'email'] 
-  }));
-
-  app.get('/api/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }),
-    (req, res) => {
-      res.redirect('/');
-    }
-  );
-
-  app.post('/api/auth/logout', (req, res) => {
-    req.logout((err) => {
-      if (err) {
-        return res.status(500).json({ error: 'Logout failed' });
+  // Supabase JWT 검증 미들웨어
+  const requireAuth = async (req: any, res: any, next: any) => {
+    try {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Missing or invalid authorization header' });
       }
-      res.json({ success: true });
-    });
-  });
 
-  app.get('/api/auth/me', (req, res) => {
-    if (req.isAuthenticated()) {
-      res.json(req.user);
-    } else {
-      res.status(401).json({ error: 'Not authenticated' });
+      const token = authHeader.split(' ')[1];
+      
+      // Supabase JWT 토큰 검증
+      const { data: { user }, error } = await supabase.auth.getUser(token);
+
+      if (error || !user) {
+        console.error('Auth error:', error);
+        return res.status(401).json({ error: 'Invalid or expired token' });
+      }
+
+      req.user = { id: user.id, email: user.email };
+      next();
+    } catch (error) {
+      console.error('Auth middleware error:', error);
+      return res.status(401).json({ error: 'Authentication failed' });
     }
-  });
-
-
-  // Authentication middleware
-  const requireAuth = (req: any, res: any, next: any) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: 'Authentication required' });
-    }
-    next();
   };
 
-  // Create payment intent for points purchase
-  // app.post("/api/create-payment-intent", requireAuth, async (req, res) => {
-  //   try {
-  //     const { amount, packageId } = req.body;
-      
-  //     if (!amount || amount <= 0) {
-  //       return res.status(400).json({ message: "Invalid amount" });
-  //     }
+  // 사용자 프로필 조회/생성 엔드포인트 추가
+  app.get('/api/profile', requireAuth, async (req, res) => {
+    try {
+      const userId = (req.user as any).id;
+      if (!userId) {
+        return res.status(400).json({ error: 'User ID not found in session' });
+      }
 
-  //     const paymentIntent = await stripe.paymentIntents.create({
-  //       amount: Math.round(amount * 100), // Convert to cents
-  //       currency: "usd",
-  //       metadata: {
-  //         packageId: packageId.toString(),
-  //         userId: (req.user as any)?.id?.toString() || "1" // Use authenticated user ID
-  //       },
-  //     });
+      // 프로필 조회
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
 
-  //     res.json({ 
-  //       clientSecret: paymentIntent.client_secret 
-  //     });
-  //   } catch (error: any) {
-  //     console.error("Payment intent creation error:", error);
-  //     res.status(500).json({ 
-  //       message: "Failed to create payment intent",
-  //       error: process.env.NODE_ENV === 'development' ? error.message : undefined
-  //     });
-  //   }
-  // });
+      if (error && error.code === 'PGRST116') {
+        // 프로필이 없는 경우 자동으로 생성
+        const { data: userData } = await supabase.auth.getUser((req.headers.authorization as string).split(' ')[1]);
+        
+        const newProfile = {
+          id: userId,
+          username: userData.user?.user_metadata?.full_name || 
+                   userData.user?.email || 
+                   `User ${userId.substring(0, 8)}`,
+          profile_image_url: userData.user?.user_metadata?.avatar_url || null,
+          stories_read: 0,
+          chapters_read: 0,
+          reading_time_hours: "0",
+          favorites_count: 0,
+          current_streak: 0,
+        };
 
-  // Handle successful payment and add points to user
-  // app.post("/api/points/purchase", requireAuth, async (req, res) => {
-  //   try {
-  //     const { paymentIntentId, packageId, points } = req.body;
-      
-  //     if (!paymentIntentId || !packageId || !points) {
-  //       return res.status(400).json({ message: "Missing required fields" });
-  //     }
+        const { data: createdProfile, error: createError } = await supabase
+          .from('profiles')
+          .insert(newProfile)
+          .select()
+          .single();
 
-  //     // Verify payment with Stripe
-  //     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-      
-  //     if (paymentIntent.status !== 'succeeded') {
-  //       return res.status(400).json({ message: "Payment not completed" });
-  //     }
+        if (createError) {
+          console.error('프로필 생성 오류:', createError);
+          return res.status(500).json({ error: 'Failed to create profile' });
+        }
 
-  //     // Add points to authenticated user
-  //     const userId = (req.user as any).id;
-  //     const user = await db.query.profiles.findFirst({
-  //       where: (profiles, { eq }) => eq(profiles.id, userId),
-  //     });
-  //     if (!user) {
-  //       return res.status(404).json({ message: "User not found" });
-  //     }
+        return res.json(createdProfile);
+      } else if (error) {
+        console.error('프로필 조회 오류:', error);
+        return res.status(500).json({ error: 'Failed to fetch profile' });
+      }
 
-  //     const newPoints = (user.points || 0) + points;
-  //     await db.update(profiles).set({ points: newPoints }).where(eq(profiles.id, userId));
+      res.json(profile);
+    } catch (error) {
+      console.error('Error fetching/creating profile:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
-  //     res.json({ 
-  //       success: true, 
-  //       newPoints,
-  //       message: "Points added successfully" 
-  //     });
-  //   } catch (error: any) {
-  //     console.error("Points purchase error:", error);
-  //     res.status(500).json({ 
-  //       message: "Error processing purchase: " + error.message 
-  //     });
-  //   }
-  // });
+  app.get('/api/my-page/stats', requireAuth, async (req, res) => {
+    try {
+      const userId = (req.user as any).id;
+      if (!userId) {
+        return res.status(400).json({ error: 'User ID not found in session' });
+      }
+
+      // 먼저 프로필이 존재하는지 확인하고 없으면 생성
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (!profile) {
+        // 프로필이 없으면 기본 통계값 반환
+        return res.json({
+          totalReadingTime: 0,
+          favoritesCount: 0,
+          completedCount: 0,
+          achievementsCount: 0
+        });
+      }
+
+      // 프로필에서 통계 정보 가져오기
+      res.json({
+        totalReadingTime: parseFloat(profile.reading_time_hours || "0"),
+        favoritesCount: profile.favorites_count || 0,
+        completedCount: profile.stories_read || 0,
+        achievementsCount: profile.current_streak || 0
+      });
+    } catch (error) {
+      console.error('Error fetching user stats:', error);
+      res.status(500).json({ error: 'Failed to fetch user stats' });
+    }
+  });
+
 
   // SEO Routes
   app.get("/sitemap.xml", async (req, res) => {
@@ -150,12 +161,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/items", async (req, res) => {
     try {
-      const result = await db.select().from(items);
-      // SQLite에서 JSON 문자열로 저장된 tags를 파싱
-      const parsedResult = result.map(item => ({
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('canvas', false) // 캔버스가 아닌 일반 아이템만 가져오기
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      
+      // 캔버스 아이템을 확실히 필터링
+      const filteredData = data.filter(item => item.canvas === false);
+
+      // tags가 JSON 문자열인 경우 파싱
+      const parsedResult = filteredData.map(item => ({
         ...item,
-        tags: JSON.parse(item.tags || "[]")
+        tags: typeof item.tags === 'string' ? JSON.parse(item.tags || "[]") : item.tags
       }));
+      
       res.json(parsedResult);
     } catch (error) {
       console.error("Error fetching items:", error);
@@ -163,21 +185,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // 캔버스 아이템을 위한 별도 엔드포인트 추가
+  app.get("/api/canvas-items", async (req, res) => {
+    try {
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('canvas', true) // 캔버스 아이템만 가져오기
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+
+      // 캔버스 아이템을 확실히 필터링
+      const filteredData = data.filter(item => item.canvas === true);
+      
+      // tags가 JSON 문자열인 경우 파싱
+      const parsedResult = filteredData.map(item => ({
+        ...item,
+        tags: typeof item.tags === 'string' ? JSON.parse(item.tags || "[]") : item.tags
+      }));
+      
+      res.json(parsedResult);
+    } catch (error) {
+      console.error("Error fetching canvas items:", error);
+      res.status(500).json({ message: "Error fetching canvas items" });
+    }
+  });
+
   app.get("/api/rankings", async (req, res) => {
     try {
-      const result = await db.select().from(rankings).leftJoin(items, eq(rankings.itemId, items.id));
+      const { data, error } = await supabase
+        .from('rankings')
+        .select(`
+          *,
+          items:item_id (
+            id,
+            title,
+            description,
+            image,
+            rating,
+            view_count,
+            like_count,
+            tags,
+            canvas
+          )
+        `)
+        .order('rank', { ascending: true });
+      
+      if (error) throw error;
+
+      // 캔버스 아이템 및 연결되지 않은 아이템 필터링
+      const filteredData = data.filter(row => row.items && !row.items.canvas);
       
       // 프론트엔드에서 기대하는 형태로 데이터 변환
-      const transformedResult = result.map(row => ({
-        id: row.rankings.id,
-        itemId: row.rankings.itemId,
-        rank: row.rankings.rank,
-        previousRank: row.rankings.previousRank,
-        weeklyViews: row.rankings.weeklyViews,
-        item: row.items ? {
-          ...row.items,
-          tags: JSON.parse(row.items.tags || "[]")
-        } : null
+      const transformedResult = filteredData.map(row => ({
+        id: row.id,
+        itemId: row.item_id,
+        rank: row.rank,
+        previousRank: row.previous_rank,
+        weeklyViews: row.weekly_views,
+        item: { // row.items가 항상 존재함을 보장
+          id: row.items.id,
+          title: row.items.title,
+          description: row.items.description,
+          image: row.items.image,
+          rating: row.items.rating,
+          viewCount: row.items.view_count, // 카멜 케이스로 변환
+          likeCount: row.items.like_count, // 카멜 케이스로 변환
+          tags: typeof row.items.tags === 'string' ? JSON.parse(row.items.tags || "[]") : row.items.tags
+        }
       }));
       
       res.json(transformedResult);
@@ -203,6 +279,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     'i.imgur.com',
     'github.com',
     'raw.githubusercontent.com',
+    'storage.googleapis.com',
+    'storage.cloud.google.com',
     // 필요에 따라 추가 도메인을 여기에 추가
   ];
 
@@ -214,7 +292,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // 이미지 프록시 라우트 - 보안 강화된 외부 이미지 프록시
   app.get('/proxy/*', async (req, res) => {
     try {
-      const targetUrl = req.params[0];
+      const targetUrl = (req.params as any)[0];
       const clientIP = req.ip || req.connection.remoteAddress || 'unknown';
 
       // Rate limiting 검사
@@ -330,9 +408,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const buffer = await response.arrayBuffer();
       res.send(Buffer.from(buffer));
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Proxy error:', error);
-      if (error.name === 'TimeoutError') {
+      if (error?.name === 'TimeoutError') {
         res.status(504).json({ error: 'Request timeout' });
       } else {
         res.status(500).json({ error: 'Internal server error' });

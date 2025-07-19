@@ -24,6 +24,7 @@
 - **별점 및 리뷰**: 사용자 평가 시스템
 
 ### 🔐 사용자 인증
+- **Supabase Auth**: JWT 기반 인증 시스템
 - **Google OAuth 2.0**: 안전한 소셜 로그인
 - **프로필 관리**: 포인트, 멤버십, 독서 통계
 - **개인화된 경험**: 사용자별 맞춤 콘텐츠
@@ -47,8 +48,9 @@
 ### Backend
 - **Node.js**: 서버 사이드 JavaScript 런타임
 - **Express**: 웹 서버 프레임워크
-- **Passport.js**: 인증 미들웨어 (Google OAuth 2.0)
-- **Better SQLite3**: 고성능 SQLite 데이터베이스
+- **Supabase**: BaaS (Backend as a Service) - 인증, 데이터베이스, 실시간 기능
+- **Supabase Auth**: JWT 기반 인증 시스템 (Google OAuth 2.0 지원)
+- **PostgreSQL**: Supabase에서 제공하는 고성능 관계형 데이터베이스
 - **Drizzle ORM**: 타입 안전한 데이터베이스 ORM
 - **Zod**: 스키마 검증 라이브러리
 
@@ -69,7 +71,8 @@
 ### 필수 요구사항
 - **Node.js** 18.0.0 이상
 - **npm** 또는 **yarn**
-- **Google OAuth 2.0** 클라이언트 ID (선택사항)
+- **Supabase 프로젝트**: [supabase.com](https://supabase.com)에서 생성
+- **Google OAuth 2.0** 클라이언트 ID (선택사항, Supabase에서 설정)
 
 ### 설치 및 실행
 
@@ -89,15 +92,19 @@ npm install
 # .env 파일 생성
 cp .env.example .env
 
-# 필요한 환경 변수 설정
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-DATABASE_PATH=./database.db
+# 필요한 환경 변수 설정 (Supabase 프로젝트에서 확인)
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+NODE_ENV=development
+PORT=3000
 ```
 
 4. **데이터베이스 설정**
 ```bash
-# 데이터베이스 마이그레이션
+# Supabase에서 필요한 테이블들이 자동으로 생성됩니다.
+# 로컬 개발용 마이그레이션 (선택사항)
 npm run db:generate
 npm run db:push
 
@@ -114,6 +121,12 @@ npm run dev
 ```
 http://localhost:3000
 ```
+
+### Supabase 설정 추가 정보
+1. [Supabase](https://supabase.com)에서 새 프로젝트 생성
+2. Project Settings > API에서 URL과 anon key 확인
+3. Authentication > Providers에서 Google OAuth 설정 (선택사항)
+4. 필요한 테이블들은 애플리케이션이 자동으로 생성합니다.
 
 ## 📁 프로젝트 구조
 
@@ -188,13 +201,13 @@ npm run db:seed
 
 ## 🌐 API 엔드포인트
 
-### 인증 API
-- `GET /api/auth/google` - Google OAuth 로그인
-- `POST /api/auth/logout` - 로그아웃
-- `GET /api/auth/me` - 현재 사용자 정보
+### 인증 API (Supabase Auth 기반)
+- **Supabase SDK를 통한 클라이언트 측 인증** - JWT 토큰 기반
+- `GET /api/my-page/stats` - 사용자 통계 정보 (인증 필요)
 
 ### 콘텐츠 API
-- `GET /api/items` - 모든 비주얼 노벨 목록
+- `GET /api/items` - 일반 비주얼 노벨 목록
+- `GET /api/canvas-items` - 사용자 생성 콘텐츠 목록
 - `GET /api/rankings` - 랭킹 정보
 
 ### 유틸리티 API

@@ -22,6 +22,13 @@
       "when": 1752107052646,
       "tag": "0002_abandoned_namorita",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1752318140355,
+      "tag": "0003_kind_human_torch",
+      "breakpoints": true
     }
   ]
 }

@@ -1,17 +1,16 @@
 import 'dotenv/config';
 import express, { type Request, Response, NextFunction } from "express";
-import session from "express-session";
 import cookieParser from "cookie-parser";
-import passport from "./auth";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import cors from 'cors';
 
-// Validate required environment variables
-if (!process.env.SESSION_SECRET && process.env.NODE_ENV === 'production') {
-  console.warn('Warning: SESSION_SECRET not set in production');
+// Validate required environment variables for Supabase
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+  console.error('Error: SUPABASE_URL and SUPABASE_ANON_KEY are required');
+  process.exit(1);
 }
 
 const app = express();
@@ -39,23 +38,6 @@ app.use('/api', limiter);
 app.use(express.json({ limit: '10mb' })); // Prevent large payload attacks
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());
-
-// Session configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key-here',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // HTTPS in production
-    httpOnly: true, // Prevent XSS attacks
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    sameSite: 'lax' // CSRF protection
-  }
-}));
-
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -101,7 +83,7 @@ app.use((req, res, next) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
+  if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);

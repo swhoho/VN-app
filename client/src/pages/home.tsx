@@ -11,6 +11,7 @@ import { useDragScroll } from "@/hooks/use-drag-scroll";
 import { getTranslation, getItemTranslation, getTagTranslation } from "@/lib/i18n";
 import type { Item } from "@/types";
 import SEOHead from "@/components/seo-head";
+import { getImageProps } from "@/utils/imageProxy";
 
 const genres = ["All", "Romance", "Horror", "Sci-Fi", "Fantasy", "Drama", "Mystery"];
 
@@ -140,7 +141,7 @@ export default function Home() {
         {filteredItems.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-slate-600 dark:text-slate-400">No items found in this genre.</p>
+              <p className="text-slate-600 dark:text-slate-400">{getTranslation('noItemsInGenre', language)}</p>
             </CardContent>
           </Card>
         ) : (
@@ -158,15 +159,9 @@ export default function Home() {
                   {/* 이미지 섹션 - 832x1216 비율 */}
                   <div className="aspect-[832/1216] relative">
                     <img 
-                      src={item.image.startsWith('http://localhost:3000') ? item.image : `/proxy/${item.image}`}
+                      {...getImageProps(item.image)}
                       alt={item.title}
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        console.error('Image load error:', e, 'URL:', item.image, 'Proxy URL:', `/proxy/${item.image}`);
-                        // 에러 시 대체 이미지 표시
-                        const target = e.target as HTMLImageElement;
-                        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjMzNCIvPgo8dGV4dCB4PSIxMDAiIHk9IjEwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij5JbWFnZSBub3QgZm91bmQ8L3RleHQ+Cjwvc3ZnPgo=';
-                      }}
                     />
                     <div className="absolute top-2 right-2">
                       <div className="flex items-center space-x-1 bg-black/20 backdrop-blur-sm rounded-full px-2 py-1">
@@ -207,7 +202,7 @@ export default function Home() {
                     >
                       {(() => {
                         const translatedDescription = getItemTranslation(item.title, 'description', language);
-                        return translatedDescription !== item.title ? translatedDescription : (item.description || 'No description available');
+                        return translatedDescription !== item.title ? translatedDescription : (item.description || getTranslation('noDescriptionAvailable', language));
                       })()}
                     </p>
                     

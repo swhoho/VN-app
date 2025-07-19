@@ -13,12 +13,16 @@ async function seed() {
 
   // Seed Items
   console.log('Seeding items...');
-  await db.insert(items).values(itemsData).onConflictDoNothing();
+  for (const item of itemsData) {
+    await db.insert(items).values(item).onConflictDoNothing();
+  }
 
   // Seed Rankings
   console.log('Seeding rankings...');
   const rankingsToInsert = rankingsData.map(r => ({ ...r, itemId: r.item_id }));
-  await db.insert(rankings).values(rankingsToInsert).onConflictDoNothing();
+  for (const ranking of rankingsToInsert) {
+    await db.insert(rankings).values(ranking).onConflictDoNothing();
+  }
 
   // Seed Users and Profiles
   // console.log('Seeding users and profiles...');

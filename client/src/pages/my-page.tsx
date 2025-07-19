@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
@@ -8,34 +7,54 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { 
   User, 
-  Crown, 
-  Coins, 
   Heart, 
   BookOpen, 
-  Clock, 
-  Target,
-  Bookmark,
-  History,
   Settings,
   HelpCircle,
   Shield,
-  ChevronRight,
   LogOut
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "@/components/theme-provider";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth.tsx";
+import { apiGet } from "@/services/apiService";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation } from "@/lib/i18n";
 import Login from "./login";
-import type { User as UserType } from "@/types";
 
 export default function MyPage() {
   const { user, isAuthenticated, isLoading, logout, isLoggingOut } = useAuth();
   const { language } = useLanguage();
   const [notifications, setNotifications] = useState(true);
   const { theme, setTheme } = useTheme();
-  const [, setLocation] = useLocation();
+  const [stats, setStats] = useState({
+    totalReadingTime: 0,
+    favoritesCount: 0,
+    completedCount: 0,
+    achievementsCount: 0
+  });
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      if (user) {
+        try {
+          setStatsLoading(true);
+          const data = await apiGet('/my-page/stats');
+          setStats(data);
+        } catch (error) {
+          console.error(getTranslation('statsLoadError', language), error);
+        } finally {
+          setStatsLoading(false);
+        }
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchUserStats();
+    }
+  }, [isAuthenticated, user]);
+
 
   // Show login page if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -43,26 +62,6 @@ export default function MyPage() {
   }
 
   // Show loading while checking authentication
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-slate-600 dark:text-slate-400">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const handleUpgradeMembership = () => {
-    const event = new CustomEvent('show-coming-soon');
-    window.dispatchEvent(event);
-  };
-
-  const handleBuyPoints = () => {
-    setLocation("/buy-points");
-  };
-
   if (isLoading) {
     return (
       <div className="max-w-md mx-auto px-4 py-6">
@@ -86,89 +85,41 @@ export default function MyPage() {
         <Card className="mb-6 bg-gradient-to-r from-primary to-secondary text-white border-0">
           <CardContent className="p-6">
             <div className="flex items-center space-x-4 mb-4">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-                <User className="w-8 h-8" />
-              </div>
+              {user?.profileImageUrl ? (
+                <img src={user.profileImageUrl} alt="Profile" className="w-16 h-16 rounded-full" />
+              ) : (
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                  <User className="w-8 h-8" />
+                </div>
+              )}
               <div>
                 <h2 className="text-xl font-bold">{user?.username || "User"}</h2>
-                <p className="text-white/80 text-sm">Joined March 2024</p>
+                <p className="text-white/80 text-sm">
+                  {user?.createdAt ? `${getTranslation('joined', language)} ${new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}` : ''}
+                </p>
               </div>
             </div>
           </CardContent>
         </Card>
       </motion.div>
-      {/* Membership Status */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <Card className="mb-6">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center space-x-2">
-                <Crown className="w-5 h-5 text-primary" />
-                <span>Membership</span>
-              </CardTitle>
-              <Badge variant={user?.membershipType === "premium" ? "default" : "secondary"}>
-                {user?.membershipType === "premium" ? "Premium" : "Free Plan"}
-              </Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-slate-600 text-sm mb-4">
-              {user?.membershipType === "premium" 
-                ? "Unlimited access to all premium content"
-                : "Access to free novels and limited premium content"
-              }
-            </p>
-            {user?.membershipType !== "premium" && (
-              <Button 
-                className="w-full bg-primary hover:bg-primary/90"
-                onClick={handleUpgradeMembership}
-              >
-                <Crown className="w-4 h-4 mr-2" />
-                Upgrade to Premium
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-      </motion.div>
-      {/* Points & Stats Grid */}
+      {/* Favorites */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="grid grid-cols-2 gap-4 mb-6"
+        className="mb-6"
       >
-        {/* Points Balance */}
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <Coins className="w-6 h-6 text-yellow-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800">{user?.points || 0}</h3>
-            <p className="text-sm text-slate-600 mb-3">Points</p>
-            <Button 
-              size="sm" 
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
-              onClick={handleBuyPoints}
-            >
-              Buy Points
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Favorites */}
         <Card>
           <CardContent className="p-4 text-center">
             <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-3">
               <Heart className="w-6 h-6 text-pink-600" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-800">{user?.favoritesCount || 0}</h3>
-            <p className="text-sm text-slate-600 mb-3">Favorites</p>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+              {statsLoading ? <Skeleton className="h-8 w-12 mx-auto" /> : stats.favoritesCount}
+            </h3>
+            <p className="text-sm text-slate-600 mb-3">{getTranslation('favorites', language)}</p>
             <Button size="sm" variant="outline" className="w-full">
-              View All
+              {getTranslation('viewAll', language)}
             </Button>
           </CardContent>
         </Card>
@@ -183,34 +134,34 @@ export default function MyPage() {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <BookOpen className="w-5 h-5 text-primary" />
-              <span>Reading Stats</span>
+              <span>{getTranslation('readingStats', language)}</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary mb-1">
-                  {user?.storiesRead || 0}
+                  {statsLoading ? <Skeleton className="h-8 w-12 mx-auto" /> : stats.completedCount}
                 </div>
-                <div className="text-xs text-slate-500">Novels Read</div>
+                <div className="text-xs text-slate-500">{getTranslation('novelsRead', language)}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-secondary mb-1">
-                  {user?.chaptersRead || 0}
+                <div className="text-2xl font-bold text-primary mb-1">
+                  {statsLoading ? <Skeleton className="h-8 w-12 mx-auto" /> : stats.achievementsCount}
                 </div>
-                <div className="text-xs text-slate-500">Chapters</div>
+                <div className="text-xs text-slate-500">{getTranslation('chapters', language)}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-500 mb-1">
-                  {user?.readingTimeHours || 0}h
+                  {statsLoading ? <Skeleton className="h-8 w-12 mx-auto" /> : `${stats.totalReadingTime}h`}
                 </div>
-                <div className="text-xs text-slate-500">Reading Time</div>
+                <div className="text-xs text-slate-500">{getTranslation('readingTime', language)}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-yellow-500 mb-1">
-                  {user?.currentStreak || 0}
+                  {statsLoading ? <Skeleton className="h-8 w-12 mx-auto" /> : stats.achievementsCount}
                 </div>
-                <div className="text-xs text-slate-500">Day Streak</div>
+                <div className="text-xs text-slate-500">{getTranslation('dayStreak', language)}</div>
               </div>
             </div>
           </CardContent>
@@ -226,12 +177,12 @@ export default function MyPage() {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Settings className="w-5 h-5 text-primary" />
-              <span>Settings</span>
+              <span>{getTranslation('settings', language)}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-[e2e8f0]">Notifications</span>
+              <span className="text-slate-700 dark:text-slate-200">{getTranslation('notifications', language)}</span>
               <Switch 
                 checked={notifications} 
                 onCheckedChange={setNotifications}
@@ -239,7 +190,7 @@ export default function MyPage() {
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-slate-700 dark:text-slate-200">Dark Mode</span>
+              <span className="text-slate-700 dark:text-slate-200">{getTranslation('darkMode', language)}</span>
               <Switch 
                 checked={theme === "dark"} 
                 onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
@@ -247,20 +198,22 @@ export default function MyPage() {
             </div>
             
             <div className="pt-2 space-y-3">
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start p-0 h-auto"
-              >
+              <Button variant="ghost" className="w-full justify-start p-0 h-auto">
                 <HelpCircle className="w-4 h-4 mr-2" />
-                Help & Support
+                {getTranslation('helpSupport', language)}
               </Button>
-              
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start p-0 h-auto"
-              >
+              <Button variant="ghost" className="w-full justify-start p-0 h-auto">
                 <Shield className="w-4 h-4 mr-2" />
-                Privacy Policy
+                {getTranslation('privacyPolicy', language)}
+              </Button>
+              <Button 
+                variant="destructive" 
+                className="w-full justify-center"
+                onClick={logout}
+                disabled={isLoggingOut}
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                {isLoggingOut ? getTranslation('loggingOut', language) : getTranslation('logout', language)}
               </Button>
             </div>
           </CardContent>

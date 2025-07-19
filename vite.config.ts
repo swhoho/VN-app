@@ -2,9 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import json from "@rollup/plugin-json";
 
 export default defineConfig({
   plugins: [
+    json(),
     react(),
     runtimeErrorOverlay(),
     ...(process.env.NODE_ENV !== "production" &&
@@ -24,17 +26,11 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
+  publicDir: path.resolve(import.meta.dirname, "public"),
   server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-      '/attached_assets': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      }
-    }
+    hmr: {
+      port: 24678,
+    },
   },
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),

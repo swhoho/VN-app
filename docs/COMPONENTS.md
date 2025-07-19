@@ -403,6 +403,222 @@ import MyPage from '@/pages/my-page'
 
 ---
 
+### Canvas
+**위치**: `/pages/canvas.tsx`
+
+**설명**: 사용자 생성 콘텐츠(UGC) 갤러리 페이지 컴포넌트
+
+**기능**:
+- 캔버스 아이템 3열 그리드 표시
+- Framer Motion 애니메이션 효과
+- 이미지 프록시를 통한 CORS 해결
+- Floating Action Button으로 업로드 연결
+- React Query 데이터 페칭 및 캐싱
+
+**주요 상태**:
+```typescript
+const [items, setItems] = useState<CanvasItem[]>([])
+const [loading, setLoading] = useState(true)
+```
+
+**사용 예시**:
+```tsx
+import Canvas from '@/pages/canvas'
+
+<Canvas />
+```
+
+**주요 특징**:
+- 반응형 그리드 레이아웃 (모바일 2열, 데스크톱 3열)
+- 이미지 로딩 최적화
+- 애니메이션을 통한 사용자 경험 향상
+
+---
+
+### UploadVN
+**위치**: `/pages/upload-vn.tsx`
+
+**설명**: 비주얼 노벨 업로드 종합 폼 페이지 컴포넌트
+
+**기능**:
+- **썸네일 업로드**: 정사각형(1080x1080) 및 세로형(1080x1920) 이미지 지원
+- **작품 정보 입력**: 제목, 설명, 태그, 카테고리 설정
+- **콘텐츠 등급 시스템**: 폭력성, 노출, 성적 콘텐츠 등급 설정
+- **파일 업로드**: 드래그 앤 드롭 지원
+- **에피소드 관리**: 다중 에피소드 추가/편집
+- **외부 링크 연결**: 외부 호스팅 콘텐츠 링크
+
+**주요 폼 필드**:
+```typescript
+interface UploadFormData {
+  title: string
+  description: string
+  thumbnailSquare: File | null
+  thumbnailVertical: File | null
+  tags: string[]
+  category: string
+  contentRating: {
+    violence: number
+    nudity: number
+    sexual: number
+    language: number
+  }
+  uploadMethod: 'file' | 'link'
+  episodes: Episode[]
+}
+```
+
+**사용 예시**:
+```tsx
+import UploadVN from '@/pages/upload-vn'
+
+<UploadVN />
+```
+
+**주요 특징**:
+- 모바일 최적화된 스텝별 폼 인터페이스
+- 실시간 미리보기 및 검증
+- 다중 파일 업로드 지원
+- 사용자 친화적 UI/UX 설계
+
+---
+
+### SEOHead
+**위치**: `/components/seo-head.tsx`
+
+**설명**: 동적 SEO 메타데이터 관리 컴포넌트
+
+**Props**:
+```typescript
+interface SEOHeadProps {
+  title?: string
+  description?: string
+  keywords?: string[]
+  image?: string
+  url?: string
+  type?: 'website' | 'article' | 'product'
+  author?: string
+  publishedTime?: string
+  modifiedTime?: string
+}
+```
+
+**기능**:
+- **메타 태그 관리**: title, description, keywords 동적 설정
+- **Open Graph**: Facebook, LinkedIn 등 소셜 미디어 최적화
+- **Twitter Card**: Twitter 공유 최적화
+- **Canonical URL**: 중복 콘텐츠 방지
+- **Structured Data 연동**: Schema.org 데이터와 연동
+
+**사용 예시**:
+```tsx
+import SEOHead from '@/components/seo-head'
+
+<SEOHead
+  title="Autumn Reverie - 비주얼 노벨"
+  description="가을을 배경으로 한 아름다운 사랑 이야기"
+  keywords={['비주얼노벨', '로맨스', '가을', '스토리']}
+  image="https://example.com/image.jpg"
+  url="https://example.com/novel/autumn-reverie"
+  type="article"
+  author="작가명"
+  publishedTime="2024-01-01T00:00:00Z"
+/>
+```
+
+**생성되는 메타 태그 예시**:
+```html
+<title>Autumn Reverie - 비주얼 노벨</title>
+<meta name="description" content="가을을 배경으로 한 아름다운 사랑 이야기" />
+<meta property="og:title" content="Autumn Reverie - 비주얼 노벨" />
+<meta property="og:description" content="가을을 배경으로 한 아름다운 사랑 이야기" />
+<meta property="og:image" content="https://example.com/image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+```
+
+---
+
+### StructuredData
+**위치**: `/components/structured-data.tsx`
+
+**설명**: Schema.org 구조화된 데이터 생성 컴포넌트
+
+**Props**:
+```typescript
+interface StructuredDataProps {
+  type: 'WebSite' | 'ItemList' | 'Product' | 'Article'
+  data: any
+}
+```
+
+**지원하는 스키마 타입**:
+- **WebSite**: 웹사이트 기본 정보
+- **ItemList**: 아이템 목록 (홈페이지, 랭킹 페이지)
+- **Product**: 개별 비주얼 노벨 상품 정보
+- **Article**: 블로그 글 또는 뉴스 기사
+
+**사용 예시**:
+```tsx
+import StructuredData from '@/components/structured-data'
+
+// 웹사이트 스키마
+<StructuredData
+  type="WebSite"
+  data={{
+    name: "VN Platform",
+    url: "https://example.com",
+    description: "최고의 비주얼 노벨 플랫폼",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://example.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }}
+/>
+
+// 상품 스키마
+<StructuredData
+  type="Product"
+  data={{
+    name: "Autumn Reverie",
+    description: "가을을 배경으로 한 아름다운 사랑 이야기",
+    image: "https://example.com/image.jpg",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "KRW",
+      availability: "https://schema.org/InStock"
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.5",
+      reviewCount: "150"
+    }
+  }}
+/>
+```
+
+**생성되는 JSON-LD 예시**:
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Autumn Reverie",
+  "description": "가을을 배경으로 한 아름다운 사랑 이야기",
+  "image": "https://example.com/image.jpg",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW",
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
+```
+
+---
+
 ## 🎣 커스텀 훅
 
 ### useLanguage
@@ -494,18 +710,43 @@ toast({
 
 ---
 
-### useAuth
-**위치**: `/hooks/useAuth.ts`
+### useAuth (Supabase 통합)
+**위치**: `/hooks/useAuth.tsx`
 
-**설명**: 사용자 인증 상태 관리 훅
+**설명**: Supabase 기반 사용자 인증 상태 관리 훅
+
+**기능**:
+- Google OAuth 2.0 소셜 로그인
+- 자동 사용자 프로필 생성 및 업데이트
+- 전역 인증 상태 관리 (Context API)
+- 세션 자동 복원 및 토큰 관리
+- 포괄적인 오류 처리
 
 **반환값**:
 ```typescript
 {
   user: User | null
   loading: boolean
-  login: () => void
-  logout: () => void
+  error: string | null
+  loginWithGoogle: () => Promise<void>
+  logout: () => Promise<void>
+  isAuthenticated: boolean
+}
+```
+
+**User 타입**:
+```typescript
+interface User {
+  id: string
+  email: string
+  username: string
+  profileImageUrl: string
+  storiesRead: number
+  chaptersRead: number
+  readingTimeHours: string
+  favoritesCount: number
+  currentStreak: number
+  updatedAt: Date
 }
 ```
 
@@ -513,20 +754,103 @@ toast({
 ```tsx
 import { useAuth } from '@/hooks/useAuth'
 
-const { user, loading, login, logout } = useAuth()
+const { user, loading, error, loginWithGoogle, logout, isAuthenticated } = useAuth()
 
-if (loading) return <div>로딩 중...</div>
+if (loading) return <div className="flex justify-center p-4">로딩 중...</div>
+
+if (error) {
+  return <div className="text-red-500 p-4">오류: {error}</div>
+}
 
 return (
   <div>
-    {user ? (
-      <div>
-        <p>안녕하세요, {user.displayName}님!</p>
-        <button onClick={logout}>로그아웃</button>
+    {isAuthenticated ? (
+      <div className="flex items-center gap-4">
+        <img src={user.profileImageUrl} alt="프로필" className="w-10 h-10 rounded-full" />
+        <div>
+          <p className="font-medium">{user.username}님</p>
+          <p className="text-sm text-gray-500">독서 시간: {user.readingTimeHours}시간</p>
+        </div>
+        <button 
+          onClick={logout}
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          로그아웃
+        </button>
       </div>
     ) : (
-      <button onClick={login}>로그인</button>
+      <button 
+        onClick={loginWithGoogle}
+        className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center gap-2"
+      >
+        <svg className="w-5 h-5" viewBox="0 0 24 24">
+          {/* Google 아이콘 */}
+        </svg>
+        Google로 로그인
+      </button>
     )}
+  </div>
+)
+```
+
+**Provider 설정**:
+```tsx
+import { AuthProvider } from '@/hooks/useAuth'
+
+<AuthProvider>
+  <App />
+</AuthProvider>
+```
+
+---
+
+### useDragScroll
+**위치**: `/hooks/use-drag-scroll.tsx`
+
+**설명**: 드래그 스크롤 기능을 구현하는 훅
+
+**반환값**:
+```typescript
+{
+  scrollRef: RefObject<HTMLDivElement>
+  isDragging: boolean
+  hasMoved: boolean
+  handleMouseDown: (e: React.MouseEvent) => void
+  handleMouseMove: (e: React.MouseEvent) => void
+  handleMouseUp: () => void
+  handleTouchStart: (e: React.TouchEvent) => void
+  handleTouchMove: (e: React.TouchEvent) => void
+  handleTouchEnd: () => void
+}
+```
+
+**사용 예시**:
+```tsx
+import { useDragScroll } from '@/hooks/use-drag-scroll'
+
+const { 
+  scrollRef, 
+  isDragging, 
+  handleMouseDown, 
+  handleMouseMove, 
+  handleMouseUp,
+  handleTouchStart,
+  handleTouchMove,
+  handleTouchEnd
+} = useDragScroll()
+
+return (
+  <div
+    ref={scrollRef}
+    onMouseDown={handleMouseDown}
+    onMouseMove={handleMouseMove}
+    onMouseUp={handleMouseUp}
+    onTouchStart={handleTouchStart}
+    onTouchMove={handleTouchMove}
+    onTouchEnd={handleTouchEnd}
+    className={`overflow-x-auto cursor-grab ${isDragging ? 'cursor-grabbing' : ''}`}
+  >
+    {/* 스크롤 가능한 콘텐츠 */}
   </div>
 )
 ```

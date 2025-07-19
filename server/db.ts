@@ -1,10 +1,16 @@
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import * as schema from "@shared/schema";
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sqlite = new Database(process.env.DATABASE_URL?.replace('file:', '') || './database.db');
+// Supabase PostgreSQL 연결 설정
+const connectionString = process.env.DATABASE_URL;
 
-export const db = drizzle(sqlite, { schema });
+if (!connectionString) {
+  throw new Error('DATABASE_URL 환경변수가 설정되지 않았습니다.');
+}
+
+const sql = postgres(connectionString);
+export const db = drizzle(sql, { schema });

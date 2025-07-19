@@ -1,14 +1,32 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogIn, Chrome, Smartphone } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/use-language";
 import { getTranslation } from "@/lib/i18n";
 
 export default function Login() {
-  const { loginWithGoogle } = useAuth();
+  const { loginWithGoogle, error } = useAuth();
   const { language } = useLanguage();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: getTranslation('error', language),
+        description: getTranslation('loginError', language),
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+
+  // useEffect(() => {
+  //   // Automatically trigger login for testing purposes
+  //   loginWithGoogle();
+  // }, [loginWithGoogle]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 px-4">
@@ -64,7 +82,7 @@ export default function Login() {
               >
                 <Smartphone className="w-5 h-5 mr-3" />
                 {getTranslation('continueWithApple', language) || 'Continue with Apple'} 
-                <span className="ml-2 text-xs">(Coming Soon)</span>
+                <span className="ml-2 text-xs">({getTranslation('comingSoon', language)})</span>
               </Button>
             </motion.div>
 

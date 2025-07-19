@@ -23,7 +23,7 @@ export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
-    allowedHosts: true,
+    host: true,
   };
 
   const vite = await createViteServer({
@@ -43,6 +43,11 @@ export async function setupVite(app: Express, server: Server) {
   app.use(vite.middlewares);
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl;
+
+    // API 요청이거나 파일 경로인 경우 다음 미들웨어로 넘깁니다.
+    if (url.startsWith('/api/') || path.extname(url)) {
+      return next();
+    }
 
     try {
       const clientTemplate = path.resolve(
@@ -68,7 +73,7 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "public");
+  const distPath = path.resolve(import.meta.dirname, "..", "dist", "public");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
