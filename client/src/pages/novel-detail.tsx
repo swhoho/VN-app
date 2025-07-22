@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,15 +10,39 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Play, Bookmark, Share2, Star, Heart } from "lucide-react";
 import type { Item } from "@/types";
 import SEOHead from "@/components/seo-head";
+import { useAuth } from "@/hooks/useAuth";
+import { useViewingLogger } from "@/hooks/useViewingLogger";
 
 export default function NovelDetail() {
   const [, params] = useRoute("/novel/:id");
   const novelId = parseInt(params?.id || "0");
+  const { user } = useAuth();
 
   const { data: novel, isLoading } = useQuery<Item>({
     queryKey: ["/api/items", novelId],
     enabled: !!novelId,
   });
+
+  // 시청 로깅 초기화
+  const { startViewing, endViewing, isLogging } = useViewingLogger({
+    itemId: novelId,
+    userId: user?.id,
+    revenueType: 'subscription',
+  });
+
+  // 페이지 진입 시 시청 로깅 시작
+  useEffect(() => {
+    if (novelId && !isLoading && novel) {
+      startViewing();
+    }
+
+    // 페이지 이탈 시 로깅 종료
+    return () => {
+      if (isLogging) {
+        endViewing();
+      }
+    };
+  }, [novelId, isLoading, novel, startViewing, endViewing, isLogging]);
 
   const handleStartReading = () => {
     const event = new CustomEvent('show-coming-soon');

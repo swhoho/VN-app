@@ -177,7 +177,37 @@ export const translations = {
     gotItButton: "Got it!",
     
     // Additional UI elements
-    regular: "Regular"
+    regular: "Regular",
+    
+    // Creator Dashboard
+    creatorDashboard: "Creator Dashboard",
+    totalSettlementAmount: "Total Settlement Amount",
+    subscriptionRevenue: "Subscription Revenue",
+    premiumTransactions: "Premium Transactions",
+    availableForWithdrawal: "Available for Withdrawal",
+    overview: "Overview",
+    analytics: "Analytics",
+    contentSettlementStatus: "Content Settlement Status",
+    subscriptionViews: "Subscription Views",
+    premiumDeals: "Premium Deals",
+    settlementAmount: "Settlement Amount",
+    revenueComposition: "Revenue Composition",
+    performanceMetrics: "Performance Metrics",
+    averageSettlementRate: "Average Settlement Rate",
+    totalViews: "Total Views",
+    registeredContent: "Registered Content",
+    thisMonthHighlights: "This Month's Highlights",
+    subscriptionRevenueIncreased: "Subscription revenue increased by 12% compared to last month",
+    averageCompletionRate: "Achieved 85% average completion rate",
+    newContentAdded: "Added 3 new pieces of content",
+    withdrawalInDevelopment: "Currently under development. A secure USDC withdrawal feature via blockchain technology will be available in the future.",
+    
+    // Viewing Logger
+    viewingStarted: "Viewing started",
+    viewingEnded: "Viewing ended",
+    heartbeatFailed: "Heartbeat failed",
+    viewingLogStartFailed: "Viewing log start failed",
+    viewingLogEndFailed: "Viewing log end failed"
   },
   ko: {
     appName: "비주얼 노벨 허브",
@@ -332,7 +362,37 @@ export const translations = {
     gotItButton: "확인!",
     
     // 추가 UI 요소
-    regular: "일반"
+    regular: "일반",
+    
+    // Creator Dashboard
+    creatorDashboard: "크리에이터 대시보드",
+    totalSettlementAmount: "총 정산 금액",
+    subscriptionRevenue: "구독 매출",
+    premiumTransactions: "프리미엄 거래",
+    availableForWithdrawal: "출금 가능",
+    overview: "개요",
+    analytics: "분석",
+    contentSettlementStatus: "콘텐츠 정산 현황",
+    subscriptionViews: "구독 조회수",
+    premiumDeals: "프리미엄 거래",
+    settlementAmount: "정산금",
+    revenueComposition: "매출 구성",
+    performanceMetrics: "성과 지표",
+    averageSettlementRate: "평균 정산율",
+    totalViews: "총 조회수",
+    registeredContent: "등록 콘텐츠",
+    thisMonthHighlights: "이번 달 하이라이트",
+    subscriptionRevenueIncreased: "구독 매출이 지난달 대비 12% 증가",
+    averageCompletionRate: "평균 완독률 85% 달성",
+    newContentAdded: "새로운 콘텐츠 3개 추가",
+    withdrawalInDevelopment: "현재 개발 중입니다. 향후 블록체인 기술을 통한 안전한 USDC 출금 기능이 제공될 예정입니다.",
+    
+    // Viewing Logger
+    viewingStarted: "시청 로깅 시작",
+    viewingEnded: "시청 로깅 종료",
+    heartbeatFailed: "하트비트 전송 실패",
+    viewingLogStartFailed: "시청 시작 로그 실패",
+    viewingLogEndFailed: "시청 종료 로그 실패"
   },
   ja: {
     appName: "ビジュアルノベルハブ",

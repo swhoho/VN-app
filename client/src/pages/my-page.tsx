@@ -12,7 +12,8 @@ import {
   Settings,
   HelpCircle,
   Shield,
-  LogOut
+  LogOut,
+  BarChart3
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "@/components/theme-provider";
@@ -25,6 +26,7 @@ import Login from "./login";
 export default function MyPage() {
   const { user, isAuthenticated, isLoading, logout, isLoggingOut } = useAuth();
   const { language } = useLanguage();
+  const [, setLocation] = useLocation();
   const [notifications, setNotifications] = useState(true);
   const { theme, setTheme } = useTheme();
   const [stats, setStats] = useState({
@@ -81,10 +83,11 @@ export default function MyPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        className="mb-6"
       >
-        <Card className="mb-6 bg-gradient-to-r from-primary to-secondary text-white border-0">
+        <Card className="bg-gradient-to-r from-primary to-secondary text-white border-0">
           <CardContent className="p-6">
-            <div className="flex items-center space-x-4 mb-4">
+            <div className="flex items-center space-x-4">
               {user?.profileImageUrl ? (
                 <img src={user.profileImageUrl} alt="Profile" className="w-16 h-16 rounded-full" />
               ) : (
@@ -102,35 +105,15 @@ export default function MyPage() {
           </CardContent>
         </Card>
       </motion.div>
-      {/* Favorites */}
+
+      {/* Reading Stats */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        transition={{ delay: 0.1 }}
         className="mb-6"
       >
         <Card>
-          <CardContent className="p-4 text-center">
-            <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <Heart className="w-6 h-6 text-pink-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-              {statsLoading ? <Skeleton className="h-8 w-12 mx-auto" /> : stats.favoritesCount}
-            </h3>
-            <p className="text-sm text-slate-600 mb-3">{getTranslation('favorites', language)}</p>
-            <Button size="sm" variant="outline" className="w-full">
-              {getTranslation('viewAll', language)}
-            </Button>
-          </CardContent>
-        </Card>
-      </motion.div>
-      {/* Reading Statistics */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <BookOpen className="w-5 h-5 text-primary" />
@@ -167,11 +150,63 @@ export default function MyPage() {
           </CardContent>
         </Card>
       </motion.div>
+
+      {/* Favorites */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="mb-6"
+      >
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <Heart className="w-6 h-6 text-pink-600" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+              {statsLoading ? <Skeleton className="h-8 w-12 mx-auto" /> : stats.favoritesCount}
+            </h3>
+            <p className="text-sm text-slate-600 mb-3">{getTranslation('favorites', language)}</p>
+            <Button size="sm" variant="outline" className="w-full">
+              {getTranslation('viewAll', language)}
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Creator Dashboard Button */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mb-6"
+      >
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <BarChart3 className="w-6 h-6 text-blue-600" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">
+              Creator Dashboard
+            </h3>
+            <p className="text-sm text-slate-600 mb-3">작품 수익 및 통계 확인</p>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="w-full"
+              onClick={() => setLocation('/creator-dashboard')}
+            >
+              대시보드 보기
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.div>
+
       {/* Settings */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.4 }}
       >
         <Card>
           <CardHeader>

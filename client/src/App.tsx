@@ -21,6 +21,7 @@ const Search = lazy(() => import("@/pages/search"));
 const Login = lazy(() => import("@/pages/login"));
 const Canvas = lazy(() => import("@/pages/canvas"));
 const UploadVisualNovel = lazy(() => import("@/pages/upload-vn"));
+const CreatorDashboard = lazy(() => import("@/pages/creator-dashboard"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function AppRoutes() {
@@ -34,6 +35,7 @@ function AppRoutes() {
         <Route path="/search" component={Search} />
         <Route path="/login" component={Login} />
         <Route path="/upload-vn" component={UploadVisualNovel} />
+        <Route path="/creator-dashboard" component={CreatorDashboard} />
         <Route path="/novel/:id" component={NovelDetail} />
         <Route component={NotFound} />
       </Switch>
